@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { CounterPageComponent } from './pages/counter/counter-page.component';
+import { HeroPageComponent } from './pages/hero/hero-page.component';
 
 // En este archivo de rutas vamos a empezar a definir cada una de forma que se nos muestra
 // el componente asignado como: "Nombre_Ruta" => Componente
@@ -10,6 +11,9 @@ export const routes: Routes = [
         // Si no definimos nada esto es la pagina inicial
         path: '',
         component: CounterPageComponent,
-        
+    },
+    {
+        path:'hero',
+        component: HeroPageComponent
     }
 ];

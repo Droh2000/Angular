@@ -61,3 +61,5 @@ Señales
         * Zoneless: Crear aplicaciones de angular que no dependan de ZoneJS, asi las actualizaciones en el DOOM son mas rapidas, la aplicacion gana mas perfomance,
                     es mas facil de depurar, es mejor el ecosistema.
                     Angular nos recomienda trabajar en senales y desacernos de ZoneJS
+
+acomponent + TAB para crear el componente rapido
