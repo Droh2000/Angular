@@ -47,3 +47,9 @@ Nos encontramos en un punto de angular en el cual tenemos dos maneras de tabajar
     * Signals: Son mas rapidas, eficientes, veloces de depurar, mas ligera la App
 
 
+Señales
+
+    La manera de cambiar el estado de la aplicacion no deberia de estar dado por renderizar como REACT, ni basado en otra libreria como Zone.js
+    para detectar y estar pendientes de las clases, con esto de las Señales se le dice al mismo HTML que cambio y actualiza solo la parte donde 
+    esta actualizando (Si solo en lugar cambia no tiene sentido renderizar toda la aplicacion o el componente solo para determinar que una parte 
+    cambio)
