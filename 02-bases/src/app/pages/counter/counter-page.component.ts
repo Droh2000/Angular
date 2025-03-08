@@ -1,6 +1,6 @@
 // El nombre de agreagr ".component" es una nomenclatura recomendada por Angular
 
-import { Component, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 
 // Esto por defecto es una simple clase pero para que se combierta en un componente que podamos mostrarlo y renderizarlo
 // Le colocamos el decorador @Component, estos por los menos requieren una pieza (Esto ya se nos indica en el mensaje del error)
@@ -16,7 +16,10 @@ import { Component, signal } from "@angular/core";
             margin: 5px 10px;
             width: 75px;
         }
-    `
+    `,
+    // Una forma de demostrar con o sin Zoonless donde en este caso lo cambiamos a nivel de componente pero tambien se puede de manera global
+    // Cuando activamos el "OnPush" le decimos que este componente no sera aplicado el ZoneJS
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CounterPageComponent { // El nombre de la clase debe ser igual al nombre de los archivos
 
@@ -27,6 +30,25 @@ export class CounterPageComponent { // El nombre de la clase debe ser igual al n
     // Al poner el cursor encima de la variable veremos que dice "WritableSignal" porque es una señal que se pueden escribir
     // ya que hay otras que no que solo son de solo lectura
     counterSignal = signal(10);
+
+    // Despues de agregar el push: Todo funciona correctamente porque Angular sabe exactamente cuando queremos hacer cambios en el State 
+    // esto porque son eventos pero que tal si disparamos algo que no sea directamente un Evento
+    // Aqui cada 2 seg queremos sumar el valor del counter
+    constructor() {
+        setInterval(() => {
+            // this.counter += 1;
+            // Con esto veremos que si se ejecuta esta funcion pero el valor del counter no esta cambiando
+            console.log('Tick');
+
+            // Con la linea comentada arriba mejor mandamos a llamar la funcion para actualizar la senal
+            // Del valor anterior le sumamos el valor de uno
+            this.counterSignal.update((v) => v + 1);
+            // Aqui si funciona de la manera esperada
+        }, 2000);
+        // Esto no cambia el valor del counter porque Angular le decimos que no corra el ZoneJS entonces no tiene forma de saber
+        // que paso un cambio en esa propertie (Si comentamos la linea del OnPush veremos que si se visualizan los cambios)
+
+    }
 
     // Metodo para incrementar el valor del contador, recibimos el valor por el cual queremos incrementarlo
     increaseBy(value: number){

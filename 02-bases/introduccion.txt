@@ -53,3 +53,11 @@ Señales
     para detectar y estar pendientes de las clases, con esto de las Señales se le dice al mismo HTML que cambio y actualiza solo la parte donde 
     esta actualizando (Si solo en lugar cambia no tiene sentido renderizar toda la aplicacion o el componente solo para determinar que una parte 
     cambio)
+
+    Estamos en un punto en angular en donde hay una transicion entre ZoneJs y Zonelees
+        * ZoneJS: es una libreria externa a Angular que se encarga del ciclo de deteccion de cambios, esto es cuando trabajamos con el Angular Tradicional 
+                  con properties y modulos, esta libreria se encarga de detectar los cambios, pero esta libreria no funciona muy bien con el Async/Await y es
+                  una libreria pesada que relentiza a la aplicacion
+        * Zoneless: Crear aplicaciones de angular que no dependan de ZoneJS, asi las actualizaciones en el DOOM son mas rapidas, la aplicacion gana mas perfomance,
+                    es mas facil de depurar, es mejor el ecosistema.
+                    Angular nos recomienda trabajar en senales y desacernos de ZoneJS
