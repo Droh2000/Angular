@@ -8,15 +8,28 @@
   <dd>{{ age() }}</dd>
 
   <td>Método:</td>
-  <dd>{{ getHeroDescription() }}</dd>
+  <dd>{{ heroDescription() }}</dd>
 
   <td>Capitalizado:</td>
   <!-- ! Intentar  -->
   <!-- <dd> {{ 'Mostrar nombre TODO EN MAYÚSCULAS' }} </dd> -->
    <!-- Como lo que esta entre {{}} son exprecciones de JS podemos mandar a llamar sus metodos, esto es remplazado por Angular 
         Cuando esa expreccion cambia 
-   -->
+  
   <h1>{{ name().toUpperCase() }}</h1>
+
+  Con la creacion de la senal Computada solo con llamarla lo obetenemo
+   
+   <h1>{{ capitalizedName() }}</h1>
+
+  Se comento lo de arriba porque lo vamos a ver de una mejor manera usando los Pipes
+  Con estos adaptamos los datos a como los requerimos sin mutar la informacion real para utilizarlo le ponemos
+  despues de la Signal el carcter | Nombrepipe (Para usarlo requerimos importarlo (Esto siempre se hara en una 
+  funcionalidad especial) dentro del @Componente en Import)
+
+  Con esto vemos que tenemos varias formas de tabajar ya depende de que se nos hace mas facil
+   -->
+  <dd>{{ name() | uppercase }}</dd>
 </dl>
 
 <button (click)="changeHero()" class="btn btn-primary mx-2">

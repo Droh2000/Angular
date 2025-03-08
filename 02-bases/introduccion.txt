@@ -63,3 +63,9 @@ Señales
                     Angular nos recomienda trabajar en senales y desacernos de ZoneJS
 
 acomponent + TAB para crear el componente rapido
+
+Señales Computadas (Readonly Signals)
+    Esta es una Signal comun y corriento solo que es de solo lectura, esto quiere decir que solo puede cambiar sis dependencias cambias
+    (Estas dependencias tiene que ser de tipo Signal)
+
+Pipes: Son una forma de transformar los datos de manera visual sin afectar la fuente de origen
