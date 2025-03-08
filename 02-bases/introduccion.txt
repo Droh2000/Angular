@@ -1,0 +1,49 @@
+Tipos de aplicaciones WEB que podemos crear:
+    * SPA: Single Page Aplication
+    * SSR: Aplicaciones del lado del servidor  
+    * SSG: Crear el contenido de manera estatica y no cambie
+
+Bloques Fundamentale:
+    * Componentes
+        Son piezas que representan una parte de la interface del usuario, creados en TS, con plantilla HTML y CSS
+    * Rutas
+        Permiten cambiar paginas (Componentes que usualmente cubren todo el punto de Vista), esta nos permite separar
+        la logica, tener el control de acceso y autorizacion, controlar varias estrategias de como queremos que se renderize
+        la aplicacion o como se llamen los componentes
+    * Directivas
+        Modifican el comportamiento de un elemento HTML, hay varias como las de Atributo que se relacionan a las clases y
+        cambios de estilos, otras son las Estructurales (ngIf, ngFor), y de Componente son personalizadas de las cuales podemos
+        cambiar el comportamiento de botones con un simple atributo
+    * Servicios
+        Encapsulan la logica de negocio y centralizan su acceso, usualmente se usan para la gestion de datos, reutilizar codigo
+        y en la Inyeccion de dependencias, este es nuestro gestor de estado prioritario en las Apps de angular 
+    * Modulos
+        Agrupar funcionalidades relacionadas, permitiendo su uso en otros componentes o modulos, sus objetivos principales es 
+        organizar la Applicacion, Encapsular dependencias, Facilitan la carga bajo demanda 
+        (Su uso se a reducido en Angular para mejor emplear otra cosa)
+    * Pipes
+        Transforman datos de forma visual para representarloa apropiadamente en los componentes, aqui modificamos como se presentan
+        los datos, para ordenar y filtrar, optimizacion de rendimiento, tambien dentro tenemos dos tipos de Pipes que son los Puros
+        (estos se evaluan cada vez que el argumento cambia) y los impuros (estos se evaluan cada vez que ocurre un cambio en el ciclo
+        de vida de la aplicacion)
+
+Crear un proyecto
+    * ng new NombreApp
+    * Elegimos tipo de Estilos (CSS es el normal)
+    * Nos preguntar si queremos establecer el SSR, si lo activamos requerimos un backend que corra la App para Renderizarla, pero si queremos
+        trabajar con SPA elegimos que NO
+
+Correr el proyecto  
+    * ng serve -o
+
+Explicacion de Archivos
+    - styles.css -> Este es el archivo de estilos globales que en el Angular.json tenemos la referencia directa por si queremos aplicar
+                    mas estilos globales los podemos colocar ahi
+    - Dentro de la carpeta "app" tenemos el estilo que solo se aplica a ese HTML, el .spec.ts es de Test, .component.ts es el que contiene la logica
+        del componente, no importa como modifiquemos el Css, las reglas solo aplicaran a ese HTML
+
+Nos encontramos en un punto de angular en el cual tenemos dos maneras de tabajar
+    * Tradicional: En la cual creamos una propiedad como lo vemos en el archivo "app.component.ts" (Es la que esta dentro de la clase)
+    * Signals: Son mas rapidas, eficientes, veloces de depurar, mas ligera la App
+
+
