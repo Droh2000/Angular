@@ -1,0 +1,7 @@
+<!-- Para mostrar el valor de nuestro counter colocamos doble llaves (Ahi podemos colocar cualquier expreccion de JS) -->
+<h1>Counter: {{ counter }}</h1>
+<hr>
+<!-- Los eventos en Angular se ponen entre parentesis: (NombreEvento)="LoQueMandaAllamar"  -->
+<button (click)="increaseBy(1)">+1</button>
+<button (click)="increaseBy(-1)">-1</button>
+<button (click)="resetCounter()">Reset</button>

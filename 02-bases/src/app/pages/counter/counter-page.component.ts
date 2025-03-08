@@ -5,11 +5,17 @@ import { Component } from "@angular/core";
 // Esto por defecto es una simple clase pero para que se combierta en un componente que podamos mostrarlo y renderizarlo
 // Le colocamos el decorador @Component, estos por los menos requieren una pieza (Esto ya se nos indica en el mensaje del error)
 @Component({
-    template: `
-        <!-- Para mostrar el valor de nuestro counter colocamos doble llaves (Ahi podemos colocar cualquier expreccion de JS) -->
-        <h1>Counter: {{ counter }}</h1>
-        <!-- Los eventos en Angular se ponen entre parentesis: (NombreEvento)="LoQueMandaAllamar"  -->
-        <button (click)="increaseBy(1)">+1</button>
+    // Usamos el "templateURL" para separar la logica en otro componente, no es obligatorio que se llame igual pero es recomendado
+    // Tambien es recomendado colocar el './' al inicio
+    // Cuandos los Templaes pasan de tres lineas es recomendable crearlos en una archivo aparte
+    templateUrl: './counter-page.component.html',
+    // Los estilos tambien los podemos definir aqui o crearlos en otro archivo cuando pasen de muchas lineas
+    styles:`
+        button{
+            padding: 5px;
+            margin: 5px 10px;
+            width: 75px;
+        }
     `
 })
 export class CounterPageComponent { // El nombre de la clase debe ser igual al nombre de los archivos
@@ -21,6 +27,10 @@ export class CounterPageComponent { // El nombre de la clase debe ser igual al n
     increaseBy(value: number){
         // Hacemos referencia a la misma propiedad
         this.counter += value;
+    }
+
+    resetCounter(){
+        this.counter = 10;
     }
 }
 
