@@ -10,7 +10,6 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   // Estas son referencias a los archivos
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
   // En verciones antiguas de angular tenemos (En la version actual esto se trabaja por defeccto)
   // standalone: true, -> Este es para que un componente sea a la vez un modulo
 })
