@@ -12,6 +12,12 @@
         color: white;
         text-decoration: none;
     }
+
+    /* con que exista esta clase ya le afecta automaticamente con el routerLinkActive */
+    nav a.active {
+        color: red;
+    }
+
  </style>
 
 <nav>
@@ -28,7 +34,30 @@
                 "['/hero']" donde ademas le podemos mandar secciones o segmentos de URL
                 Esto por defecto no funciona porque el <a></a> pir defecto no tiene esa funcionalidad es por eso que importamos la
                 directiva de "RouterLink" en el componente para agregarle funcionalidades
+
+                    Al colocar la propiedad entre [] podemos asociarla con alguna señal o alguna propiedad computada cuando ocupamos
+                    asignarle de manera dinamica algun valor de un componente HTML (Esto es una asignacion de un atributo)
+                    Cuando no le ponemos [] estamos asignando un string
+
+        Al RouterLinkActive le estamos pasando un clase de CSS que nos vamos a crear
+            Despues de agregar esto y ver el codigo HTML que se genera en el Navegador veremos que el enlace ya tiene "class='active'"
+        Si declaramos el 'RouterLinkActive' al seleccionar la ruta principal si le afectara la clase CSS pero al seleccionar la otra tambien
+        pintandose las dos al mismo tiempo, esto es porque como una de la ruta es "/" y la otra "/hero" la de "hero" al pasar por "/" le afecta
+        tambien la seleccion por el primer enlace que agrega la clase "active" si esta en la ruta "/" y el hero tambien pasa por el '/'
+        Para que lo de arriba no pase colocamos otro atributo
+            
+            * routerLinkActiveOptions -> Este lo colocamos entre llaves cuadradas para poder pasarle la propiedad como un objeto
+                (Con esto le decimos que para que la ruta tenga la clase "active" el path tiene que ser exactamente como se lo definimos)
+                Si el "/hero" tiene subrutas tambien tendremos el mismo problema que antes asi que podemos colocarle la propiedad
     -->
-    <a routerLink="/">Contador</a>
-    <a [routerLink]="['/hero']">Hero</a>
+    <a 
+        routerLink="/"
+        routerLinkActive="active" 
+        [routerLinkActiveOptions]="{ exact: true }"
+    >Contador</a>
+
+    <a 
+        [routerLink]="['/hero']"
+        [routerLinkActive]="'active'"
+    >Hero</a>
 </nav>
