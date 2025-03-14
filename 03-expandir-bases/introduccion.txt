@@ -1,0 +1,14 @@
+Vamos a crear una barra de navegacion que nos mande a nuestras rutas definidas
+esto como es una pieza y no una pagina, lo vamos a crear como un componente 
+Para crear los componentes podemos crearlos manualmente o usando Angular CLI
+    En este caso creamos la estructura de carpetas como: components/shared
+    Despues en la terminal:
+        (
+            ng - es lo de Angular CLI
+            g - Generate
+            c - Component
+            navbar - Es el nombre del componente
+            Si no especificamos la ruta por defecto la crea dentro de la carpeta "app"
+        )
+        * ng g c navbar
+    Esto nos crea varios archivos y solo dejamos el del HTML y TS

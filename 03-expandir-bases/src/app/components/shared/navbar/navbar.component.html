@@ -1,0 +1,34 @@
+<!-- Podemos colocar estilos directamente -->
+ <style>
+    nav {
+        display: flex;
+        justify-content: space-around;
+        background-color: #212121;
+        color: white;
+        padding: 10px;
+    }
+
+    nav a{
+        color: white;
+        text-decoration: none;
+    }
+ </style>
+
+<nav>
+    <!--
+        Cuando queremos implementar una navegacion en angular y especialmente cuando estamos
+        trabajando con un SPA y tenemos otras funcionalidades que estan trabajando en el Server Side del angular
+        No se recomienda que usemos estos <a></a> tradicionales
+
+        Lo mejor es usar el propio sistema de rutas de angular que en lugar de un "href" le comoclamos
+        el "routerLink"
+
+        Si colocamos la propiedad entre llaves:
+            - [routerLink]: Es para que el valor que le pasemos sea algo computado donde por ejemplo le podemos decir
+                "['/hero']" donde ademas le podemos mandar secciones o segmentos de URL
+                Esto por defecto no funciona porque el <a></a> pir defecto no tiene esa funcionalidad es por eso que importamos la
+                directiva de "RouterLink" en el componente para agregarle funcionalidades
+    -->
+    <a routerLink="/">Contador</a>
+    <a [routerLink]="['/hero']">Hero</a>
+</nav>
