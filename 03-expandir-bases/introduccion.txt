@@ -12,3 +12,5 @@ Para crear los componentes podemos crearlos manualmente o usando Angular CLI
         )
         * ng g c navbar
     Esto nos crea varios archivos y solo dejamos el del HTML y TS
+Recordemos que tambien tenemos el sniper:
+    * acomponent + TAB (Esto dentro del archivo de TS)

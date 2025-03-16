@@ -1,0 +1,29 @@
+<p>DragonBall Page</p>
+<hr />
+
+<!-- En la vida real no vamos a querer crear componentes con tanta logica, lo mejor es crear
+    Componentes que tengan una responsabilidad unica por ejemplo en este caso tener un componente para
+    agreagar personajes y tener otro componente para listarlos
+-->
+<section class="row">
+    <div class="col-12 col-sm-6">
+        <h3>Agregar: </h3>
+        <input type="text" class="form-control" placeholder="Nombre"/>
+        <input type="number" class="form-control mt-2" placeholder="Poder"/>
+        <button class="mt-2 btn btn-primary">Agregar</button>
+    </div>
+    <!--
+        Los componentes deben de tener una tarea en particular y hacerla bien por ejemplo el componente de abajo
+        solo va a mostrar un listado y el de arriba solo va a poder agrear nuevos personajes llenando los campos
+        Al final toda nuestra pagina esta compuesto de diferentes componentes pequenos
+    -->
+    <div class="col-12 col-sm-6">
+        <h3>Listado</h3>
+        <ol>
+            <li>Goku</li>
+            <li>Goku</li>
+            <li>Goku</li>
+            <li>Goku</li>
+        </ol>
+    </div>
+</section>
