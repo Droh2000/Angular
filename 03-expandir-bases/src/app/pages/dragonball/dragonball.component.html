@@ -19,11 +19,25 @@
     -->
     <div class="col-12 col-sm-6">
         <h3>Listado</h3>
-        <ol>
-            <li>Goku</li>
-            <li>Goku</li>
-            <li>Goku</li>
-            <li>Goku</li>
-        </ol>
+        <ul>
+            <!--
+                Para poner los elementos del arreglo "Character" tenemos las nuevas directivas que empiezan con @(@for) y las antiguas de ng(ngFor)
+                Con el Track le damos seguimiento a un identificador unico
+                @For( NombreIterador of NombreArreglo; track NombreIterador.Propiedad ) 
+
+                Como el arreglo es una signal lo ponemos entre parentesis, por defecto viene "track $index" pero no hay que usar el indice porque puede
+                dar efectos indeceados si modificados el arreglo constantemente
+                Asi recorremos los elementos y ademas podemos usar varias banderas
+
+                Como aqui tenemos un UL queremos que Angular nos coloce el numero del elemento
+                para esto usamos la badera del "index" (Asi si queremos usar mas banderas o definir mas variables solo las separamos por coma)
+            -->
+            @for (character of characters(); track character.id; let idx = $index) {
+                <li>
+                    <span>{{ idx+1 }} - {{character.name}}</span>
+                    <strong class="text-danger">({{ character.power }})</strong>
+                </li>
+            }
+        </ul>
     </div>
 </section>
