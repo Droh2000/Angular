@@ -35,7 +35,30 @@
             @for (character of characters(); track character.id; let idx = $index) {
                 <li>
                     <span>{{ idx+1 }} - {{character.name}}</span>
-                    <strong class="text-danger">({{ character.power }})</strong>
+                    <!--
+                        Anteriormente le ponemos el poder en ROJO pero queremos que esto no aplicque mas que a los personajes con un poder arriba de 9000
+                        tenemos que agreagar este estilo condicional, hay varias formas de hacerlo 
+                            * [class.Nombre_de_la_clase_a_Condicionar]='VariableBooleana' (La clase se aplicara solo si la variable da True)
+                            * [ngClass] -> Como esta es una directiva la tenemos que importar en el componente y nos permite mandar un objeto:
+                                    "{ 'active: isActive,'
+                                      'disable': isDisabled}"
+                    
+                    (Son varias tecnicas que tenemos para aplicar estilos condicionales)
+                        Aqui usamos nuestra signal computada que es de solo lectura
+                        Asi como implementamos la logica, el estilo lo aplicada a todos los elementos ya tendiramos que crear algo para que la condicion cambiase
+                    
+                    <strong
+                        [ngClass]="powerClasess()"
+                    >
+
+                     En este caso aplicamos la clase de manera condicional solo si la clase es mayor a 9000
+                        luego si queremos coloreear de otro color las demas tenemos que agregar otra que cumpla la condicion pero para un poder menor
+                    -->
+                    <strong 
+                        [class.text-danger]="character.power > 9000" 
+                        [class.text-primary]="character.power < 9000"
+                    >
+                        ({{ character.power }})</strong>
                 </li>
             }
         </ul>
