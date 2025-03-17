@@ -25,4 +25,5 @@ export class CharacterListComponent {
   // Hay que decir que tipo de informacion es el que fluye dentro de este objeto (En este caso es del tipo Character)
   // Con esto ya desaparece el error en el HTML
   characters = input.required<Character[]>()
+  listName = input.required<string>();
 }

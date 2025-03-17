@@ -3,26 +3,11 @@
 
 <section class="row">
     <div class="col-12 col-sm-6">
-        <h3>Agregar: {{ name() }}</h3>
-        <input 
-            type="text" 
-            class="form-control" 
-            placeholder="Nombre"
-            [value]="name()"
-            (change)="name.set(txtName.value)"
-            (input)="name.set(txtName.value)"
-            #txtName
-        />
-        <h3>Poder: {{ power() }}</h3>
-        <input 
-            type="number"
-            class="form-control mt-2" 
-            placeholder="Poder"
-            (change)="power.set(+txtPower.value)"
-            (input)="power.set(txtPower.valueAsNumber)"
-            #txtPower
-        />
-        <button (click)="addCharacter()" class="mt-2 btn btn-primary">Agregar</button>
+
+        <!-- Este es otro componente que lo llamamos al inicio con "dragonball-NombreComponente" porque asi es como esta
+         definido el nombre en el archivo TS en la parte del "selector"-->
+
+        <dragonball-character-add />
     </div>
     <div class="col-12 col-sm-6">
         <!-- 
@@ -30,8 +15,13 @@
             sino nos dara error
             Despues de que el componente pueda recibir la informacion con la funcion "input" desde el componente padre le tendemos que mandar esos datos
             Le mandamos el arreglo de los personajes que tenemos como una signal
+
+            Vamos a recibicr otro atributo, no lo ponemos entre [] para que se recibido el String y poqur el valor no es dinamico 
          -->
-        <dragonball-character-list [characters]="characters()"/>
+        <dragonball-character-list 
+            listName="Listado de Personajes"
+            [characters]="characters()"
+        />
 
     </div>
 </section>

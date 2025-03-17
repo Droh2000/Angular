@@ -3,7 +3,7 @@
     Tenemos que mandarle la informacion del Padre al Hijo y tambien decirle que sus que estos datos son obligatorios
     Esto lo hacemos en el componente
 -->
-<h3>Listado Fuerte</h3>
+<h3>{{ listName() }}</h3>
 <ul>
     @for (character of characters(); track character.id; let idx = $index) {
             @if( character.power > 500 ){
