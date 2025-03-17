@@ -1,0 +1,22 @@
+<!--
+    Al mover la logica tendremos errores y este en "character" ya que esa informacion esta en el componente padre
+    Tenemos que mandarle la informacion del Padre al Hijo y tambien decirle que sus que estos datos son obligatorios
+    Esto lo hacemos en el componente
+-->
+<h3>Listado Fuerte</h3>
+<ul>
+    @for (character of characters(); track character.id; let idx = $index) {
+            @if( character.power > 500 ){
+            <li>
+                <span>{{ idx+1 }} - {{character.name}}</span>
+                <strong 
+                    [class.text-danger]="character.power > 9000" 
+                    [class.text-primary]="character.power < 9000"
+                >
+                    ({{ character.power }})</strong>
+            </li>
+        }@else{
+            <li>Aqui no hay nadien</li>
+        }
+    }
+</ul>

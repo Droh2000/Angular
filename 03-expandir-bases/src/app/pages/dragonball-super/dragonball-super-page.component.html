@@ -25,22 +25,13 @@
         <button (click)="addCharacter()" class="mt-2 btn btn-primary">Agregar</button>
     </div>
     <div class="col-12 col-sm-6">
-        <h3>Listado Fuerte</h3>
-        <ul>
-            @for (character of characters(); track character.id; let idx = $index) {
-                 @if( character.power > 500 ){
-                    <li>
-                        <span>{{ idx+1 }} - {{character.name}}</span>
-                        <strong 
-                            [class.text-danger]="character.power > 9000" 
-                            [class.text-primary]="character.power < 9000"
-                        >
-                            ({{ character.power }})</strong>
-                    </li>
-                }@else{
-                    <li>Aqui no hay nadien</li>
-                }
-            }
-        </ul>
+        <!-- 
+            Despues de poner el componente tenemos que guardar los cambios para que nos salga la importacion en el componente y funcione
+            sino nos dara error
+            Despues de que el componente pueda recibir la informacion con la funcion "input" desde el componente padre le tendemos que mandar esos datos
+            Le mandamos el arreglo de los personajes que tenemos como una signal
+         -->
+        <dragonball-character-list [characters]="characters()"/>
+
     </div>
 </section>
