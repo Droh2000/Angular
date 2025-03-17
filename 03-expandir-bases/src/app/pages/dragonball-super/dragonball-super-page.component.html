@@ -12,9 +12,17 @@
         Para obtener el personaje es con el simbolo $ y "event" (Este es el valor del evento emitido), en angular se recomienda
         que los componentes emitan solo partes pequenas
             (Aqui entre las comillas le pasamos la funcion del componente padre que inserta los nuevos characters)
-         -->
+         
         <dragonball-character-add 
             (newCharacter)="addCharacter($event)"
+        />
+
+        Se comentaron las lineas despues de la implementacion del Servicio ya que los datos los estamos tomando del servicio para resolver
+        esto podriamos crearnos algun tipo de properties en nuestro componente para enmascararlo y tomar los personajes o mejor usamos el servicio
+
+        -->
+        <dragonball-character-add 
+            (newCharacter)="dragonballService.addCharacter($event)"
         />
     </div>
     <div class="col-12 col-sm-6">
@@ -25,17 +33,27 @@
             Le mandamos el arreglo de los personajes que tenemos como una signal
 
             Vamos a recibicr otro atributo, no lo ponemos entre [] para que se recibido el String y poqur el valor no es dinamico 
-         -->
-        <dragonball-character-list 
+        
+            <dragonball-character-list 
             listName="Listado de Personajes"
             [characters]="characters()"
         />
-        <!--
             En resumen asi estamos en angular:
                 * Entre ()  es para emitir eventos
                 * Entre [] es para asignar atributos
                 * Con los signals podemos cambiar de estados
+
+            Despues de agreagr el servicio para mandar los personajes
+            (Podriamos usar la inyeccion de dependencias dentro del CharacterList pero perderiamos la felxibilidad de poder mandar cualquier 
+            cantidad de personajes desde el mundo exterior)
+
+            Con esto mantenemos los datos agregados a la lista, no importa si nos salimos de la pantalla, al regresar seguiran los datos
+            (Cuando recrgamos el navegador Web se pierden los datos)
         -->
+        <dragonball-character-list 
+            listName="Listado de Personajes"
+            [characters]="dragonballService.characters()"
+        />
 
     </div>
 </section>
