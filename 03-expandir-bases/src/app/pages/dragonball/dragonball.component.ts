@@ -23,7 +23,8 @@ export class DragonballComponent {
     // Inicializamos el arreglo (Estos datos son los que mostraremos en la lista del HTML)
     { id: 1, name: 'Goku', power: 9001},
     { id: 2, name: 'Vegeta', power: 8000},
-    { id: 3, name: 'Piccolo', power: 3000}
+    { id: 3, name: 'Piccolo', power: 3000},
+    { id: 4, name: 'Yamcha', power: 500},
   ]);
 
   /* Para esto nos creamos una Signal Computada

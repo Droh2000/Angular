@@ -18,7 +18,13 @@
         Al final toda nuestra pagina esta compuesto de diferentes componentes pequenos
     -->
     <div class="col-12 col-sm-6">
-        <h3>Listado</h3>
+        <!-- 
+            Ahora en nuestro listado solo queremos mostrar los personajes con un poder fuerte, lo debiles los queremos ocultar
+            Tenemos varias formas de hacer esto:
+                - Usando "*ngIf" segido de una condicion (Esto se colocaba directamente en el elemento HTML) el problema es que no podemos mezclar el ngIf con el ngFor
+                - El nuevo es "@if" siguiendo la sintaxis de cualquier lenguaje y si se cumple se muestra el codigo que tenga interno (Tambien podemos poner el "@else")
+        -->
+        <h3>Listado Fuerte</h3>
         <ul>
             <!--
                 Para poner los elementos del arreglo "Character" tenemos las nuevas directivas que empiezan con @(@for) y las antiguas de ng(ngFor)
@@ -33,33 +39,38 @@
                 para esto usamos la badera del "index" (Asi si queremos usar mas banderas o definir mas variables solo las separamos por coma)
             -->
             @for (character of characters(); track character.id; let idx = $index) {
-                <li>
-                    <span>{{ idx+1 }} - {{character.name}}</span>
-                    <!--
-                        Anteriormente le ponemos el poder en ROJO pero queremos que esto no aplicque mas que a los personajes con un poder arriba de 9000
-                        tenemos que agreagar este estilo condicional, hay varias formas de hacerlo 
-                            * [class.Nombre_de_la_clase_a_Condicionar]='VariableBooleana' (La clase se aplicara solo si la variable da True)
-                            * [ngClass] -> Como esta es una directiva la tenemos que importar en el componente y nos permite mandar un objeto:
-                                    "{ 'active: isActive,'
-                                      'disable': isDisabled}"
-                    
-                    (Son varias tecnicas que tenemos para aplicar estilos condicionales)
-                        Aqui usamos nuestra signal computada que es de solo lectura
-                        Asi como implementamos la logica, el estilo lo aplicada a todos los elementos ya tendiramos que crear algo para que la condicion cambiase
-                    
-                    <strong
-                        [ngClass]="powerClasess()"
-                    >
+                <!-- Uso de la condicion para que no se muestren personajes menores a 500 -->
+                 @if( character.power > 500 ){
+                    <li>
+                        <span>{{ idx+1 }} - {{character.name}}</span>
+                        <!--
+                            Anteriormente le ponemos el poder en ROJO pero queremos que esto no aplicque mas que a los personajes con un poder arriba de 9000
+                            tenemos que agreagar este estilo condicional, hay varias formas de hacerlo 
+                                * [class.Nombre_de_la_clase_a_Condicionar]='VariableBooleana' (La clase se aplicara solo si la variable da True)
+                                * [ngClass] -> Como esta es una directiva la tenemos que importar en el componente y nos permite mandar un objeto:
+                                        "{ 'active: isActive,'
+                                        'disable': isDisabled}"
+                        
+                        (Son varias tecnicas que tenemos para aplicar estilos condicionales)
+                            Aqui usamos nuestra signal computada que es de solo lectura
+                            Asi como implementamos la logica, el estilo lo aplicada a todos los elementos ya tendiramos que crear algo para que la condicion cambiase
+                        
+                        <strong
+                            [ngClass]="powerClasess()"
+                        >
 
-                     En este caso aplicamos la clase de manera condicional solo si la clase es mayor a 9000
-                        luego si queremos coloreear de otro color las demas tenemos que agregar otra que cumpla la condicion pero para un poder menor
-                    -->
-                    <strong 
-                        [class.text-danger]="character.power > 9000" 
-                        [class.text-primary]="character.power < 9000"
-                    >
-                        ({{ character.power }})</strong>
-                </li>
+                        En este caso aplicamos la clase de manera condicional solo si la clase es mayor a 9000
+                            luego si queremos coloreear de otro color las demas tenemos que agregar otra que cumpla la condicion pero para un poder menor
+                        -->
+                        <strong 
+                            [class.text-danger]="character.power > 9000" 
+                            [class.text-primary]="character.power < 9000"
+                        >
+                            ({{ character.power }})</strong>
+                    </li>
+                }@else{
+                    <li>Aqui no hay nadien</li>
+                }
             }
         </ul>
     </div>
