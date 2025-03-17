@@ -7,10 +7,51 @@
 -->
 <section class="row">
     <div class="col-12 col-sm-6">
-        <h3>Agregar: </h3>
-        <input type="text" class="form-control" placeholder="Nombre"/>
-        <input type="number" class="form-control mt-2" placeholder="Poder"/>
-        <button class="mt-2 btn btn-primary">Agregar</button>
+        <!--
+            Queremos que al llenar los inputs y precionar el boton se agregen los datos en la lista, hay varias formas pero lo vamos a hacer de la forma que sabemos
+            que es creando señales (Una para cada input)
+            Ponemos para que salga el nombre de la Signal despues de la palabra "Agregar"
+
+            En el "input" si queremos asignarle un valor a un atirbuto (por ejemplo a "value"), la sintaxis recomendada para cuando el atributo viene de una
+            variable o Signal, el parametro se pone netre llavez cuadradas [value] y entre comillas el atributo.
+            Hay varios eventos que podemos asignar a un input con el (change) podemos disparar el evento cuando terminamos de escibir en el input y quitamos 
+            el foco, como queremos actualizar la signal (Idealmente se hace del lado del componente de TS) por ahora lo hacemos aqui, dentro del "set" le vamos
+            a establecer el valor que tengamos en el "$event" con el simbolo de "$" tendremo todo el evento cuando cambie. Ahora para poner asi:
+                - "name.set($event.target?.value ?? '')" -> Tendremos varios problemas y es la posibilidad de NULL que ponemos el "?" y si no sigue siendo null con 
+                    "??" nos coloque la cadena pero tenemos el problem del tipado porque con Angular solo nos dice que es un evento generico
+            Para evitar esos problemas de arriba vamos a hacer una referencia local
+                - Ponemos el "#" seguido de la referencia
+            En este caso le damos "txtName" esto nos permite poder aputnar a esta referencia que a su vez apunta al INPUT que al especificarla dentro del "set()1"
+            ya sabe que es un campo que tiene su VALUE asi que podemos usar "tstName.Value"
+
+            Con esto al escribir en el Input, se actualiza el valor del (name())
+            Si queremos que cada vez que la persona escriba se actualize el valor de la Signal seria el evento (input)
+        -->
+        <h3>Agregar: {{ name() }}</h3>
+        <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Nombre"
+            [value]="name()"
+            (change)="name.set(txtName.value)"
+            (input)="name.set(txtName.value)"
+            #txtName
+        />
+        <h3>Poder: {{ power() }}</h3>
+        <!--
+            Aqui la referencia del power nos dira que no podemos asignar el String a tipo Number
+            para solucionarlo podemos hacer la transformacion agregandole un + al inicio o llamar al valueAsNumber
+        -->
+        <input 
+            type="number"
+            class="form-control mt-2" 
+            placeholder="Poder"
+            (change)="power.set(+txtPower.value)"
+            (input)="power.set(txtPower.valueAsNumber)"
+            #txtPower
+        />
+        <!-- No requerimos mandarle ningun valor al "addCharcter" porque va a tomar como referencia los valores -->
+        <button (click)="addCharacter()" class="mt-2 btn btn-primary">Agregar</button>
     </div>
     <!--
         Los componentes deben de tener una tarea en particular y hacerla bien por ejemplo el componente de abajo
