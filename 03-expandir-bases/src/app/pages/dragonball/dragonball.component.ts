@@ -21,15 +21,15 @@ export class DragonballComponent {
   // Angular nos pone el tipo de dato "NEVER" nos creamos una interfaz para ponerle el tipo
 
   // Para el manejo de los Inputs nos creamos una signal para cada uno 
-  name = signal('Gohan');
-  power = signal(100);
+  name = signal('');
+  power = signal(0);
 
   characters = signal<Character[]>([
     // Inicializamos el arreglo (Estos datos son los que mostraremos en la lista del HTML)
     { id: 1, name: 'Goku', power: 9001},
-    { id: 2, name: 'Vegeta', power: 8000},
+    /*{ id: 2, name: 'Vegeta', power: 8000},
     { id: 3, name: 'Piccolo', power: 3000},
-    { id: 4, name: 'Yamcha', power: 500},
+    { id: 4, name: 'Yamcha', power: 500},*/
   ]);
 
   /* Para esto nos creamos una Signal Computada
