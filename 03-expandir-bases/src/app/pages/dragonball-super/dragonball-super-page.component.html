@@ -5,9 +5,17 @@
     <div class="col-12 col-sm-6">
 
         <!-- Este es otro componente que lo llamamos al inicio con "dragonball-NombreComponente" porque asi es como esta
-         definido el nombre en el archivo TS en la parte del "selector"-->
-
-        <dragonball-character-add />
+         definido el nombre en el archivo TS en la parte del "selector"
+         
+         Le declaramos el evento que creamos nosotros para que emita un character (Como es un componente personalizado este es el unico
+            evento que esta emitiendo)
+        Para obtener el personaje es con el simbolo $ y "event" (Este es el valor del evento emitido), en angular se recomienda
+        que los componentes emitan solo partes pequenas
+            (Aqui entre las comillas le pasamos la funcion del componente padre que inserta los nuevos characters)
+         -->
+        <dragonball-character-add 
+            (newCharacter)="addCharacter($event)"
+        />
     </div>
     <div class="col-12 col-sm-6">
         <!-- 
@@ -22,6 +30,12 @@
             listName="Listado de Personajes"
             [characters]="characters()"
         />
+        <!--
+            En resumen asi estamos en angular:
+                * Entre ()  es para emitir eventos
+                * Entre [] es para asignar atributos
+                * Con los signals podemos cambiar de estados
+        -->
 
     </div>
 </section>
