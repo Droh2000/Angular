@@ -14,3 +14,34 @@ Para crear los componentes podemos crearlos manualmente o usando Angular CLI
     Esto nos crea varios archivos y solo dejamos el del HTML y TS
 Recordemos que tambien tenemos el sniper:
     * acomponent + TAB (Esto dentro del archivo de TS)
+
+
+Despliegue y HashRouter
+
+    Ejecutamos el comando
+        * ng build
+    Con este nos genera la carpeta "dist" para tener la aplicacion en modo de produccion
+
+    Despues de ejecutarlo veremos el peso en KB de todos los archivos que nos genera, hay varias configuraciones
+    que podemos hacer para separar por partes, es decir el archivo "main.js" pesa 225.66 kb
+    que el usuario descargaria directamente pero podemos decirle a Angular que lo vaya segmentando acorde
+    a las necesidades 
+    Vamos a usar la plataforma de netlify, lo que tenemos en la carpeta "dist" es lo que tenemos que desplegar
+    para este caso dentro de la carpeta de "dist" y dentro de la carpeta "bases" tenemos la carpeta "browser"
+    la tomamos y la arrastramos a la pagina.
+
+    Despues que se suba y accedamos a la URL que nos de la pagina podremos acceder a la pagina como la teniamos
+    pero si recrgamos en cualquier pagina, excepto en la del contador obtendremos un error del sitio de "Page Not Found"
+    esto pasa porque no hemos desplegado ningun directorio con las demas paginas, usualmente en la web vamos a tener la 
+    URL como:
+        * ROOT(www) -> Dentro hacemos el despliegue de la aplicacion "/", es decir este root es lo que deplegariamos en nuestro 
+            hosting pero si queremos ver las demas paginas nos tenemos que crear una carpeta que se llame como el directorio de esa pagina
+            Pero nosotros no creamos esa carpeta, lo que creamos fue una ruta de angular y Angular solo esta corriendo en el directorio raiz
+
+            Cuando entramos por el "/" Angular toma el control del Router y sabe que cuando nos movemos a las otras paginas del
+            navbar saber a donde se tiene que dirigir (Fisicamente estamos siempre en el directorio ROOT)
+
+            Asi que cuando queremos abrir otro URL hay que hacer otra configuracion ya sea en el servidor donde estamos corriendo la app
+            para decirle que cualquier peticion pase por nuestro ROOT
+            La solucion aqui (Ya que no estamos usando Node ni ningun otro backend) es configurar nuestro router
+
