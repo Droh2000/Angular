@@ -2,6 +2,23 @@
 import { effect, Injectable, signal } from '@angular/core';
 import { Character } from '../interfaces/character.interface';
 
+
+// Vamos a leer el LocalStorage y cargar el valor de nuestro arreglo Signal
+// Como esto no va a tener ninguna relacion con la clase la creamos afuera
+const loadFromLocalStorage= (): Character[] => {
+    // Tomamos los datos que esten en el LocalStorage (ESto nos puede dar String o Null)
+    // Podemos usar el ?? en el que si lo de antes nos da Null o undefined que use el valor siguiente
+    const characters = localStorage.getItem('characters');
+
+    // Preguntamos si tenemos un valor aplicar el proceso opuesto de la serializacion para transformar ese String a un objeto
+    // y si no hay nada entonces regresamos un arreglo vacio
+    // Esto no es hacerlo de la forma correcta ya que aplicamos el Parse sin importar como estan los datos (No esta obligado a que
+    // cumpla la estructura de un arreglo de characters) ya que los datos se pueden editar directamente desde el navegador
+    // Asi que para que sea correcto, si tenemos un valor entonces vamos a querer verifiar y recorrer cada valor
+
+    return characters ? JSON.parse(characters) : [];
+}
+
 /*
     Como vemos los servicios en angular no son mas que una clase pero que trabaja con
     las inyecciones de dependencias (DI) entonces nos va a trabajar el servicio como si fuera un singleton
@@ -19,10 +36,12 @@ import { Character } from '../interfaces/character.interface';
 @Injectable({providedIn: 'root'})
 export class DragonballService {
     // Metemos tods esta logica aqui porque esto sera el lugar centralizado de la Data de los Characters
-    characters = signal<Character[]>([
+    /*characters = signal<Character[]>([
         { id: 1, name: 'Goku', power: 9001},
         { id: 2, name: 'Vegeta', power: 8000},
-      ]);
+      ]);*/
+    // Ahora tomamos los datos obtenidos del LocalStorage
+    characters = signal<Character[]>( loadFromLocalStorage());
     
     // Esto es lo que vamos a mandar a llamar y para insertarlo
     addCharacter(character: Character){
