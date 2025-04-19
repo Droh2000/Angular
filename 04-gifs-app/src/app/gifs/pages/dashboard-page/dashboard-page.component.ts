@@ -2,10 +2,11 @@
 // Este seria nunestro Primer Componente
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { GifsSideMenuComponent } from '../../components/gifs-side-menu/gifs-side-menu.component';
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, GifsSideMenuComponent],
   templateUrl: './dashboard-page.component.html',
   // Angular ya por defecto con esta propiedad en True, con esto nuestros componentes son modulos, porque las importaciones de arriban
   // hacen que el componente sepa cuales son los objetos que nesecita para construirse y poder trabajar

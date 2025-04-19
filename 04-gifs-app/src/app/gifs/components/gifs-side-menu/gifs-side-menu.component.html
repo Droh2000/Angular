@@ -1,0 +1,12 @@
+<!-- Al agregar contenido es cortado por la parte del menu, tenemos que hacer que el contenido no se vaya hasta esa orilla, sino hasta donde empieza el menu
+          Le colocamos la anchura en w-[220px]
+-->
+<div id="menu"
+    class="w-[220px] bg-gray-900 min-h-screen z-10 text-slate-300 fixed left-0 h-screen overflow-y-scroll"
+>
+  <!-- Segmentamos nuestro codigo original HTML en componentes, estos hay que importarnos dentro de la clase -->
+  <app-gifs-side-menu-header/>
+
+  <app-gifs-side-menu-options/>
+
+</div>
