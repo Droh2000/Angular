@@ -10,3 +10,16 @@ Creamos nuestros Modulos:
   * Seria la carpeta Gifs dentro de App (Esto seria como un modulo)
     Dentro tenemos las carpetas que se relacionan directamente a este componente:
   * Las demas carpetas tembien serian los diferentes modulos
+
+Angular Environment y Path Alias
+  Estamos manipulando el Dashboard pero que tal si este menu lo queremos dejar para que lo podamos reutilizar para otro proyecto
+  pero no vamos a quierer meternos al codigo fuente y ver en que parte esta tal cosa del texto o del titulo
+  Lo mejor es configurar una variable de entorno para esto no creamos un objeto en el cLI
+    - ng g environments
+    (Esto nos crea dentro del SRC la carpeta con los dos archivos uno para produccion y otro para desarrollo)
+
+
+  Para el uso de las variables de entorno y no especificar toda la ruta
+    Nos creamos dentro de la carpeta tsconfig.json le colocamos un alias a la ruta que era (../../../../)
+    Con "baseUrl" le indicamos que tome el ROOT como la base de las rutas que vamos a defenir, despues definimos la ruta en Path
+    la primera parte es el nombre del Alias y le indicamos la ruta a donde apunta
