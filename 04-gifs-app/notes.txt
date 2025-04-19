@@ -1,0 +1,7 @@
+La idea es sacar de un template HTML separarlo en pequeñas piezas que serian componentes
+este template lo podriamos haber sacado de internet y estar editandolo nosotros
+Ademas mantendremos un File Sistem Ordenado y estructurado
+  En angular antes teniamos el archivo .module.ts, eso es algo que se va a dejar de usar porque ahora
+  nuestros componentes por defecto crean un StandAlone Componente (Esto quiere decir que es un componente y a la vez un modulo)
+
+  Aqui trabajaremos con varios componentes que se mostraran en conjunto o por separado
