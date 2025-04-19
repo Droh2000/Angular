@@ -5,3 +5,8 @@ Ademas mantendremos un File Sistem Ordenado y estructurado
   nuestros componentes por defecto crean un StandAlone Componente (Esto quiere decir que es un componente y a la vez un modulo)
 
   Aqui trabajaremos con varios componentes que se mostraran en conjunto o por separado
+
+Creamos nuestros Modulos:
+  * Seria la carpeta Gifs dentro de App (Esto seria como un modulo)
+    Dentro tenemos las carpetas que se relacionan directamente a este componente:
+  * Las demas carpetas tembien serian los diferentes modulos
