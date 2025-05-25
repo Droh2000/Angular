@@ -1,12 +1,24 @@
 // Aqui vamos a colocar toda la informacion centralizada de nuestros Gifs
 // Usamos: a-services+TAB para generar este codigo (Tenemos que tener las extenciones instaladas)
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { environment } from '@environtments/environment';
 import type { GiphyResponse } from '../interfaces/giphy.interfaces';
 import { Gif } from '../interfaces/gif.interface';
 import { GifMapper } from '../mapper/gif.mapper';
 import { map, tap } from 'rxjs';
+
+// Mantener los datos despues de recargar el navegador
+const loadFromLocalStorage = () => {
+  // Primero verificamos si tenemos Gifs, nosotros estamos almacenando un objeto en el LocalStorage
+  // que seria: Record<string, gifs[]>
+  const gifsFromLocalStorage = localStorage.getItem('gifs') ?? '{}';
+
+  // Convertimos los datos obtenidos a un arreglo de gifs
+  const gifs = JSON.parse(gifsFromLocalStorage);
+
+  return gifs;
+}
 
 // Los Servicios en angular trabajan como si fueran un Singleton con el objetivo de que tengamos un lugar centralizado para obtener la informacion
 @Injectable({providedIn: 'root'})
@@ -26,7 +38,9 @@ export class GifService {
   // asi si el usuario busca lo mismo, solo accesedera a ese elemento, si no esta lo agrega al objeto
   // En TS para cargar ese objeto tenemos "Record" cuya llave es la palabra de busquedad y el contenido es el arreglo de los gifs, este tipado se usa
   // cuando queremos un objeto donde sus llaves son dinamicas
-  searchHistory = signal<Record<string, Gif[]>>({});
+  // Este objeto lo queremos meter en el LocalStorage para que al recargar el navegador no perdamos los datos del historial
+  // Despues de agregar el metodo en el valor inicial al recargar el navegador se mantendran los datos
+  searchHistory = signal<Record<string, Gif[]>>(loadFromLocalStorage());
 
   // Ademas queremos tomar cada una de las llaves (Las palabras de busquedad que ah realizado el usuario) para crear un listado de todo lo que el usuario a buscado
   // tenga su acceso en el menu de cada una de sus busquedas, podemos tomar las llaves del mismo objeto de arriba pero para eso tenemos la Signal Computadas
@@ -38,6 +52,15 @@ export class GifService {
     this.loadTrendingGifs();
     // Al recargar la pagina veremos que se mantienen los mismo Gifs porque el servicio no se a vuelto a crear
   }
+
+  // Este efecto se va a dispara cada vez que el "searchHistory" cambie
+  saveGifsToLocalStorage = effect(() => {
+    // En el localStorage solo podemos almacenar Strings por eso esta conversion
+    const historyString = JSON.stringify(this.searchHistory());
+
+    // Almacenamos en el LocalStorage
+    localStorage.setItem('gifs', historyString);
+  });
 
   // Hacemos la peticion HTTP solo con llamar el objeto "http"
   loadTrendingGifs() {
