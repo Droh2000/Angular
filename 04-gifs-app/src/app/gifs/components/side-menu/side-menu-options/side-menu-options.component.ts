@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { GifService } from 'src/app/gifs/services/gifs.service';
 
 // Para leer las opciones del menu lo podemos hacer del AppRoutes pero por ahora lo hacemos de otra forma
 interface MenuOption {
@@ -32,5 +33,7 @@ export class GifsSideMenuOptionsComponent {
       sublabel: 'Buscar Gifs',
       route: '/dashboard/search'
     },
-  ]
+  ];
+
+  gifService = inject(GifService);
 }

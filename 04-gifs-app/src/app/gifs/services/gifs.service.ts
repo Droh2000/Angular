@@ -1,7 +1,7 @@
 // Aqui vamos a colocar toda la informacion centralizada de nuestros Gifs
 // Usamos: a-services+TAB para generar este codigo (Tenemos que tener las extenciones instaladas)
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '@environtments/environment';
 import type { GiphyResponse } from '../interfaces/giphy.interfaces';
 import { Gif } from '../interfaces/gif.interface';
@@ -20,6 +20,18 @@ export class GifService {
   // Por defecto esta en TRUE porque tan pronto como el servicio se crea gracias al componente que lo monte o la funcion que llame la inyeccion del servicio
   // entonces esta en TRUE porque empezamos a crear la instancia
   trendingGifsLoading = signal(true);
+
+  // Almacenamiento en cache de las busquedas que el usuario a realizado
+  // para esto vamos a tener un objeto en el cual tendremos la palabra que busco seguido de un arreglo con los gifs correspondientes a esa palabra
+  // asi si el usuario busca lo mismo, solo accesedera a ese elemento, si no esta lo agrega al objeto
+  // En TS para cargar ese objeto tenemos "Record" cuya llave es la palabra de busquedad y el contenido es el arreglo de los gifs, este tipado se usa
+  // cuando queremos un objeto donde sus llaves son dinamicas
+  searchHistory = signal<Record<string, Gif[]>>({});
+
+  // Ademas queremos tomar cada una de las llaves (Las palabras de busquedad que ah realizado el usuario) para crear un listado de todo lo que el usuario a buscado
+  // tenga su acceso en el menu de cada una de sus busquedas, podemos tomar las llaves del mismo objeto de arriba pero para eso tenemos la Signal Computadas
+  // asi cada ves que la Signal "searchHistory" cambie automaticamente se va a volver a actualizar los valores del "searchHistoryKeys"
+  searchHistoryKeys = computed(() => Object.keys(this.searchHistory()));
 
   // Cuando creemos una instancia llamaremos la peticion HTTP
   constructor(){
@@ -72,8 +84,19 @@ export class GifService {
       // Le pasamos el valor de la respuesta anterior "resp" (Segun lo que emitamos, en este caso al ser el primero es de la respuesta HTTP)
       map( ({ data }) => data),
       // Aplicamos otra transformacion igual (Para obtener el arreglo con las propiedas que nos interesa)
-      map( (items) => GifMapper.mapGiphyItemToGifArray(items) )
+      map( (items) => GifMapper.mapGiphyItemToGifArray(items) ),
 
+      // Cada vez que se busque un elemento y tengamos una resolucion del mismo va a ser nesesario usar un efecto secundario
+      // dentro le pasamos el listado de los Gifs que la persona ha buscado
+      tap( items => {
+        // Como queremos actualizar el valor de una Signal usamos update, dentro vamos a tener el Historial y entre parentesis para hacer un return implicito de un nuevo objeto
+        this.searchHistory.update( history => ({
+          ...history, // Obtener todos los datos que teniamos en el History
+          // Propiedad Computada
+          [query.toLowerCase()]: items,
+        }))
+        // El Tab no requiere que nosotros regresemos algo
+      }), // Con solo esta logica podemos manejar el hisotrial
     );
     /*.subscribe((resp) => {
       const gifs = GifMapper.mapGiphyItemToGifArray( resp.data );
