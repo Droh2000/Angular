@@ -29,4 +29,5 @@ Giphy API
   Vamos a consumir el API de esta pagina para generar GIFS y usarlos en nuestra pagina consumiendo esta API
   Empezamos agregando el Token de acceso de la API y en la misma pagina accedemos al endpoint donde podremos ver las propiedades que obtendremos al consumir el endpoint
   pero si nuestra Aplicacion solo va a requerir unas pocas propiedades del monton que hay entonces nos creamos una interface que tenga solo esos elementos para que nuestra
-  Aplicacion no se vea afecta si a futuro la pagina cambia algun nombre de las propiedades
+  Aplicacion no se vea afecta si a futuro la pagina cambia algun nombre de las propiedades, Copiando la respuesta HTTP y en la pagina de "Ctrl+Ship+P -> Parse JSON as Code" obtenemos ya la interface en TS
+  para tener el Tipado de la respuesta
