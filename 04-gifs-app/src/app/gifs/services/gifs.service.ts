@@ -49,4 +49,18 @@ export class GifService {
     // para estar al pendiente de lo que la peticion resuelva y obtendremos e objeto resuelto de la peticion HTTP
   }
 
+  searchGifs(query: string){
+    // Este el Endpoint para buscar contenido
+    this.http.get<GiphyResponse>(`${ environment.giphyUrl }/gifs/search`, {
+      params: {
+        api_key: environment.giphyApiKey,
+        limit: 20,
+        q: query
+      }
+    }).subscribe((resp) => {
+      const gifs = GifMapper.mapGiphyItemToGifArray( resp.data );
+      console.log({search: gifs});
+    });
+  }
+
 }
