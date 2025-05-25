@@ -23,3 +23,10 @@ Angular Environment y Path Alias
     Nos creamos dentro de la carpeta tsconfig.json le colocamos un alias a la ruta que era (../../../../)
     Con "baseUrl" le indicamos que tome el ROOT como la base de las rutas que vamos a defenir, despues definimos la ruta en Path
     la primera parte es el nombre del Alias y le indicamos la ruta a donde apunta
+
+Giphy API
+
+  Vamos a consumir el API de esta pagina para generar GIFS y usarlos en nuestra pagina consumiendo esta API
+  Empezamos agregando el Token de acceso de la API y en la misma pagina accedemos al endpoint donde podremos ver las propiedades que obtendremos al consumir el endpoint
+  pero si nuestra Aplicacion solo va a requerir unas pocas propiedades del monton que hay entonces nos creamos una interface que tenga solo esos elementos para que nuestra
+  Aplicacion no se vea afecta si a futuro la pagina cambia algun nombre de las propiedades
