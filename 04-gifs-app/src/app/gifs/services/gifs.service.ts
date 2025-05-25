@@ -6,6 +6,7 @@ import { environment } from '@environtments/environment';
 import type { GiphyResponse } from '../interfaces/giphy.interfaces';
 import { Gif } from '../interfaces/gif.interface';
 import { GifMapper } from '../mapper/gif.mapper';
+import { map, tap } from 'rxjs';
 
 // Los Servicios en angular trabajan como si fueran un Singleton con el objetivo de que tengamos un lugar centralizado para obtener la informacion
 @Injectable({providedIn: 'root'})
@@ -51,16 +52,35 @@ export class GifService {
 
   searchGifs(query: string){
     // Este el Endpoint para buscar contenido
-    this.http.get<GiphyResponse>(`${ environment.giphyUrl }/gifs/search`, {
+    // Retornamos la peticion HTTP (Ahora regresamos el Observable que emitira un arreglo de nuestros Gifs)
+    // La idea de los servicios es que nos den los datos ya procesados como los requerimos sin tener que hacer alguna operacion fuera
+    return this.http.get<GiphyResponse>(`${ environment.giphyUrl }/gifs/search`, {
       params: {
         api_key: environment.giphyApiKey,
         limit: 20,
         q: query
       }
-    }).subscribe((resp) => {
+    }) // Si no ponemos el suscribe no se dispara la peticion
+    // Para procesar los datos tenemos los operadores de rxjs que los encadenamos con este metodo "pipe"
+    .pipe(
+      // Aqui podemos encadenar funcionamiento espciales de los observables
+      // "Tap" nos sirve para disparar efectos secundarios (Cuando nuestro Obesrvable emita un valor va a pasar dentro del PIPE po todos lo operadores
+      //  empezando de arriba hacia abajo) y por ultimo nos regresara el Obervable
+      //    tap( resp => console.log({tap: resp}))
+      // Lo que realmente requerimos es emitir un valor transformado y para eso tenemos el operador MAP, con este podemos recorrer cada uno de los elementos de
+      // la respuesta y regresar una transformacion diferente
+      // Le pasamos el valor de la respuesta anterior "resp" (Segun lo que emitamos, en este caso al ser el primero es de la respuesta HTTP)
+      map( ({ data }) => data),
+      // Aplicamos otra transformacion igual (Para obtener el arreglo con las propiedas que nos interesa)
+      map( (items) => GifMapper.mapGiphyItemToGifArray(items) )
+
+    );
+    /*.subscribe((resp) => {
       const gifs = GifMapper.mapGiphyItemToGifArray( resp.data );
       console.log({search: gifs});
-    });
+      // No podemos hacer un "return gifS" porque eso seria solo el Return de este Callback el cual no se ve reflejado al metodo "searchGifs"
+      // Entonces tenemos que poder llamar el ".suscribe" desde la pagina HTML
+    });*/
   }
 
 }
