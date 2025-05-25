@@ -1,11 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { GifService } from '../../services/gifs.service';
+import { ListComponent } from '../../components/list/list.component';
 
 @Component({
   selector: 'app-gif-history',
-  imports: [],
+  imports: [ListComponent],
   templateUrl: './gif-history.component.html',
 })
 export default class GifHistoryComponent {
@@ -19,13 +21,23 @@ export default class GifHistoryComponent {
       console.log(params['query']);
   });*/
 
+  gifService = inject(GifService);
+
   // Una forma de simplificar el codigo de arriba es usando el metodo de "tosignal" para transformar cualquier Observable
   // en un signal (Aqui tenemos un signal que cambia automaticamente y son todos los Params), de estos Params solo nos interesa el valor "query"
   query = toSignal(
     // Para extraerle el "query" al observable usamos el metodo Pipe (Todos los observable lo tiene) con el cual podemos conectarle los diferentes
-    // operadores de RXJS
+    // operadores de RXJS (Cada vez que este observable emite un valor, tenemos el valor actualizado en la variable "query")
     inject(ActivatedRoute).params.pipe(
       map( params => params['query'] )
     )
+    // Una ventaja de usar los "inject" y no usando constructores que seria la forma de antes, es que ahora podemos encadenar procedimientos, concatenando
+    // una nueva propertie que dependen del valor emitido anteriormente
   );
+
+
+  gifsByKey = computed(() => {
+    // Regresamos lo que tengamos en el servicio de Gifs que seria el historial mandandole el Query
+    return this.gifService.getHistoryGifs(this.query());
+  });
 }

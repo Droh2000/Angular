@@ -106,4 +106,9 @@ export class GifService {
     });*/
   }
 
+  // Metodo que recibiendo la llave nos regrese el historial previamente almacenado en el "searchHistory"
+  getHistoryGifs(query: string): Gif[] {
+    // Sacamos el valor que tenga en el "query" y si no esta nos regresa un arreglo vacio
+    return this.searchHistory()[query] ?? [];
+  }
 }
