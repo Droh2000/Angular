@@ -20,8 +20,10 @@
 
   <!-- Mostrar el historial de busquedas (Al ser un signal computado lo llamamos entre parentesis)-->
    @for (key of gifService.searchHistoryKeys(); track key) {
+      <!-- Aqui en el RouterLink configuramos para que navegue al elemento que se encuentra en el hisorial, que para mandar dinamicamente el elemento en el URL
+        y al ser un arreglo se lo mandamos separado por coma  -->
       <a
-        [routerLink]="['/dashboard/search']"
+        [routerLink]="['/dashboard/history', key]"
         routerLinkActive="bg-blue-800"
         class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 bg-blue-800 hover:bg-white/5 transition ease-linear duration-150">
           <div>
