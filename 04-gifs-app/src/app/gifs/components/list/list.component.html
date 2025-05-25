@@ -1,5 +1,6 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
   @for (gif of gifs(); track gif) {
-    <gif-app-list-item [imageUrl]="gif"/>
+    <!-- Aqui tenemos que mandar o el URL del GIF o mandamos todo el GIF -->
+    <gif-app-list-item [imageUrl]="gif.url"/>
   }
 </div>

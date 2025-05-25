@@ -13,12 +13,17 @@ export class GifService {
   // En Angular tenemos el HttpClient que es mejor que el FETCH, oara poder usarlo tenemos que inyectar esa dependencia
   private http = inject(HttpClient);
 
-  // Debemos de tener un espacio para almacenar el estado de los Gifs que obtenemos de la peticion
+  // Debemos de tener un espacio para almacenar el estado de los Gifs que obtenemos de la peticion y asi mostrar la data en pantalla
   trendingGifs = signal<Gif[]>([]);
+
+  // Por defecto esta en TRUE porque tan pronto como el servicio se crea gracias al componente que lo monte o la funcion que llame la inyeccion del servicio
+  // entonces esta en TRUE porque empezamos a crear la instancia
+  trendingGifsLoading = signal(true);
 
   // Cuando creemos una instancia llamaremos la peticion HTTP
   constructor(){
     this.loadTrendingGifs();
+    // Al recargar la pagina veremos que se mantienen los mismo Gifs porque el servicio no se a vuelto a crear
   }
 
   // Hacemos la peticion HTTP solo con llamar el objeto "http"
@@ -36,6 +41,9 @@ export class GifService {
       // Podemos implementar la logica aqui pero mejor nos creamos un objeto que nos permita hacer la transformacion (Mapper) para obtener solo los datos que nos interesa
       const gifs = GifMapper.mapGiphyItemToGifArray( resp.data );
       this.trendingGifs.set(gifs);
+
+      // Despues de obtener los datos
+      this.trendingGifsLoading.set(false);
     });
     // En la documentacion veremos que en el GIFs obtendremos un Observable de retorno, este es un patron de Diseño que nos dice que un objeto puede estar emitiendo valores
     // para estar al pendiente de lo que la peticion resuelva y obtendremos e objeto resuelto de la peticion HTTP
