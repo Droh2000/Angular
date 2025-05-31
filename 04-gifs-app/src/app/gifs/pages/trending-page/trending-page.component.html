@@ -1,4 +1,28 @@
 <!-- Para poder aplicarle los estilos lo encerramos en un DIV  -->
-<div class="py-5">
+<!--<div class="py-5">
   <gif-app-list [gifs]="GifService.trendingGifs()"/>
+</div>-->
+
+<!--
+  Este diseño que agregamos es el Diseño Masonry donde tenemos los cuadros de los Gifs en diferentes formas
+  pero manteniendo el diseño cuadrado
+-->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-5">
+    <!--
+        Por el formato que tienen debemos de generar los Gifs de tal forma de que podamos hacerlo de 3 en 3, asi por cada llamada
+        en la mostracion de los gifs, esa logica la implementamos en el "gif.service.ts"
+    -->
+    @for (group of GifService.trendingGifGroup(); track $index) {
+      <div class="grid gap-4">
+        @for (gif of group; track gif.id) {
+          <div>
+            <img
+              class="h-full w-full rounded-lg object-cover"
+              [src]="gif.url"
+              [alt]="gif.title"
+            />
+          </div>
+        }
+      </div>
+    }
 </div>

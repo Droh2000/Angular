@@ -27,11 +27,27 @@ export class GifService {
   private http = inject(HttpClient);
 
   // Debemos de tener un espacio para almacenar el estado de los Gifs que obtenemos de la peticion y asi mostrar la data en pantalla
-  trendingGifs = signal<Gif[]>([]);
+  trendingGifs = signal<Gif[]>([]); // Aqui es donde estamos almacenando los gifs
 
   // Por defecto esta en TRUE porque tan pronto como el servicio se crea gracias al componente que lo monte o la funcion que llame la inyeccion del servicio
   // entonces esta en TRUE porque empezamos a crear la instancia
   trendingGifsLoading = signal(true);
+
+  // Por el diseño de Masonry
+  // Tenemos que crearnos algo como: [ [gif, gif, gif], [gif, gif, gif], [gif, gif, gif], ... ]
+  // para asi meter un ciclo For dentro de otro ciclo For
+  trendingGifGroup = computed<Gif[][]>(() => {
+    // Aqui creamos la estructura del arreglo
+    const groups = [];// Esto sera el valor de la Señal computada
+
+    // Recorremos de 3 en 3 los elementos
+    for (let i = 0; i < this.trendingGifs().length; i+=3) {
+      // Con "slice" cortamos los 3 elementos que requerimos desde la posicion i hasta i+3
+      groups.push( this.trendingGifs().slice(i, i + 3) );
+    }
+
+    return groups;
+  });
 
   // Almacenamiento en cache de las busquedas que el usuario a realizado
   // para esto vamos a tener un objeto en el cual tendremos la palabra que busco seguido de un arreglo con los gifs correspondientes a esa palabra
