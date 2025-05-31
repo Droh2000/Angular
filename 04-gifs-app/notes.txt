@@ -31,3 +31,7 @@ Giphy API
   pero si nuestra Aplicacion solo va a requerir unas pocas propiedades del monton que hay entonces nos creamos una interface que tenga solo esos elementos para que nuestra
   Aplicacion no se vea afecta si a futuro la pagina cambia algun nombre de las propiedades, Copiando la respuesta HTTP y en la pagina de "Ctrl+Ship+P -> Parse JSON as Code" obtenemos ya la interface en TS
   para tener el Tipado de la respuesta
+
+  Vamos a hacer que se almacene donde dejo el scroll el usuario para que cuando salga y vuelva a entrar a la pagina, se mantenga el Scroll donde
+  lo dejo, para esto ocupamos la referencia a todo el elemento que contiene los Gifs, eso seria el DIV principal que tenemos en "trending-page.component.html"
+  porque este sabe el tamaño del elemento

@@ -6,8 +6,24 @@
 <!--
   Este diseño que agregamos es el Diseño Masonry donde tenemos los cuadros de los Gifs en diferentes formas
   pero manteniendo el diseño cuadrado
+
+  En este div podemos escuchar el comportamiento del Scroll y eso es como cualquier otro evento
+  este nos dice como se esta moviendo, lo que ah pasado, aqui hacemos que mande a llamar una funcion que creamos
+  Por como teniamos la logica originalmente vimos que al mover el Scroll no pasaba nada, esto porque haciamos el scroll
+  no a un solo elemento sino a toda la pagina, esto es porque este DIV inicial no ocupaba todo el espacio, osea teniamos el Div
+  pero el contenido que eran los Gifs se estaban desbordando por lo tanto el Scroll era de la pantalla no de este DIV
+  Asi que modificando las Clases evitamos que el contenido se salga del DIV:
+      * overflow-y-scroll
+  Despues de hacer Scroll con esta clase puesta veremos que si nos detecta el evento
+
+  El siguiente paso es tomar la referencia a este DIv, eso tambien viene en el $event que le pasamos a la funcion, pero una forma mas
+  facil es colocar una referencia Loca con "#" con el que tendremos acceso a todo ese HTML basado en esa referencia
 -->
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-5">
+<div
+  class="h-screen overflow-y-scroll grid grid-cols-2 md:grid-cols-4 gap-4 pt-5"
+  (scroll)="onScroll($event)"
+  #groupDiv
+>
     <!--
         Por el formato que tienen debemos de generar los Gifs de tal forma de que podamos hacerlo de 3 en 3, asi por cada llamada
         en la mostracion de los gifs, esa logica la implementamos en el "gif.service.ts"
