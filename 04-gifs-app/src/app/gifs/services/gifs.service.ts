@@ -31,7 +31,10 @@ export class GifService {
 
   // Por defecto esta en TRUE porque tan pronto como el servicio se crea gracias al componente que lo monte o la funcion que llame la inyeccion del servicio
   // entonces esta en TRUE porque empezamos a crear la instancia
-  trendingGifsLoading = signal(true);
+  trendingGifsLoading = signal(false);
+
+  // Para sacar la pagina y es una signal porque la vamos a estar cambiando
+  private trendingPage = signal(0);
 
   // Por el diseño de Masonry
   // Tenemos que crearnos algo como: [ [gif, gif, gif], [gif, gif, gif], [gif, gif, gif], ... ]
@@ -80,21 +83,39 @@ export class GifService {
 
   // Hacemos la peticion HTTP solo con llamar el objeto "http"
   loadTrendingGifs() {
+
+    // Si estamos cargando lo sacamos del metodo porque no queremos que se llamen masivamente las peticiones ya que tenemos que esperar a que se resuelva
+    // la peticion antes realizada para volver a hacer otra peticion (Solo vamos a tener una llamada de este metodo a la vez)
+    if( this.trendingGifsLoading() ) return;
+
+    // Aqui quere decir que ya entro una solicitud y lo cambiamos a True para que no entren mas solicitudes y bloquear este metodo
+    this.trendingGifsLoading.set(true);
+
     // Usamos la variable de entorno donde configuramos el URL principal, luego la parte que sigue, los parametros que requiere se los mandamos entre {}
     this.http.get<GiphyResponse>(`${ environment.giphyUrl }/gifs/trending`, {
       params: {
         // Les damos el mismo nombre que viene en la URL
         api_key: environment.giphyApiKey,
         limit: 20, // Esta es la cantidad de Gifs que queremos
+        // Tenemos que sacar cual pagina queremos mostrar, esto esta en "offset" dado de la Signal que acabamos de crear y le multiplicamos la cantidad que ya avanzo de elementos
+        offset: this.trendingPage() * 20,
       }
       // La peticion se va a disparar hasta que llamemos el metodo "suscribe" y mandaremos un callback donde recibimos la respuesta de la peticion
     }).subscribe( (resp) => {
       // console.log({ resp });
       // Podemos implementar la logica aqui pero mejor nos creamos un objeto que nos permita hacer la transformacion (Mapper) para obtener solo los datos que nos interesa
       const gifs = GifMapper.mapGiphyItemToGifArray( resp.data );
-      this.trendingGifs.set(gifs);
+      // Con ".set" estabamos sobrescribiendo el valor actual de la signal y requerimos el valor previo de la Signal para insertar los nuevos Gifs, no ocupamos sobrescribirlos sino añadirlos
+      // con "update" le mandamos por funcion los Gifs anteriores y con [] regresamos inmediatamente un arreglo
+      this.trendingGifs.update(currentGifs => [
+        ...currentGifs, // esparcimos los gifs anteriores
+        ...gifs // agregamos los gifs que vienen de la peticion
+      ]);
 
-      // Despues de obtener los datos
+      // Incrementamos el numero de pagina para que no nos salga la misma pagina por tanto los mismos gifs repetidos
+      this.trendingPage.update( currentPage => currentPage + 1 );
+
+      // Despues de obtener los datos (Aqui ya tenemos que cuando terminamos la peticion lo regresamos a False)
       this.trendingGifsLoading.set(false);
     });
     // En la documentacion veremos que en el GIFs obtendremos un Observable de retorno, este es un patron de Diseño que nos dice que un objeto puede estar emitiendo valores

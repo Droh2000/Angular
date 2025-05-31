@@ -43,3 +43,18 @@ Giphy API
     * ViewPoint
     * Tamano del contenido
     * scrollHeight
+
+  Cuando el usuario este cerca del final del scroll vamos a hacer otra peticion para traer mas gif y mostrar a continuacion de los que ya se tenian
+  asi daremos la creencia de que tenemos un scroll infinito
+  por la forma en que esta creado la API de Giphy, al endpoint que estamos usando le pasamos estos parametros:
+    - limit: 20 (Estos son la cantidad de registros que queremos)
+    - offset: 0 (En este caso queremos que salte los primeros 0 registros nos traiga 20, esto equivaldria a la primera pagina)
+  Si tenemos:
+    - limit: 20
+    - offset: 20
+      (Esto seria estar en la pagina 2 para que se salte los primeros 20 registros pero nos traiga 20 nuevos registros)
+  La pagina 3 seria:
+    - limit: 20
+    - offset: 40
+  Entonces lo que tenemos que hacer es determinar el Offset para sacar la pagina actual
+

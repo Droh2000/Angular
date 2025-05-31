@@ -55,6 +55,10 @@ export default class TrendingPageComponent {
     // empezemos a hacer otra peticion para traer mas GIF y dar la imprecion que tenemos un Scroll infinito
     const isBottom = scrollTop + clientHeight + 300 >= scrollHeight;
 
+    // Disparamos la peticion cuando llegamos casi al final del Scroll
+    if( isBottom ){
+      this.GifService.loadTrendingGifs();
+    }
   }
 
   // Mostrar los Gifs en pantalla
