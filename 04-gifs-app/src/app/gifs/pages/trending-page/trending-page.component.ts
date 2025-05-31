@@ -30,7 +30,7 @@ export default class TrendingPageComponent {
   // Tomamos la referencia al HTML que pusimos en el "component" con "#", tenemos dos elementos para tomar referencias a piezas del HTML
   // viewChild es solo para un elemento, y el viewChildren es para cuando tenemos varios elementos, entre comillas le pasamos el selector
   // que creamos
-  scrollDivRef = viewChild<ElementRef>('groupDiv');
+  scrollDivRef = viewChild<ElementRef<HTMLDivElement>>('groupDiv');
 
   // Esto se ejecutara cada vez que hagamos Scroll
   onScroll( event: Event ){
@@ -38,6 +38,22 @@ export default class TrendingPageComponent {
     // todavia no existe el HTML
     const scrollDiv = this.scrollDivRef()?.nativeElement;
 
+    // Verificamos si no exste el Scroll solo se salga de la funcion
+    if( !scrollDiv ) return;
+
+    // Sacamos la posicion que ocupamos del scroll
+    const scrollTop = scrollDiv.scrollTop;
+    // Sacamos cuanto espacio en la pantalla tenemos (viewPoint)
+    const clientHeight = scrollDiv.clientHeight;
+    // Sacamos el scroll posible que podemos hacer
+    const scrollHeight = scrollDiv.scrollHeight;
+
+    // Tenemos que tomar lo que hemos hecho de scroll mas lo que tenenmos del "scrollheight" y si eso supera el valor total que se puede hacer de scroll
+    // ahi es cuando estamos llegando a la final de la pantalla
+    // scrollTotal = scrollTop + clientHeight
+    // Con esta variable detectamos si estamos al final, le sumamos un valor para detectar cuando ya esta cerca del final y no en el final, para que asi
+    // empezemos a hacer otra peticion para traer mas GIF y dar la imprecion que tenemos un Scroll infinito
+    const isBottom = scrollTop + clientHeight + 300 >= scrollHeight;
 
   }
 

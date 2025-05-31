@@ -35,3 +35,11 @@ Giphy API
   Vamos a hacer que se almacene donde dejo el scroll el usuario para que cuando salga y vuelva a entrar a la pagina, se mantenga el Scroll donde
   lo dejo, para esto ocupamos la referencia a todo el elemento que contiene los Gifs, eso seria el DIV principal que tenemos en "trending-page.component.html"
   porque este sabe el tamaño del elemento
+
+  Para lograr esto tenemos la pantalla que ve el usuario, esto se conoce como Viewpoint, supongamos que es de 600px de alto, cuando el usuario hace scroll en un elemento que pasa de los
+  600px lo que sucede es que ese contenido (Que podria ser un DIV) es mas grande de lo que se puede ver y al hacer scroll se mueve hasta que esta cerca del final
+  supongamos que ese DIV es de uno 1200px, ahora hay que detectar el nivel del scroll en el que nos encontramos por ejemplo saber cuanto ya hemos bajado del total del elemento
+  y eso es conocido como el ScrollHeight este nos indica cual es el espacio que le hemos hecho scroll. Estas son las 3 variables que vamos a ocupar:
+    * ViewPoint
+    * Tamano del contenido
+    * scrollHeight
