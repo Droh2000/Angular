@@ -58,3 +58,16 @@ Giphy API
     - offset: 40
   Entonces lo que tenemos que hacer es determinar el Offset para sacar la pagina actual
 
+  Depuracion de la aplicacion
+    Para esto en el navegador debemos de tener instalada la exencion de las Angular DevTools
+    ahi podremos ver el arbol de componentes, al dar click en uno de los componentes podemos ver las properties que tiene
+    y analizar como estan cada uno de los objetos que tiene
+
+    Usualmente lo que mejor vamos a querer usar son los Breackpoints
+      Lo primero es color el punto rojo en la linea de codigo que queremos dentro del VS code
+      Precionamos F5
+      Esto nos abrira otra instancia del navegador y en el VS Code tendremos ya la aplicacion pausada y los datos de las variables
+
+    Otra forma es disparar el Debuger del navegador, solo que ahi si tenemos que agregar el siguiente codigo en la parte donde queremos debugear
+      debugger;
+    Esto nos mandara a las DevTools del navegador donde podemos hacer toda la depuracion desde el navegador
