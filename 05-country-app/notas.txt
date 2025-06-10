@@ -1,0 +1,5 @@
+En este proyecto instalamos:
+  * TailwindCSS
+  * DaisyUi: Esta libreria nos expande la parte de Tailwind, poner colores primarios, secundarios, infos, success,
+             manejando de manera mas comoda, pero tambien ya tiene varios componentes creados
+  TailwindCSS + DaisyUi -> Solo nos crea al final un CSS con las clases que estamos utilizando en el proyecto, no se importan todas las clases de las librerias
