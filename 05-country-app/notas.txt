@@ -10,3 +10,9 @@ Routas para el caso de la carpeta Country
   es posible que una persona estubiera toda encargada del modulo Country y asi si tubieramos muchos otros modulos modificandose al mismo tiempo
   que no queremos que nos esten tocando el mismo archivo de las rutas porque nos puede causar conflictos
     Asi que dentro del modulo Countro nos creamos el archivo de rutas, donde tenemos las rutas especificas para el modulo de country
+
+Layout: Es un componente que usualmente es usado para darle un estilo a todas las paginas hijas, la idea es que tengamos componentes
+      que lucen como paginas pero envuelven otras pantallas
+  * Dentro de Country nos creamos una carpeta para eso
+    Para acceder a la ruta:
+      - localhost/country/by-capital
