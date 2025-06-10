@@ -16,3 +16,9 @@ Layout: Es un componente que usualmente es usado para darle un estilo a todas la
   * Dentro de Country nos creamos una carpeta para eso
     Para acceder a la ruta:
       - localhost/country/by-capital
+
+En resumen del Directorio (Dentro de Country):
+  * Components: Son piezas de codigo reutilizables
+  * Layouts: Estos son para identificar cuales son los que tienen un Router-Outlet
+  * Pages:  Paginas donde se mostrara lo que queremos que vea el usuario
+Al final todos son componentes de Angular
