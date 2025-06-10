@@ -1,3 +1,10 @@
 
-
-<router-outlet/>
+<!-- Arreglamos el formato de los Footer para que este abajo siempre -->
+ <main class="m-auto flex-grow flex flex-col min-h-screen">
+    <router-outlet/>
+    <div class="flex-1 flex-grow"></div>
+    <!--
+      El Lugar para que en todas las pantallas salgan los elementos HTML, aqui es donde se colocan
+    -->
+    <app-footer/>
+</main>
