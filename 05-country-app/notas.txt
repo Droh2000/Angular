@@ -3,3 +3,10 @@ En este proyecto instalamos:
   * DaisyUi: Esta libreria nos expande la parte de Tailwind, poner colores primarios, secundarios, infos, success,
              manejando de manera mas comoda, pero tambien ya tiene varios componentes creados
   TailwindCSS + DaisyUi -> Solo nos crea al final un CSS con las clases que estamos utilizando en el proyecto, no se importan todas las clases de las librerias
+
+Routas para el caso de la carpeta Country
+  Sabemos que vamos a tener mas paginas en Country dentro de la carpeta Pages, pero no queremos definir todas esas rutas en el archivo de
+  app.routes.ts debido a que son rutas que queremos que controle el propio modulo de Country y si estubieramos en un equipo colavorativo
+  es posible que una persona estubiera toda encargada del modulo Country y asi si tubieramos muchos otros modulos modificandose al mismo tiempo
+  que no queremos que nos esten tocando el mismo archivo de las rutas porque nos puede causar conflictos
+    Asi que dentro del modulo Countro nos creamos el archivo de rutas, donde tenemos las rutas especificas para el modulo de country
