@@ -3,14 +3,9 @@ import { SearchInputComponent } from "../../components/search-input/search-input
 import { CountryListComponent } from "../../components/country-list/country-list.component";
 
 @Component({
-  selector: 'app-by-capital-page',
+  selector: 'app-by-country',
   imports: [SearchInputComponent, CountryListComponent],
-  templateUrl: './by-capital-page.component.html',
+  templateUrl: './by-country-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ByCapitalPageComponent {
-  // Queremos que cuando alguien escribe o preciona enter, debemos emitir cual es el valor seleccionado o que la persona escribio
-  onSearch(value: string){
-    console.log( value );
-  }
-}
+export class ByCountryPageComponent { }

@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 import { ByCapitalPageComponent } from './pages/by-capital-page/by-capital-page.component';
 import { CountryLayoutComponent } from './layouts/CountryLayout/CountryLayout.component';
+import { ByCountryPageComponent } from './pages/by-country-page/by-country-page.component';
+import { ByRegionPageComponent } from './pages/by-region-page/by-region-page.component';
+import { CountryPageComponent } from './pages/country-page/country-page.component';
 
 export const countryRoutes: Routes = [
   {
@@ -16,7 +19,21 @@ export const countryRoutes: Routes = [
         // Podriamos implementar carga perezosa pero suponemos que tan pronto cargue este modulo ya tenga listo este componente
         component: ByCapitalPageComponent
       },
-
+      {
+        path: 'by-country',
+        // Podriamos implementar carga perezosa pero suponemos que tan pronto cargue este modulo ya tenga listo este componente
+        component: ByCountryPageComponent
+      },
+      {
+        path: 'by-region',
+        // Podriamos implementar carga perezosa pero suponemos que tan pronto cargue este modulo ya tenga listo este componente
+        component: ByRegionPageComponent
+      },
+      // Pagina con argumentos dinamicos
+      {
+        path: 'by/:country',
+        component: CountryPageComponent
+      },
       // Redireccion si no es ninguna de las rutas hijas
       {
         path: '**',

@@ -1,0 +1,26 @@
+<!-- Vamos a poder buscarlos por capital y mostrar los paises en una tabla
+      "#txtSearch" -> Es una referencia Local
+      (keyup.enter) -> Para cuando alguien preciona enter, como solo queremos emitir la caja de texto y no hay ninguna validacion previa
+                       solo con llamar el "value.emit" emitimos ese valor asi como esta
+
+                       Si quisieramos implementar alguna validacion o alguna logica nos tendriamos que crear un metodo en el componente y ejecutar las validaciones
+      [placeholder] -> Es el parametro que puede recibir el componente para cambiar el texto segun lo que se busque
+-->
+ <section class="flex flex-row gap-2 mt-2">
+  <input
+    type="text"
+    class="input input-bordered mr-2 w-56"
+    [placeholder]="placeholder()"
+    autofocus
+    #txtSearch
+    (keyup.enter)="value.emit(txtSearch.value)"
+  />
+  <!--
+      Para tener una relacion directa del boton con el campo, llamamos aqui la misma funcion que creamos
+      pasandole la referencia local (Asi al precionar enter es como si precionaramos click en el boton)
+  -->
+  <button
+    class="btn btn-primary"
+    (click)="value.emit(txtSearch.value)"
+  >Buscar</button>
+ </section>
