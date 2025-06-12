@@ -40,3 +40,7 @@ Por la forma en la que esta creado el API
 Nosotros podemos trabajar directamente con el objeto de respuesta al consumir la API pero asi estamos sujetos que si en el futuro cambian
 el nombre de alguna propiedad nos dara errores,asi que nos vamos a crear un mapper y la interface respectiva
 para tomar esa data y transformarla
+
+Como el API nos lanza mensajes de errores cuando pasan ciertos esecenarios, tenemos que manejarlo
+Toda la logica que implementamos aqui para manejar el error, en la version mas nueva de Angular tenemos un objeto que nos ayuda a reducir esta cantidad de codigo
+

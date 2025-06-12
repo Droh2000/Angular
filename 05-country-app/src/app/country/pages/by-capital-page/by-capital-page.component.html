@@ -12,4 +12,8 @@
     (El argumento va entre [] para poder mandar la informacion) y como de donde viene la informacion es una
     signal ponemos ()
 -->
-<country-list [countries]="countries()"/>
+@if (isError()) {
+  <h3>{{ isError() }}</h3>
+}@else{
+  <country-list [countries]="countries()"/>
+}

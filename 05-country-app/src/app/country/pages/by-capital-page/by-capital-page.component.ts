@@ -33,12 +33,23 @@ export class ByCapitalPageComponent {
 
     // La peticion solo se dispara hasta que nos suscribamos de donde obtenemos la respuesta
     this.countryService.searchByCapital(query)
-      .subscribe((countries) => {
-        this.isLoading.set(false);
-        this.countries.set(countries);
-
-        // Este no es el lugar de hacer el mapper porque sino tendriamos que emplearlo en todos los lugares donde se usa el servicion
-        // Aqui hacemos el procedimiento de la verificacion en el suscribe
+      // Este no es el lugar de hacer el mapper porque sino tendriamos que emplearlo en todos los lugares donde se usa el servicion
+      // Aqui hacemos el procedimiento de la verificacion en el suscribe
+      .subscribe({
+        // Aqui le podemos enviar varias propiedades, "next" es cuando todo sale bien y vamos a tener el siguiente valor del observable
+        // "error" es para cuando pasa una excepcion y el "completed" va a suceder cuando pase el error o el next
+        next: (countries) => {
+          this.isLoading.set(false);
+          this.countries.set(countries);
+        },
+        error: (err) => {
+          this.isLoading.set(false);
+          this.countries.set([]);
+          // En "err" esta el mensaje que pusimos en el RXJS que captura el error del "country.service"
+          this.isError.set(err);
+        }
+        // Aqui vemos como manejamos la excepcion del obervable y la forma de mostrar este en mensaje en pantalla tenemos que meterle logica a la pagina
+        // lo que nos complica la existencia, para esto tenemos varias formar de manejar una excepcion en un obervable (Para esto lo implementamos en el Service)
       });
   }
 }

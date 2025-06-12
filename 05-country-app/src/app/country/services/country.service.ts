@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RESTCountry } from '../interfaces/rest-countries.interface';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import type { Country } from '../interfaces/country.interface';
 import { CountryMapper } from '../mappers/country.mapper';
 
@@ -28,7 +28,13 @@ export class CountryService {
           // El primero valor que le pasemos el MAP es el valor del observable, si llamamos mas MAP, cada map va a recibir el valor del map anterior
           // Aqui vamos a regresar las propiedades que solo nos interesa
           map((restCountries) =>
-            CountryMapper.mapRestCountryArrayToCountryArray(restCountries)
+            CountryMapper.mapRestCountryArrayToCountryArray(restCountries),
+            // En Angular tenemos este componente para Atrapar los errores de mejor forma
+            catchError((error) => {
+              // Tenemos que lanzar un error aqui para que se detenga la ejecucion, con esta funcion RXJS nos genera un valor de un observable
+              // que hasta aqui no llega la ejecucion y la termina
+              return throwError(() => Error('No se pudo obtener los paises'));
+            }),
           )
         );
   }
