@@ -25,7 +25,16 @@
             </td>
             <td>{{ country.name }}</td>
             <td>{{ country.capital }}</td>
-            <td>{{ country.population }}</td>
+            <!-- Le vamos a dar formato a la cifra que se nos muestra de la poblacion para que sea facil de leer
+                En angular ya nos proporciona esto que son los Pipes para dar una transformacion solo visual
+                es decir no sera un cambio interno en la data
+                Para usarlo colocamos el "|"
+            -->
+            <td>
+              <span class="badge badge-secondary">
+                {{ country.population | number }}
+              </span>
+            </td>
             <td>
               <a class="link-primary cursor-pointer">Mas Informacion</a>
             </td>
