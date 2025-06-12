@@ -22,3 +22,10 @@ En resumen del Directorio (Dentro de Country):
   * Layouts: Estos son para identificar cuales son los que tienen un Router-Outlet
   * Pages:  Paginas donde se mostrara lo que queremos que vea el usuario
 Al final todos son componentes de Angular
+
+En esta ocacion vamos a ver una mejor forma de consumir APIs, ya que en las version mas nueva de angular tenemos objetos
+relacionados con los Signal donde es mas facil en consumo de servicios Rest
+  Para este caso vamos a consumir el servicio de
+    - https://restcountries.com/
+  Cuando consumismo el Endpoint para obtener la capital vemos que nos regresa un arreglo de todo el objeto con toda la informacion del pais, incluyendo los nombres en diferentes indiomas
+  Si ponemos otra palabra que no corresponda a una capital en particular veremos que nos regresara varios objetos porque nos esta regresando todas las capitales que hacen match con esa palabra
