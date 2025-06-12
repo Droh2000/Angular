@@ -36,7 +36,12 @@
               </span>
             </td>
             <td>
-              <a class="link-primary cursor-pointer">Mas Informacion</a>
+              <!-- Agregamos la navegacion al enlace para mostrar la informacion especifica del pais -->
+              <a
+                [routerLink]="['/country/by', country.cca2]"
+                class="link-primary cursor-pointer">
+                Mas Informacion
+              </a>
             </td>
           </tr>
         }

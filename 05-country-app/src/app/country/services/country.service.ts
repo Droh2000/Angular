@@ -38,4 +38,19 @@ export class CountryService {
           )
         );
   }
+
+  // Otro endpoint para obtener los paises
+  searchByCountry( query: string ): Observable<Country[]>{
+    query = query.toLowerCase();
+    return this.http.get<RESTCountry[]>(`${API_URL}/name/${query}`)
+        .pipe(
+          map((restCountries) =>
+            CountryMapper.mapRestCountryArrayToCountryArray(restCountries),
+            catchError((error) => {
+              return throwError(() => Error(`No se pudo obtener los paises con el query: ${query}`));
+            }),
+          )
+        );
+  }
+
 }
