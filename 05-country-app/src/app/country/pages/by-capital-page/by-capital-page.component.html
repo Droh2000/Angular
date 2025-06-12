@@ -1,19 +1,27 @@
 <!--
     Componente del buscador donde el texto que muestre segun lo que queremos buscar
     Con el (value) le pasamos el valor que emita el input con el "event" a la funcion onSearch
+
+    Para asegurarnos que el "query" del request en el Resource va a cambiar conforme su valor cambie
+    por eso llamamos el query.set y le mandamos su valor respectivo (Aqui estamos estableciendo el valor del Query)
 -->
 <country-search-input
   placeholder="Buscar por capital"
-  (value)="onSearch($event)"
+  (value)="query.set($event)"
 />
 
 <!--
     Despues de la busquedad requerimos pasarle la informacion de los paises a este componente
     (El argumento va entre [] para poder mandar la informacion) y como de donde viene la informacion es una
     signal ponemos ()
+
+  Despues de la implementacion en el componente usamos el "countryResources" para detectar si hay un error
 -->
-@if (isError()) {
-  <h3>{{ isError() }}</h3>
-}@else{
-  <country-list [countries]="countries()"/>
+@if ( countryResource.error() ) {
+  <h3>{{ countryResource.error() }}</h3>
+  <!-- Asi sacariamos la lista de paises solo que esto puede ser undefined porque puede que en un determinado valor en el tiempo
+      no haiga valores, asi que hacemos esta evaluacion para asegurarnos que tenga un valor
+  -->
+}@if( countryResource.hasValue() ){
+  <country-list [countries]="countryResource.value()!"/>
 }

@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, resource, signal } from '@angular/core';
 import { SearchInputComponent } from "../../components/search-input/search-input.component";
 import { CountryListComponent } from "../../components/country-list/country-list.component";
 import { CountryService } from '../../services/country.service';
 import { RESTCountry } from '../../interfaces/rest-countries.interface';
 import { Country } from '../../interfaces/country.interface';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-by-capital-page',
@@ -14,7 +15,7 @@ import { Country } from '../../interfaces/country.interface';
 export class ByCapitalPageComponent {
   // Despues de configurar el servicio en el "app.config.js" podemos proveer el servicio aqui que llama los Endpoints
   countryService = inject(CountryService);
-
+  /*
   // Para mostrar la informacion tenemos que saber varias etapas en nuestra aplicacion
   isLoading = signal(false); // Para cuando estamos buscando informacion
   isError = signal<string|null>(null);// Cuando tengamos un error que puede que tengamos en string el codigo del error y null si no hay nada
@@ -51,5 +52,42 @@ export class ByCapitalPageComponent {
         // Aqui vemos como manejamos la excepcion del obervable y la forma de mostrar este en mensaje en pantalla tenemos que meterle logica a la pagina
         // lo que nos complica la existencia, para esto tenemos varias formar de manejar una excepcion en un obervable (Para esto lo implementamos en el Service)
       });
-  }
+    }
+  */
+
+  // Desde la mas nueva version de angular +19 -> Esta es la funcion Resources
+  // a esta le mandamos un objeto de configuracion, entre sus parametros esta la "request"
+  // que es una funcion donde vamos a poder la serie de argumentos que queremos que pase en la funcion loader
+  // esta funcion es la otra propiedad "loader" que es la que hace el trabajo asyncrono, asi cada vez
+  // que cambiemos el valor de una signal automaticamente va a volver a disparar el loader con los valores que
+  // cambiaron de esa signal
+
+  query = signal("");
+
+  // Los Recursos tienen varias propiedades
+  countryResource = resource({
+    // Aqui ocupamos que sea el Query de busquedad, donde cada vez que alguien precione enter o cambie de valor aqui vamos a tener actualizado
+    request: () => ({
+      query: this.query()
+    }),
+    // Esto es lo que nosotros queremos disparar
+    // Si desestructuramos los argumentos de la funcion obtenemos varios elementos: "abortSignal" es para el caso en el que queremos cancelar la peticion para hacer una nueva
+    // "previus" es el valor anterior, "request" es la respuesta que obtenemos lo que especificamos en el "request" en este caso solo es el Query y por eso son signal porque asi son
+    // reactivos que cuando cambia algun Signal cambia el "resources" y se vuelve a disparar
+    loader: async ({ request }) => {
+
+      // Al usar el "request" veremos que nos sale en el autocompletdo
+      // Si el usuario no escribio nada entonces no hay que regresar nada
+      if( !request.query ) return [];
+
+      // Si tenemos una respuesta hacemos la peticion HTTP
+      //  return this.countryService.searchByCapital(request.query);
+      // La linea de arriba nos regresa un Resource que sera un arreglo vacio o un Observable que emite un ubjeto de Country, esto no esta muy bien
+      // cuando trabajamos con el Reources tenemos que regresar promesas pero aqui vamos a ver como hacerlo con Obervables
+      // Con este RXJS podemos convertir cualquier observable en una promesa (Tomando el primero valor que emita)
+      return await firstValueFrom(
+        this.countryService.searchByCapital( request.query )
+      );
+    }
+  });
 }
