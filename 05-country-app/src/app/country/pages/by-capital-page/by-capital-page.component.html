@@ -1,6 +1,10 @@
 <!--
     Componente del buscador donde el texto que muestre segun lo que queremos buscar
+    Con el (value) le pasamos el valor que emita el input con el "event" a la funcion onSearch
 -->
-<country-search-input placeholder="Buscar por capital"/>
+<country-search-input
+  placeholder="Buscar por capital"
+  (value)="onSearch($event)"
+/>
 
 <country-list/>

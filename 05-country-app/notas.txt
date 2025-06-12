@@ -29,3 +29,14 @@ relacionados con los Signal donde es mas facil en consumo de servicios Rest
     - https://restcountries.com/
   Cuando consumismo el Endpoint para obtener la capital vemos que nos regresa un arreglo de todo el objeto con toda la informacion del pais, incluyendo los nombres en diferentes indiomas
   Si ponemos otra palabra que no corresponda a una capital en particular veremos que nos regresara varios objetos porque nos esta regresando todas las capitales que hacen match con esa palabra
+
+Usamos la carpeta Services que teniamos porque nos vamos a crear un servicio
+  - Esto es para tener centralizado el lugar de donde salen las peticiones HTTP para traer los datos
+  Creamos el servicio con la extencion de Angular Schematics.
+
+Por la forma en la que esta creado el API
+  Si ponemos algo que no existe nos marcara un error de 404
+  Si mandamos la cadena vacia nos marcara un Error
+Nosotros podemos trabajar directamente con el objeto de respuesta al consumir la API pero asi estamos sujetos que si en el futuro cambian
+el nombre de alguna propiedad nos dara errores,asi que nos vamos a crear un mapper y la interface respectiva
+para tomar esa data y transformarla
