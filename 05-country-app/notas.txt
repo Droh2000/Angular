@@ -44,3 +44,4 @@ para tomar esa data y transformarla
 Como el API nos lanza mensajes de errores cuando pasan ciertos esecenarios, tenemos que manejarlo
 Toda la logica que implementamos aqui para manejar el error, en la version mas nueva de Angular tenemos un objeto que nos ayuda a reducir esta cantidad de codigo
 
+Tenemos el objeto rxResource hace lo mismo que el Resource pero este nuevo si trabaja con observables
