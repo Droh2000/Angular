@@ -1,5 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { RESTCountry } from '../interfaces/rest-countries.interface';
+import { map, Observable } from 'rxjs';
+import type { Country } from '../interfaces/country.interface';
+import { CountryMapper } from '../mappers/country.mapper';
 
 const API_URL = 'https://restcountries.com/v3.1';
 
@@ -14,9 +18,18 @@ export class CountryService {
 
   // Aqui hacemos las peticiones HTTP
   // El argumento es el query de busquedad
-  searchByCapital( query: string ){
+  searchByCapital( query: string ): Observable<Country[]>{
     query = query.toLowerCase();
-    // Este es el Endpoint de la API
-    return this.http.get(`${API_URL}/capital/${query}`);
+    // Este es el Endpoint de la API (LE especificamos el tipo de dato que el Observable nos emitira)
+    return this.http.get<RESTCountry[]>(`${API_URL}/capital/${query}`)
+        // Uso del mapper (Para tener solo la informacion que vamos a usar y no todas las propiedades)
+        // Usamos los operadores de RXJS, con el "pipe" podemos hacer cosas cuando el observable nos emita un valor
+        .pipe(
+          // El primero valor que le pasemos el MAP es el valor del observable, si llamamos mas MAP, cada map va a recibir el valor del map anterior
+          // Aqui vamos a regresar las propiedades que solo nos interesa
+          map((restCountries) =>
+            CountryMapper.mapRestCountryArrayToCountryArray(restCountries)
+          )
+        );
   }
 }

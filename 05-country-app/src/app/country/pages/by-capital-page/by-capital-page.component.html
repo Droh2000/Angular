@@ -7,4 +7,9 @@
   (value)="onSearch($event)"
 />
 
-<country-list/>
+<!--
+    Despues de la busquedad requerimos pasarle la informacion de los paises a este componente
+    (El argumento va entre [] para poder mandar la informacion) y como de donde viene la informacion es una
+    signal ponemos ()
+-->
+<country-list [countries]="countries()"/>
