@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RESTCountry } from '../interfaces/rest-countries.interface';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, delay, map, Observable, throwError } from 'rxjs';
 import type { Country } from '../interfaces/country.interface';
 import { CountryMapper } from '../mappers/country.mapper';
 
@@ -46,6 +46,9 @@ export class CountryService {
         .pipe(
           map((restCountries) =>
             CountryMapper.mapRestCountryArrayToCountryArray(restCountries),
+            // Hasta el momento la pagina carga muy rapido y no da tiempo de poner un Loading, asi que vamos a relentizar para ponerlo como demostracion
+            // Con esta funcion podemos relentizar por algun tiempo en base a una fecha o una tarea
+            // delay(3000),
             catchError((error) => {
               return throwError(() => Error(`No se pudo obtener los paises con el query: ${query}`));
             }),

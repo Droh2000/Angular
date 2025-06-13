@@ -3,9 +3,19 @@
   (value)="query.set($event)"
   placeholder="Buscar por pais"
 />
-
+<!--
 @if ( countryResource.error() ) {
   <h3>{{ countryResource.error() }}</h3>
 }@if( countryResource.hasValue() ){
   <country-list [countries]="countryResource.value()!"/>
 }
+
+Quitamos la logica compleja para ver como lo podemos hacer mas facil
+pero en este caso si no obtenemos un valor le mandamos un arreglo vacio
+-->
+<country-list
+  [countries]="countryResource.value() ?? []"
+  [errorMessage]="countryResource.error()"
+  [isEmpty]="countryResource.value()?.length === 0"
+  [isLoading]="countryResource.isLoading()"
+/>

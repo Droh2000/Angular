@@ -45,6 +45,31 @@
             </td>
           </tr>
         }
+
+        <!-- Verificamos si estamos recibiendo los parametros -->
+         @if (errorMessage()) {
+          <tr>
+            <td colspan="8" class="text-center">
+              {{ errorMessage() }}
+            </td>
+          </tr>
+         }
+         <!-- Si no hay paises -->
+        @if (countries().length === 0 && !isLoading()) {
+          <tr>
+            <td colspan="8" class="text-center">
+              No se encontraron resultados
+            </td>
+          </tr>
+         }
+         <!-- Si esta cargando podemos mostrar un Loading -->
+        @if (isLoading()) {
+          <tr>
+            <td colspan="8" class="text-center">
+              Buscando Paises...
+            </td>
+          </tr>
+         }
       </tbody>
     </table>
  </section>

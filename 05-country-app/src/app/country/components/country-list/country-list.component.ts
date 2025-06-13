@@ -16,4 +16,11 @@ export class CountryListComponent {
   // Aqui vemos que si usamos la interface (RESTCountry[]) de los tipos de datos originales de la API, nuestra aplicacion se vuelve muy dependiente
   // de un ente externo que no controlamos
   countries = input.required<Country[]>();
+
+  // Vamos a poder recibir otro tipo de informacion
+  // Especificamente recibimos los argumentos de si <esta cargando, error y si esta vacio
+  // al no especificarle algun valor entre los parentesis podremos recibir un undefined
+  errorMessage = input<string|unknown|null>();// Tenemos que especificarle estos tipos de datos para que no nos de error al usar el componente
+  isLoading = input<boolean>(false);
+  isEmpty = input<boolean>(false);
 }

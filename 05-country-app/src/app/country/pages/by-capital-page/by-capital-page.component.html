@@ -16,12 +16,19 @@
     signal ponemos ()
 
   Despues de la implementacion en el componente usamos el "countryResources" para detectar si hay un error
--->
+
 @if ( countryResource.error() ) {
   <h3>{{ countryResource.error() }}</h3>
-  <!-- Asi sacariamos la lista de paises solo que esto puede ser undefined porque puede que en un determinado valor en el tiempo
+    Asi sacariamos la lista de paises solo que esto puede ser undefined porque puede que en un determinado valor en el tiempo
       no haiga valores, asi que hacemos esta evaluacion para asegurarnos que tenga un valor
-  -->
+
 }@if( countryResource.hasValue() ){
   <country-list [countries]="countryResource.value()!"/>
 }
+-->
+<country-list
+  [countries]="countryResource.value() ?? []"
+  [errorMessage]="countryResource.error()"
+  [isEmpty]="countryResource.value()?.length === 0"
+  [isLoading]="countryResource.isLoading()"
+/>
