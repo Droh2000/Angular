@@ -56,4 +56,20 @@ export class CountryService {
         );
   }
 
+  // Queremos acceder a la informacion de un usuario en especifico si entramos a la url establecida como: /country/by/ID-Pais
+  searchCountryByAlphaCode( code: string ) {
+    // Siempre recibimos un "RESTCountry" porque asi esta creado el API y ademas en Arreglo
+    return this.http.get<RESTCountry[]>(`${API_URL}/alpha/${code}`).pipe(
+        map((resp) => CountryMapper.mapRestCountryArrayToCountryArray(resp)),
+        // Como seguimos recibiendo un arreglo pero solo queremos regresar un pais, asi que del arreglo regresamos solo el primer elemento
+        // pero si no se encuentra nada nos puede dar undefined
+        map((countries) => countries.at(0)),
+        catchError((error) => {
+            console.log(error);
+            return throwError(
+              () => Error(`No se pudo obtener los paises con el codigo: ${code}`)
+            );
+          })
+        );
+    }
 }
