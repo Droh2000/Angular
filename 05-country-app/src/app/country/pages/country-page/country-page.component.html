@@ -2,15 +2,22 @@
 
 <!-- Si no se encontro un pais -->
  @if( countryResource.error() ){
-  <section class="flex flex-col items-center justify-center mt-10">
-    <h1>No se encontro pais</h1>
-    <a href="" class="link-primary cursor-pointer">Regresar</a>
-  </section>
+  <app-not-found/>
 }
+
+<!-- Si queremos implementar un loading -->
+@if ( countryResource.isLoading() ) {
+  <h1 class="text-3xl">Cargando...</h1>
+}
+
 <!-- Si queremos obtener directamente la informacion del pais del objeto "countryResources" este en un determina tiempo
     estara vacio, y asi estariamos obligados a meter muchas condiciones,
     por ahora lo dejamos como desmotracion
 -->
 @if ( countryResource.hasValue() ) {
-  <h3>Nombre: {{ countryResource.value()!.name }}</h3>
+  <!--
+    Como mostrar el contenido de country-page va a ser mucho y como el contenido va a ser especificamente y unicamente usando
+    en este "country-page" nos creamos otro componente
+  -->
+  <country-information-page [country]="countryResource.value()"/>
 }
