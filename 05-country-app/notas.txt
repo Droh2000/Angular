@@ -48,3 +48,5 @@ Tenemos el objeto rxResource hace lo mismo que el Resource pero este nuevo si tr
 
 En este punto si buscamos un pais, entramos a sus detalles y nos regresamos a los resultados de busquedad perdemos toda esa informacion, ademas de esto volvemos a ejecutar otra vez todo
 el proceso desde hacer la peticion hasta mostrar los datos, por cada vez que queremos volver a mostrar los datos
+
+Vamos a hacer que si escribimos algo para buscar y luego lo borramos y volvemos a escribir lo mismo, no tiene sentido volver a hacer la peticion, asi que vamos a hacer algun Cache

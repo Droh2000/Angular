@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RESTCountry } from '../interfaces/rest-countries.interface';
-import { catchError, delay, map, Observable, of, throwError } from 'rxjs';
+import { catchError, delay, map, Observable, of, tap, throwError } from 'rxjs';
 import type { Country } from '../interfaces/country.interface';
 import { CountryMapper } from '../mappers/country.mapper';
 
@@ -16,10 +16,26 @@ export class CountryService {
   // El lugar donde tenemos que proveerlo es en el "app.config.ts"
   private http = inject(HttpClient);
 
+  // Manejo del Cache
+  // Si realmente requerimos un cambio en el doom porque hay alguna interaccion y ese cambio visualmente tiene que reflejarse por signals o efectos
+  // o algun tipo de procesamiento cuando algo cambia y visualmente verse reflejado, ahi si deberiamos crearnos una Signal para el cache pero en este caso
+  // solo sera una propiedad para cuando manualmente algo se dispare como un servicio o metodo de un servicio entonces ahi podemos acceder a la informacion
+  // como si fuera una variable comun y corriente
+  // Los MAPAS en Js son otro tipo de objeto muy similar a un conjunto (SET), la diferencia es que en los mapas podemos almacenar Pares de clave-valor
+  // y los Set podemos almacenar valores unicos
+  private queryCacheCapital = new Map<string, Country[]>();
+
   // Aqui hacemos las peticiones HTTP
   // El argumento es el query de busquedad
   searchByCapital( query: string ): Observable<Country[]>{
     query = query.toLowerCase();
+
+    // Verificamos si ya tenemos un valor en el cache que concida con lo que se esta buscando
+    if( this.queryCacheCapital.has(query) ){
+      // Obtenemos la informacion que tenemos en el mapa y regresamos un Observable
+      // si no tenemos nada que nos regrese un arreglo vacio
+      return of( this.queryCacheCapital.get(query) ?? []);
+    }
 
     // Vamos a hacer que en el momentos cuando escribimos algo y terminamos de hacerlo, automaticamente empieze a buscar
     // Nos salimos sin llegar al backend (Usamos esta funcion de RXJS para transformar el elementos al Observable que esperamos regresar)
@@ -36,14 +52,15 @@ export class CountryService {
           // El primero valor que le pasemos el MAP es el valor del observable, si llamamos mas MAP, cada map va a recibir el valor del map anterior
           // Aqui vamos a regresar las propiedades que solo nos interesa
           map((restCountries) =>
-            CountryMapper.mapRestCountryArrayToCountryArray(restCountries),
+            CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
+            // Efecto secundario para meterle la informacion del Map
+            tap( (countries) => this.queryCacheCapital.set(query, countries)),
             // En Angular tenemos este componente para Atrapar los errores de mejor forma
             catchError((error) => {
               // Tenemos que lanzar un error aqui para que se detenga la ejecucion, con esta funcion RXJS nos genera un valor de un observable
               // que hasta aqui no llega la ejecucion y la termina
               return throwError(() => Error('No se pudo obtener los paises'));
             }),
-          )
         );
   }
 
