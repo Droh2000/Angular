@@ -4,6 +4,7 @@ import { RESTCountry } from '../interfaces/rest-countries.interface';
 import { catchError, delay, map, Observable, of, tap, throwError } from 'rxjs';
 import type { Country } from '../interfaces/country.interface';
 import { CountryMapper } from '../mappers/country.mapper';
+import { Region } from '../interfaces/region.type';
 
 const API_URL = 'https://restcountries.com/v3.1';
 
@@ -25,6 +26,7 @@ export class CountryService {
   // y los Set podemos almacenar valores unicos
   private queryCacheCapital = new Map<string, Country[]>();
   private queryCacheCountry = new Map<string, Country[]>();
+  private queryCacheRegion = new Map<Region, Country[]>();
 
   // Aqui hacemos las peticiones HTTP
   // El argumento es el query de busquedad
@@ -86,6 +88,26 @@ export class CountryService {
               return throwError(() => Error(`No se pudo obtener los paises con el query: ${query}`));
             }),
         );
+  }
+
+  // Peticion HTTP para traernos los paises que coincidan con esa region
+  searchByRegion( region: Region ): Observable<Country[]>{
+    const url = `${API_URL}/region/${region}`;
+
+    if( this.queryCacheRegion.has(region) ){
+      return of( this.queryCacheRegion.get(region) ?? []);
+    }
+
+    return this.http.get<RESTCountry[]>(`${url}`)
+        .pipe(
+          map((restCountries) =>
+            CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
+            tap(countries => this.queryCacheCountry.set(region, countries)),
+            catchError((error) => {
+              return throwError(() => Error(`No se pudo obtener los paises con la region: ${region}`)
+            );
+          }),
+      );
   }
 
   // Queremos acceder a la informacion de un usuario en especifico si entramos a la url establecida como: /country/by/ID-Pais

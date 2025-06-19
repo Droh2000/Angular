@@ -50,3 +50,9 @@ En este punto si buscamos un pais, entramos a sus detalles y nos regresamos a lo
 el proceso desde hacer la peticion hasta mostrar los datos, por cada vez que queremos volver a mostrar los datos
 
 Vamos a hacer que si escribimos algo para buscar y luego lo borramos y volvemos a escribir lo mismo, no tiene sentido volver a hacer la peticion, asi que vamos a hacer algun Cache
+
+En la opcion del menu PorRegion vamos a agregar varios botones por cada una de las regiones para que despues nos muestre en la tabla el listado de los paises que corresponden a esa region
+esto es posible porque tenemos un Endpoint para consultar por regiones
+  * Creamos el metodo en el service que consume el Endpoint
+  * Creamos el metodo para almacenar en cache
+  * El boton se mira visualmente diferentes si esta seleccionado a comparacion del resto no seleccionado
