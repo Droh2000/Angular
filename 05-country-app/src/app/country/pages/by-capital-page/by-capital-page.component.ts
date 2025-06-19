@@ -4,7 +4,7 @@ import { CountryListComponent } from "../../components/country-list/country-list
 import { CountryService } from '../../services/country.service';
 import { RESTCountry } from '../../interfaces/rest-countries.interface';
 import { Country } from '../../interfaces/country.interface';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 
 @Component({
   selector: 'app-by-capital-page',
@@ -78,7 +78,8 @@ export class ByCapitalPageComponent {
 
       // Al usar el "request" veremos que nos sale en el autocompletdo
       // Si el usuario no escribio nada entonces no hay que regresar nada
-      if( !request.query ) return [];
+      // Aqui hay tomar en cuenta que estamos emitiendo un valor de un string vacio
+      if( !request.query ) return of([]);
 
       // Si tenemos una respuesta hacemos la peticion HTTP
       //  return this.countryService.searchByCapital(request.query);

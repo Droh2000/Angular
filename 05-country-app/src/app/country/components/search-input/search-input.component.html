@@ -5,6 +5,8 @@
 
                        Si quisieramos implementar alguna validacion o alguna logica nos tendriamos que crear un metodo en el componente y ejecutar las validaciones
       [placeholder] -> Es el parametro que puede recibir el componente para cambiar el texto segun lo que se busque
+
+      Ahora lo configuramos para que cada vez que la persona escriba emita un valor pero estableciendole el valor de la caja de texto
 -->
  <section class="flex flex-row gap-2 mt-2">
   <input
@@ -14,6 +16,7 @@
     autofocus
     #txtSearch
     (keyup.enter)="value.emit(txtSearch.value)"
+    (keyup)="inputValue.set(txtSearch.value)"
   />
   <!--
       Para tener una relacion directa del boton con el campo, llamamos aqui la misma funcion que creamos

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RESTCountry } from '../interfaces/rest-countries.interface';
-import { catchError, delay, map, Observable, throwError } from 'rxjs';
+import { catchError, delay, map, Observable, of, throwError } from 'rxjs';
 import type { Country } from '../interfaces/country.interface';
 import { CountryMapper } from '../mappers/country.mapper';
 
@@ -20,6 +20,14 @@ export class CountryService {
   // El argumento es el query de busquedad
   searchByCapital( query: string ): Observable<Country[]>{
     query = query.toLowerCase();
+
+    // Vamos a hacer que en el momentos cuando escribimos algo y terminamos de hacerlo, automaticamente empieze a buscar
+    // Nos salimos sin llegar al backend (Usamos esta funcion de RXJS para transformar el elementos al Observable que esperamos regresar)
+    // En el momento que se deja de escribir se hace la peticion HTTP y no la hace por cada lectra que pongamos
+    // Podriamos pensar de colocar esta logica dentro del servicio pero ese no es el sentido del Servicio, es solo hacer peticiones no esa logica
+    // La logica se llama Debounce y el lugar para evitar bombardear el backend lo implementamos en el Input
+    // return of([]);
+
     // Este es el Endpoint de la API (LE especificamos el tipo de dato que el Observable nos emitira)
     return this.http.get<RESTCountry[]>(`${API_URL}/capital/${query}`)
         // Uso del mapper (Para tener solo la informacion que vamos a usar y no todas las propiedades)
