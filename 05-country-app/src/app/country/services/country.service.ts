@@ -24,6 +24,7 @@ export class CountryService {
   // Los MAPAS en Js son otro tipo de objeto muy similar a un conjunto (SET), la diferencia es que en los mapas podemos almacenar Pares de clave-valor
   // y los Set podemos almacenar valores unicos
   private queryCacheCapital = new Map<string, Country[]>();
+  private queryCacheCountry = new Map<string, Country[]>();
 
   // Aqui hacemos las peticiones HTTP
   // El argumento es el query de busquedad
@@ -67,17 +68,23 @@ export class CountryService {
   // Otro endpoint para obtener los paises
   searchByCountry( query: string ): Observable<Country[]>{
     query = query.toLowerCase();
+
+    // Implementacion del cache
+    if( this.queryCacheCountry.has(query) ){
+      return of( this.queryCacheCountry.get(query) ?? []);
+    }
+
     return this.http.get<RESTCountry[]>(`${API_URL}/name/${query}`)
         .pipe(
           map((restCountries) =>
-            CountryMapper.mapRestCountryArrayToCountryArray(restCountries),
+            CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
+            tap(countries => this.queryCacheCountry.set(query, countries)),
             // Hasta el momento la pagina carga muy rapido y no da tiempo de poner un Loading, asi que vamos a relentizar para ponerlo como demostracion
             // Con esta funcion podemos relentizar por algun tiempo en base a una fecha o una tarea
-            // delay(3000),
+            delay(3000),
             catchError((error) => {
               return throwError(() => Error(`No se pudo obtener los paises con el query: ${query}`));
             }),
-          )
         );
   }
 
