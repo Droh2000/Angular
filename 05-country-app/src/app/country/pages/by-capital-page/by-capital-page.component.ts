@@ -1,16 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, resource, signal } from '@angular/core';
+import { Component, inject, linkedSignal, signal } from '@angular/core';
 import { SearchInputComponent } from "../../components/search-input/search-input.component";
 import { CountryListComponent } from "../../components/country-list/country-list.component";
 import { CountryService } from '../../services/country.service';
-import { RESTCountry } from '../../interfaces/rest-countries.interface';
-import { Country } from '../../interfaces/country.interface';
 import { firstValueFrom, of } from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-by-capital-page',
   imports: [SearchInputComponent, CountryListComponent],
   templateUrl: './by-capital-page.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ByCapitalPageComponent {
   // Despues de configurar el servicio en el "app.config.js" podemos proveer el servicio aqui que llama los Endpoints
@@ -62,10 +61,10 @@ export class ByCapitalPageComponent {
   // que cambiemos el valor de una signal automaticamente va a volver a disparar el loader con los valores que
   // cambiaron de esa signal
 
-  query = signal("");
+  // query = signal("");
 
   // Los Recursos tienen varias propiedades
-  countryResource = resource({
+  /*countryResource = resource({
     // Aqui ocupamos que sea el Query de busquedad, donde cada vez que alguien precione enter o cambie de valor aqui vamos a tener actualizado
     request: () => ({
       query: this.query()
@@ -90,5 +89,31 @@ export class ByCapitalPageComponent {
         this.countryService.searchByCapital( request.query )
       );
     }
-  });
+  });*/
+
+  // Tomamos la informacion de la ruta activa ("ActivatedRoute" obtenemos informacion relevante a la ruta), asi podemos obtener todas sus properties
+  activatedRoute = inject(ActivatedRoute);
+  // Este va a venir como argumento opcional en el URL, aqui va a venir lo que el usuario previamente habia buscado
+  // el problema es que la propiedad "queryParamMap" nos regresa un Observable (Esto lo sabemos porque esta el "suscribe") pero si lo podemos transformar a un Signal
+  // todo dependen de que tanta reactividad queremos, ya que si cada vez que cambie el argumento en el URL requerimos detonar la busquedad de nuevo entonces
+  // ahi si convienen hacer una suscripcion para estar pendiente de los cambios pero si solo queremos leer el argumento una vez y de ahi eliminanrla porque ya no nos
+  // interesa podemos usar mejor el metodo "snapshop" que es como una fotografia y no es reactiva de la informacion como esta en ese momento, de ahi podemos tomar el
+  // metodo de "query" (Tenemos dos, e igualmente si usamos los dos directamente nos regresan un Observable)
+  queryParam = this.activatedRoute.snapshot.queryParamMap.get('query')?? ''; // Le decimos que busque el parametro llamado "query" si no viene nos retornara string vacio (Asi nos aseguramos que siempre sea un String)
+
+  // Vamos a inicializar siempre este valor basado en el QueryParam
+  //  query = signal(this.queryParam);
+  // En angular tambien tenemos una mejor a lo de arriba porque podemos generar un Signal con un valor inicializado cuando es computado
+  // Esto es con un LinkednSignal
+  query = linkedSignal(() => this.queryParam);
+
+  // Implementacion con el RXresource para evitarnos errores que teniamos
+  countryResource = rxResource({
+    request: () => ({ query: this.query() }),
+    loader: ({ request }) => {
+      if(!request.query) return of([]);
+
+      return this.countryService.searchByCapital(request.query);
+    }
+  })
 }

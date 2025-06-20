@@ -56,3 +56,8 @@ esto es posible porque tenemos un Endpoint para consultar por regiones
   * Creamos el metodo en el service que consume el Endpoint
   * Creamos el metodo para almacenar en cache
   * El boton se mira visualmente diferentes si esta seleccionado a comparacion del resto no seleccionado
+
+En este momento si buscamos alguna capital entramos a la pagina de detalles del pais y si regresamos a los resultados de busquedad perdemos todos esos datos
+No solo nos vamos en enfocar que en el servicio tengamos una propiedad donde este almacenado el texto que escribio el usuario en la caja de texto y luego mostrar los resultados basados en el cache
+pero que pasa si queremos mandar el URL a una persona para que pueda ver la informacion del resultado de busquedad, se mostrara la pantalla vacia sin datos, seria mejor que podamos mandar un Query
+en la URL como: "?query=Pais" donde ese valor cayera en la barra de busquedad y a la vez se disparara la busquedad para mostrar los resultados en la tabla
