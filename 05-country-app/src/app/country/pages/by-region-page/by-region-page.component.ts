@@ -6,6 +6,24 @@ import { of } from 'rxjs';
 import { CountryService } from '../../services/country.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
+// Validar que el query recibido por la URL sea alguna de las regiones
+function validateQueryParam( queryParam: string ): Region{
+  queryParam = queryParam.toLowerCase();
+
+  // Objeto con las regiones permitidas
+  const validRegions: Record<string, Region> = {
+    'africa': 'Africa',
+    'americas': 'Americas',
+    'asia': 'Asia',
+    'europe': 'Europe',
+    'oceania': 'Oceania',
+    'antarctic': 'Antarctic',
+  }
+
+  // Si no detecta una region valida regresamos Americas por defecto
+  return validRegions[queryParam] ?? 'Americas';
+}
+
 @Component({
   selector: 'app-by-region',
   imports: [CountryListComponent],
@@ -31,12 +49,12 @@ export class ByRegionPageComponent {
   // Aqui requerimos cual fue la region seleccionada para saber cual perservar
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
-  // Esto de as Region es temporal, solo para implementar lo de SelectedRegion
-  queryParam = (this.activatedRoute.snapshot.queryParamMap.get('region')?? '') as Region;
+  // Si no lo corregiamos tendriamos el problema que cualquier texto seria tomado como una region valida
+  queryParam = this.activatedRoute.snapshot.queryParamMap.get('region')?? '';
 
   // Detectamos cual es tipo de boton seleccionado (Cual Region elegio el usuario)
-  // En lugar de null le establecemos una region por defecto
-  selectedRegion = linkedSignal<Region|null>(() => this.queryParam ?? 'Americas');
+  // En lugar de null le establecemos una region por defecto, seria igual al resultado de la funcion validadora
+  selectedRegion = linkedSignal<Region|null>(() => validateQueryParam(this.queryParam));
 
   countryResource = rxResource({
     request: () => ({
