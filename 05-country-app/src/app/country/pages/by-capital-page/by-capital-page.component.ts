@@ -4,7 +4,7 @@ import { CountryListComponent } from "../../components/country-list/country-list
 import { CountryService } from '../../services/country.service';
 import { firstValueFrom, of } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-by-capital-page',
@@ -101,6 +101,10 @@ export class ByCapitalPageComponent {
   // metodo de "query" (Tenemos dos, e igualmente si usamos los dos directamente nos regresan un Observable)
   queryParam = this.activatedRoute.snapshot.queryParamMap.get('query')?? ''; // Le decimos que busque el parametro llamado "query" si no viene nos retornara string vacio (Asi nos aseguramos que siempre sea un String)
 
+  // Ocupamos navegar a otra ruta porque el hecho que la URL cambie es una navegacion, y aqui agregamos el QueryParam
+  // esto nos permite hacer el Router
+  router = inject(Router);
+
   // Vamos a inicializar siempre este valor basado en el QueryParam
   //  query = signal(this.queryParam);
   // En angular tambien tenemos una mejor a lo de arriba porque podemos generar un Signal con un valor inicializado cuando es computado
@@ -112,6 +116,18 @@ export class ByCapitalPageComponent {
     request: () => ({ query: this.query() }),
     loader: ({ request }) => {
       if(!request.query) return of([]);
+
+      // En el momento en que el query cambie es cuando queremos actualizar el URL
+      // El valor no se lo podemos pasar dentro del array separado por coma despues de la ruta porque estamos
+      // usando la navegacion por segmentos es decir se estaria esperando en la configuracion del angular Router
+      // que tangamos definido el Query (Que no lo tenemos definido estaticamente en "countru.routes.ts" porque este query es opcional)
+      // asi que fuera del array separado por coma mandamos los Extras
+      this.router.navigate(['/country/by-capital'], {
+        // Solo agregamos el QueryParam
+        queryParams: {
+          query: request.query,
+        }
+      });// Si recargamos la pagina los datos se preservan porque estamos actualizando la URL
 
       return this.countryService.searchByCapital(request.query);
     }

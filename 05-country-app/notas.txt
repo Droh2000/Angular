@@ -61,3 +61,5 @@ En este momento si buscamos alguna capital entramos a la pagina de detalles del 
 No solo nos vamos en enfocar que en el servicio tengamos una propiedad donde este almacenado el texto que escribio el usuario en la caja de texto y luego mostrar los resultados basados en el cache
 pero que pasa si queremos mandar el URL a una persona para que pueda ver la informacion del resultado de busquedad, se mostrara la pantalla vacia sin datos, seria mejor que podamos mandar un Query
 en la URL como: "?query=Pais" donde ese valor cayera en la barra de busquedad y a la vez se disparara la busquedad para mostrar los resultados en la tabla
+
+Aqui vamos a cambiar los Query Paramteres de manera dinamica, asi si buscamos el texto debe se salir en la URL por el Query
