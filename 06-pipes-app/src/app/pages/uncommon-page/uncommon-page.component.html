@@ -15,9 +15,13 @@
     <!-- Cuando usamos los componentes de angular automaticamente reciben este contenido que es lo que queremos proyectar
           y no tenemos que configurar nada
           Podemos mandar los elementos que queramos no solo uno
+
+        La logica con este Pipe es que el Cliente que sera una persona debe afectar el texto mostrado segun su genero, en este caso
+        la palabra "invitarlo" tiene que cambiar segun la persona a la que nos refieramos
+        para trabajar esto ocupamos detectar el genero de la pesona, el "invitationMap" nos va a mapear lo que tengamos en el gender
     -->
-    <p>Hola Mundo desde el padre</p>
-    <button class="btn btn-primary">Click Me</button>
+    <p>Saludos {{ client().name }}, es un placer {{ client().gender | i18nSelect:invitationMap }} a nuestro evento</p>
+    <button (click)="changeClient()" class="btn btn-primary">Cambiar de cliente</button>
   </app-card>
 
 </div>
