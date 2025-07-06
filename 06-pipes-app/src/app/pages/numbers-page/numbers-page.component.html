@@ -1,1 +1,53 @@
-<p>numbers-page works!</p>,
+<section class="mx-5">
+  <h1 class="text-2xl font-bold">Pipes Numericos</h1>
+  <h3 class="text-xl font-thin">Pipes inluidos en angular</h3>
+</section>
+<div class="stats shadow w-full">
+  <div class="stat place-items-center">
+    <!--
+        El Pipe para Number es bastante personalizable
+          Si vemos en la documentacion el DecimalPipe, veremos que recibe argumentos como el valor que le tenemos que mandar
+          luego el numero de digitos, tambien una zona geografica para mostrar la cifra segun ese lugar ya que algunos usan la coma
+          o el punto para separar decimales
+
+        Aqui el Decimal lo vamos a usar como un Number
+          Lo podemos llamar directamente como "number" sin mandarle argumentos
+          Por Defecto Veremos que nos redondea la cifra decimal
+
+        Si queremos aplicar algun tipo de formato como la cantidad de decimales que queremos, lo hacemos con
+          :'1.2-2' -> Inidicamos que queremos todos los numeros y dos decimales (Seria de 2 a 2 decimales por eso 2-2)
+        Este argumentos se lo mandamos al Pipe 'number'
+    -->
+    <div class="stat-title">Number</div>
+    <div class="stat-value">{{ totalSells() | number:'1.2-2' }}</div>
+    <div class="stat-desc">{{ totalSells() }}</div>
+  </div>
+
+  <!--
+    Con este pipe le podemos aplicar operaciones directamente al valor
+  -->
+  <div class="stat place-items-center">
+    <div class="stat-title">Number Operation</div>
+    <div class="stat-value">{{ totalSells() + 1234 | number:'1.1-2' }}</div>
+    <div class="stat-desc">{{ totalSells() }}</div>
+  </div>
+
+  <!--
+    Con el Currency por defecto nos agrega el Simbolo de la moneda
+    Este pipe funciona como el de number con la diferencia de que podemos especificar
+    la moneda segun el pais que indiquemos y le ponemos el "symbol-narrow" para que no salgan las letras del pais
+    y solo el simbolo de la moneda, despues especificamos la cantidad de decimales que queremos
+  -->
+  <div class="stat place-items-center">
+    <div class="stat-title">Currency</div>
+    <div class="stat-value">{{ totalSells() | currency:"MXN" : "symbol-narrow" : "1.2-2"}}</div>
+    <div class="stat-desc">{{ totalSells() }}</div>
+  </div>
+
+  <!-- Aqui le pasamos un decimal y el pipe nos lo convierte a un porcentaje equivalente -->
+  <div class="stat place-items-center">
+    <div class="stat-title">Percent</div>
+    <div class="stat-value">{{ percent() | percent:"1.2-2"}}</div>
+    <div class="stat-desc">{{ percent() }}</div>
+  </div>
+</div>
