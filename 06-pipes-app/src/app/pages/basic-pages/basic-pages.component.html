@@ -1,1 +1,24 @@
-<p>basic-pages works!</p>,
+<section class="mx-5">
+  <h1 class="text-2xl font-bold">Pipes Basicos</h1>
+  <h3 class="text-xl font-thin">Pipes inluidos en angular</h3>
+</section>
+
+<div class="stats shadow w-full">
+  <div class="stat place-items-center">
+    <div class="stat-title">Lowercase Pipe</div>
+    <div class="stat-value">{{ nameUpper() | lowercase }}</div> <!-- Pasamos un Valor a Minusculas -->
+    <div class="stat-desc">{{ nameUpper() }}</div> <!-- Este es el valor como esta originalmente -->
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Uppercase Pipe</div>
+    <div class="stat-value text-secondary">{{ nameLower() | uppercase }}</div>
+    <div class="stat-desc text-secondary">{{ nameLower() }}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Titlecase Pipe</div>
+    <div class="stat-value">{{ fullName() | titlecase }}</div>
+    <div class="stat-desc">{{ fullName() }}</div>
+  </div>
+</div>
