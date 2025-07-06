@@ -1,0 +1,4 @@
+Pipes
+  Los pipes nos sirven para tranformar los datos de manera visual para cuando el usuario la vea se mire como el espera
+  esto solo cambia los datos de forma visual no modifica su origen, los datos siguen estando como estan,
+  Vamos a ver los que vienen en Angular por defecto
