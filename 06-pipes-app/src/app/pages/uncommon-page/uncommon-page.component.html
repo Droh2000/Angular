@@ -24,4 +24,20 @@
     <button (click)="changeClient()" class="btn btn-primary">Cambiar de cliente</button>
   </app-card>
 
+  <app-card title="i18nPluralPipe">
+    <!--
+      En el parrafo vemos que hay varias palabra que pueden cambiar de acuerda a la cantidad de personas que tengamos
+      o cambiar el mensaje totalmente cuando no haya nadien esperando
+
+      Cambiamos el Numero segun el pipe
+    -->
+    <p>Actualmente {{ clients().length | i18nPlural:clientsMap() }}</p>
+
+    <button
+      [disabled]="clients().length === 0"
+      (click)="deleteClient()"
+      class="btn btn-primary"
+    >Borrar Cliente</button>
+  </app-card>
+
 </div>

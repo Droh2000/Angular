@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CardComponent } from "../../components/card/card.component";
-import { I18nSelectPipe } from '@angular/common';
+import { I18nPluralPipe, I18nSelectPipe } from '@angular/common';
 
 const client1 = {
   name: 'Juan',
@@ -18,7 +18,7 @@ const client2 = {
 
 @Component({
   selector: 'app-uncommon-page',
-  imports: [CardComponent, I18nSelectPipe],
+  imports: [CardComponent, I18nSelectPipe , I18nPluralPipe],
   templateUrl: './uncommon-page.component.html',
 })
 export default class UncommonPageComponent {
@@ -41,5 +41,28 @@ export default class UncommonPageComponent {
     }
 
     this.client.set(client1);
+  }
+
+  //i18n Plural
+  // Objeto dentro una signal para especificar que acciones segun la cantidad de clientes en la lista
+  clientsMap = signal({
+    '=0': 'no tenemos ningun cliente esperando',
+    '=1': 'tenemos un cliente esperando',
+    '=2': 'tenemos 2 clientes esperando',
+    other: 'tenemos # clientes esperando', // Opcion por defecto que saldra y con # obtenemos la cantidad
+  });
+
+  // Este lo usamos cuando tenemos varios datos, colecciones, numeros de elementos
+  clients = signal([
+    'Joseph',
+    'Benjamin',
+    'Juda',
+    'Simeon',
+    'Nataly',
+  ]);
+
+  deleteClient(){
+    // Actualizamos la lista de clientes
+    this.clients.update( (prev) => prev.slice(1) );
   }
 }
