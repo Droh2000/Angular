@@ -1,0 +1,18 @@
+<!-- Aqui vamos a mostrar una lista de todas las rutas que nuestra aplicacion tiene
+    Cuando definimos las rutas le colocamos el "Title" y eso es lo que queremos que salga cuando
+    el usuario vea el menu
+-->
+<ul class="menu menu-horizontal bg-base-200 rounded-box my-2">
+  @for (route of routes; track route.path) {
+    <li>
+      <!-- Lo colocamos entre [] porque queremos que sea dinamico basado en la ruta que nosotros queremos
+          El routerLinkActive no esta entre [] porque queremos que este le asigne el valor del string "text-accent"
+          si requieramos que fuera el valor de alguna variable, Signal o propiedad computada entonces si iria entre llaves []
+          pero como solo queremos apuntar al string es sin []
+      -->
+      <a [routerLink]="route.path" routerLinkActive="text-accent">
+        {{ route.title }}
+      </a>
+    </li>
+  }
+</ul>
