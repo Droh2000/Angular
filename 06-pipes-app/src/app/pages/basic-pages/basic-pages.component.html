@@ -93,16 +93,22 @@
 -->
 <div class="flex flex-row gap-2">
   <h1 class="text-2xl font-bold">Local Actual:
-    <span class="badge badge-secondary">ES</span>
+    <span class="badge badge-secondary">{{ currentLocal() }}</span>
   </h1>
 
-  <button class="btn btn-primary">
+  <button
+    (click)="changeLocale('fr')"
+    class="btn btn-primary">
     Changer en Francais
   </button>
-  <button class="btn btn-primary">
+  <button
+    (click)="changeLocale('en')"
+    class="btn btn-primary">
     Change to English
   </button>
-  <button class="btn btn-primary">
+  <button
+    (click)="changeLocale('es')"
+    class="btn btn-primary">
     Cambiar a Español
   </button>
 </div>

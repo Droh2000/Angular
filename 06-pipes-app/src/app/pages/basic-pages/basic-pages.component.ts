@@ -1,5 +1,6 @@
 import { DatePipe, LowerCasePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { Component, effect, signal } from '@angular/core';
+import { Component, effect, inject, LOCALE_ID, signal } from '@angular/core';
+import { AvailableLocal, LocaleService } from '../../services/locale.service';
 
 @Component({
   selector: 'app-basic-pages',
@@ -12,6 +13,12 @@ import { Component, effect, signal } from '@angular/core';
   templateUrl: './basic-pages.component.html',
 })
 export default class BasicPagesComponent {
+
+  // Inyeccion de dependencias para el cambio dinamico del idioma
+  localService = inject(LocaleService);
+  // Para mostrar el idioma establecido (Si vamos a cambiar el HTML lo envolvemos dentro de una signal)
+  currentLocal = signal(inject(LOCALE_ID)); // Esto lo hacemos para mostrar otra forma aunque se pueda tomar de arriba
+
   // Tenemos estas tres properties
   nameLower = signal('juan');
   nameUpper = signal('JUAN');
@@ -35,5 +42,9 @@ export default class BasicPagesComponent {
       clearInterval(interval);
     });
   });
+
+  changeLocale(locale: AvailableLocal){
+    this.localService.changeLocal(locale);
+  }
 
 }
