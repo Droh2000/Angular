@@ -83,3 +83,26 @@
     <div class="stat-desc">{{ customDate() }}</div>
   </div>
 </div>
+
+<div class="divider"></div>
+
+<!--
+  Zona para cambiar de forma dinamica el idioma
+    En Angular hay varias formas de hacer esto porque los idiomas deben de estar en memoria en algun objeto
+    lo que se va a hacer es que si cambiamos de lenguaje tenemos que recargar completamente la aplicacion
+-->
+<div class="flex flex-row gap-2">
+  <h1 class="text-2xl font-bold">Local Actual:
+    <span class="badge badge-secondary">ES</span>
+  </h1>
+
+  <button class="btn btn-primary">
+    Changer en Francais
+  </button>
+  <button class="btn btn-primary">
+    Change to English
+  </button>
+  <button class="btn btn-primary">
+    Cambiar a Español
+  </button>
+</div>
