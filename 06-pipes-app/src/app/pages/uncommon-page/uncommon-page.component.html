@@ -80,4 +80,21 @@
     <p class="text-primary">{{ clients().join(', ') | json }}</p>
 
   </app-card>
+
+  <!--
+    Nuestro objeto "profile" por si solo no es un elementos que se pueda iterar por tanto no lo podemos usarlo en un For
+    pero si le pasamos el pipe KeyValue ya lo transforma en un arreglo (Como es un objeto obtenemos la llave y su valor)
+  -->
+  <app-card title="KeyValuePipe">
+    <ul>
+      @for (item of profile | keyvalue; track $index) {
+        <li>
+          <strong class="text-primary">{{ item.key }}:</strong>
+          <span>
+            {{ item.value }}
+          </span>
+        </li>
+      }
+    </ul>
+  </app-card>
 </div>
