@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CardComponent } from "../../components/card/card.component";
 import { AsyncPipe, I18nPluralPipe, I18nSelectPipe, JsonPipe, KeyValuePipe, SlicePipe } from '@angular/common';
+import { interval, map, tap } from 'rxjs';
 
 const client1 = {
   name: 'Juan',
@@ -82,4 +83,20 @@ export default class UncommonPageComponent {
     }, 3500);
   });
 
+  // Mismo pipe pero con un Observable
+  // El Observable que va a generar el interval esta basado en un SetTimeout de JS donde cada tiempo
+  // que especifiquemos vamos a estar emitiendo un valor
+  myObservableTimer = interval(2000).pipe(
+    map( (value) => {
+      value + 1 // Asi empesara en 1 y no en 0 para que sea tomado en cuenta en el IF de la vista
+    }),
+    // Con el "pipe" conectamos diferentes operadores en este observable
+    // Con "Tap" disparamos efectos secundarios
+    tap( (value) => {
+      console.log('tap:', value);
+    })
+  );
+  // Cuando no hay nada suscrito a un observable no pasara nada, hasta ese entonces nos emitira los valores
+  // Y cuando se ejecuta y nos pasamos a otra pantalla seguira emitiendo valores (Al entrar y salir de esa pantalla muchas veses
+  // tendremos fuga de memoria)
 }

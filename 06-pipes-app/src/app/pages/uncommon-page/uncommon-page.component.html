@@ -120,5 +120,22 @@
     @else {
       <p class="text-accent">Ocurrio un error...</p>
     }
+
+    <!--
+      El uso del AsynPipe con el Observable se va a encargar de hacer la suscripcion y cuando la pagina ya no sea necesaria y sea destruida
+      automaticamente nos limpia la suscripicion por lo que no tendremos fuga de memoria
+
+      Podemos usarlo igual en un condicional para verificar si tenemos un valor, lo que pasa es que si nos regresa 0, esto sera considerado como False
+      y por tanto ese valor no sera tomado en cuenta y se muestra hasta el 1, por eso usamos el operador map internamente en el observable
+    -->
+    <h3 class="text-2xl">Observable</h3>
+    <p>{{ myObservableTimer | async }}</p>
+
+    @if ( myObservableTimer | async; as value) {
+      <p>Valor: {{ value }}</p>
+    }
+    @else {
+      <p>Esperando Primer Valor...</p>
+    }
   </app-card>
 </div>
