@@ -97,4 +97,28 @@
       }
     </ul>
   </app-card>
+
+  <!--
+    Con este pipe podemos mostrar la Data de la promesa (Porque si usamos directamente la promesa obtenemos la representacion
+    ToString de Object Promise)
+    Este Pipe se espera a que se resuelva la promesa y despues nos mostrara el valor
+  -->
+  <app-card title="AsyncPipe">
+    <p>{{ promiseValue | async }}</p>
+
+    <!--
+        Si queremos tener un mayor control para el caso que la promesa nos de error
+        En este caso angular se espera a evaluar el resultado, para que tome ese valor y lo podamos
+        usar despues le ponemos ; y con "as" lo almacenamos en "value" (Esta variable solo estara disponible en el Scope del IF)
+    -->
+    @if ( promiseValue | async; as value) {
+      <p class="text-primary">{{ value }}</p>
+    }
+    <!--
+      Con esto si nos da error, no saldra nada en la pantalla pero podemos poner un else para el caso que eso ocurra
+    -->
+    @else {
+      <p class="text-accent">Ocurrio un error...</p>
+    }
+  </app-card>
 </div>

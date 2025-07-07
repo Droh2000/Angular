@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CardComponent } from "../../components/card/card.component";
-import { I18nPluralPipe, I18nSelectPipe, JsonPipe, KeyValuePipe, SlicePipe } from '@angular/common';
+import { AsyncPipe, I18nPluralPipe, I18nSelectPipe, JsonPipe, KeyValuePipe, SlicePipe } from '@angular/common';
 
 const client1 = {
   name: 'Juan',
@@ -18,7 +18,7 @@ const client2 = {
 
 @Component({
   selector: 'app-uncommon-page',
-  imports: [CardComponent, I18nSelectPipe , I18nPluralPipe, SlicePipe, JsonPipe, KeyValuePipe],
+  imports: [CardComponent, I18nSelectPipe , I18nPluralPipe, SlicePipe, JsonPipe, KeyValuePipe, AsyncPipe],
   templateUrl: './uncommon-page.component.html',
 })
 export default class UncommonPageComponent {
@@ -72,4 +72,14 @@ export default class UncommonPageComponent {
     age: 36,
     address: 'Lomas Turbas'
   }
+
+  // Async Pipe
+  // para que funcione requerimos algo asyncrono
+  // Esta es una propiedad que es el valor de una promesa
+  promiseValue: Promise<string> = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Tenemos Data en la promes');
+    }, 3500);
+  });
+
 }
