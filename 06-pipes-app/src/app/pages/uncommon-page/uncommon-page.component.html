@@ -61,4 +61,23 @@
     <p class="text-primary">{{ clients() | slice: 3 : 4 }}</p>
     <p class="text-primary">{{ clients() | slice: 0 : -3 }}</p>
   </app-card>
+
+  <!--
+    Con este pipe podemos hacer la representacion de un JSON de un objeto en pantalla
+    esto usualmente se usa para hacer depuraciones
+      A simple vista los elementos que tengmos si solo los queremos mostrar solo veremos sus valores que contiene
+      y cuando es un objeto litera, tenemos un problema mas grande porque veremos [object Object] -> Esto se da cuando
+      tenemos un objeto en JS y lo tratamos de serializar a un String
+    Si queremos ver todas las propiedades del objeto entonces lo pasamos por el Pipe JSON
+      Con esto ahora podemos ver que es un arreglo, que es un objeto y que es un String
+  -->
+  <app-card title="JsonPipe">
+    <pre class="text-primary">{{ clients() | json }}</pre>
+    <pre class="text-primary">{{ client() | json }}</pre>
+    <!--
+      La ejecucion de la logica va de izquierda a derecha y tambien podemos aplicar pipes en cadena
+    -->
+    <p class="text-primary">{{ clients().join(', ') | json }}</p>
+
+  </app-card>
 </div>
