@@ -40,4 +40,25 @@
     >Borrar Cliente</button>
   </app-card>
 
+  <app-card title="SlicePipe">
+    <!-- Como esta Signal esta amarrada a cada vez que hacemos click en el boton de borrar, veremos como se borra aqui tambien el contenido -->
+    <b>Original</b>
+    <p class="text-primary">
+      {{ clients().join(', ') }}
+    </p>
+
+    <!--
+        El Slice nos pide el indice que queremos cortar
+          en este caso queremos cortar de 0 (Al incio) a 2 (Hasta esta pocicion del arreglo que no se incluya)
+          Si mandamos numeros negativos
+            * -3 -> Es para que tome los ultimos 3 elementos
+          Cuando no hay elemntos en esa pocicion no se muestra nada en pantalla porque nos regresa undefined
+    -->
+    <b class="mt-2">Slice</b>
+    <p class="text-primary">{{ clients() | slice: 0 : 2 }}</p>
+    <p class="text-primary">{{ clients() | slice: 1 : 2 }}</p>
+    <p class="text-primary">{{ clients() | slice: 1 : 3 }}</p>
+    <p class="text-primary">{{ clients() | slice: 3 : 4 }}</p>
+    <p class="text-primary">{{ clients() | slice: 0 : -3 }}</p>
+  </app-card>
 </div>
