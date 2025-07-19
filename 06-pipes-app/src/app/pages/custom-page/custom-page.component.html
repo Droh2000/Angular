@@ -60,8 +60,30 @@
         <tr>
           <td>{{ i + 1 }}</td>
           <td>{{ hero.name }}</td>
-          <td>{{ hero.canFly }}</td>
-          <td>{{ hero.color }}</td>
+          <!-- Por defecto este elemento se mostraba como un True o False pero queremos que diga otra cosa
+              Entre [] le agregamos clases solo en el caso que se cumple la condicion que pueda volar
+              Le agregamos el Pipe para que nos muestre el texto que queremos
+          -->
+          <td>
+            <span
+              class="text-xs w-44"
+              [class.text-success]="hero.canFly"
+              [class.text-accent]="!hero.canFly"
+            >
+              {{ hero.canFly | canFly }}
+            </span>
+          </td>
+          <!-- Para que no salga el numero de la enumeracion y mejor salga el nombre del color
+                Ademas hacemos que le asigne el color al texto segun el color que le corresponde
+          -->
+          <td>
+            <span
+              class="text-xs w-44"
+              [style.color]="hero.color | heroColor"
+            >
+              {{ hero.color | heroColor }}
+            </span>
+          </td>
           <td>{{ hero.creator }}</td>
         </tr>
       }
