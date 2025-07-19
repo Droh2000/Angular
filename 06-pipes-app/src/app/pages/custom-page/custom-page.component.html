@@ -25,8 +25,22 @@
 <div class="divider my-2"></div>
 
 <section class="my-2">
-  <h1 class="text-2xl font-bold">Filtrando por: ordenando por: {{ sortBy() }}</h1>
+  <h1 class="text-2xl font-bold">Filtrando por: {{searchQuery()}} ordenando por: {{ sortBy() }}</h1>
   <div class="flex gap-2 justify-end w-full">
+
+    <!-- Para aplicar una ordenacion por la caja de texto
+        Establecemos que se ejecute el cambio cuando establescamos un valor en la Signal searchQuery
+    -->
+    <input
+      type="text"
+      class="input input-bordered w-full max-w-xs mt-2"
+      placeholder="Search Hero"
+      (input)="searchQuery.set(txtSearch.value)"
+      #txtSearch
+    />
+
+    <div class="flex flex-1"></div>
+
     <button (click)="sortBy.set('name')" class="btn btn-primary">
       Por Nombre
     </button>
@@ -58,8 +72,11 @@
       <!--
         Aqui estamos usando un Pipe para mostrar los datos ya ordenados, gracias a la configuracion que le pusimos para que reciba la propertie
         de la Data Hero porque estos son los que van a aplicar el filtro segun
+        Queremos que se siga manteniendo la funcionalidad del "heroSortBy" y ademas queremos escribir algo en la caja y que se aplique el filtro a los datos
+        recordemos que el encadenamiento de los pipes funciona de Izq a Der, asi que el filtro trabaja con el valor del Pipe anterior, asi que para que funcione
+        deberiamos de aplicar el Filtro del search y luego el filtro de alguno de los botones
       -->
-       @for (hero of heroes() | heroSortBy:sortBy(); track hero.id; let i = $index) {
+       @for (hero of heroes() | heroFilter:searchQuery() | heroSortBy:sortBy(); track hero.id; let i = $index) {
         <tr>
           <td>{{ i + 1 }}</td>
           <td>{{ hero.name }}</td>

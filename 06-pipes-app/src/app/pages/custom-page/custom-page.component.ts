@@ -8,6 +8,7 @@ import { TitleCasePipe } from '@angular/common';
 import { HeroCreatorPipe } from '../../../pipes/hero-creator.pipe';
 import { HeroSortByPipe } from '../../../pipes/hero-sort-by.pipe';
 import { Hero } from '../../interfaces/hero.interfaces';
+import { heroFilterPipe } from '../../../pipes/hero-filter.pipe';
 
 @Component({
   selector: 'app-custom-page',
@@ -19,6 +20,7 @@ import { Hero } from '../../interfaces/hero.interfaces';
     TitleCasePipe,
     HeroCreatorPipe,
     HeroSortByPipe,
+    heroFilterPipe,
   ],
   templateUrl: './custom-page.component.html',
 })
@@ -30,4 +32,6 @@ export default class CustomPageComponent {
   heroes = signal(heroes); // Tenemos los datos que vamos a mostrar en la tabla
 
   sortBy = signal<keyof Hero | null>(null); // Para saber cual propertie Ordenar
+
+  searchQuery = signal('');// Para la caja de texto que es el buscador
 }
