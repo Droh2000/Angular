@@ -4,8 +4,20 @@
 </section>
 <div class="stats shadow">
   <div class="stat">
-    <div class="stat-title">Total Page Views</div>
-    <div class="stat-value">89,400</div>
-    <div class="stat-desc">21% more than last month</div>
+    <div class="stat-title">ToggleCase Pipe</div>
+    <!--
+      La idea es que a este Pipe podamos mandarle True/False de manera dinamica, si queremos aplicar o no el Pipe
+      Recordemos que en el metodo del Pipe teniamos "...args" que era un Arreglo donde podemos mandar mas argumento de este tipo
+      y cada vez que queramos mandar otro argumento se ponen ':' luego el nuevo argumento
+    -->
+    <div class="stat-value">{{ name() | toggleCase : upperCase()}}</div>
+    <div class="stat-desc">{{ name() }}</div>
+
+    <button
+      class="btn btn-primary mt-2"
+      (click)="upperCase.set(!upperCase())"
+    >
+      ToggleCase
+    </button>
   </div>
 </div>
