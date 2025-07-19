@@ -75,16 +75,25 @@
           </td>
           <!-- Para que no salga el numero de la enumeracion y mejor salga el nombre del color
                 Ademas hacemos que le asigne el color al texto segun el color que le corresponde
+                Veamos que podemos hacer la encadenacion de Pipes para esto hay que tener cuidado
+                porque el orden importa
           -->
           <td>
             <span
               class="text-xs w-44"
-              [style.color]="hero.color | heroColor"
+              [style.color]="hero.color | heroTextColor"
             >
-              {{ hero.color | heroColor }}
+              {{ hero.color | heroColor | titlecase }}
             </span>
           </td>
-          <td>{{ hero.creator }}</td>
+          <td>
+            <span
+              [class.text-primary]="hero.creator === 0"
+              [class.text-accent]="hero.creator === 1"
+            >
+              {{ hero.creator | heroCreator}}
+            </span>
+          </td>
         </tr>
       }
     </tbody>
