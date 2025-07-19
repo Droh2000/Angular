@@ -2,3 +2,16 @@ Pipes
   Los pipes nos sirven para tranformar los datos de manera visual para cuando el usuario la vea se mire como el espera
   esto solo cambia los datos de forma visual no modifica su origen, los datos siguen estando como estan,
   Vamos a ver los que vienen en Angular por defecto
+
+Pipes Personalizados
+  Para cuando tengamos una necesidad en particular que los Pipes que trae por defecto angular no nos resuelve
+  asi que creamos nuestros propios pipes que nos resulevan un problema
+
+  Por ejemplo si tenemos una peticion HTTP que parcialmente nos regresa el URL de una imagen o solo el nombre de una imagen
+  entonces tenemos que concatenarle el URL de la misma. Una forma de hacerlo es que nosotros nos creemos un pipe que adicionalmente
+  le ponga ese segmento de la URL adicional
+
+  Otro ejemplo es cuando tenemos la necesidad de crear una tabla dinamica en donde escribimos en una caja de texto y quieren filtrar los resultados de la tabla
+  o hacer click en una columna de la tabla y que se filtre, todo eso se puede hacer mediante Pipes
+
+  Cuando tengamos mucho texto que para mostrarlo tengamos que transformarlos
