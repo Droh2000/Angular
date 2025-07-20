@@ -1,0 +1,11 @@
+Hay varias maneras de trabajar formularios en Angular pero principalmente tenemos los formularios reactivos y los formularios con Template
+la diferencia es que los formularios por template, la logica y el codigo esta en el HTML, cosa que con los reactivos tenemos mejor separacion
+de logica y mayor control
+
+Entre las carpetas de la estructura de directorio que tenemos estan:
+  - auth -> Esto es para manejar el ingreso aunque todabia no nos vamos a conectar a un backend
+  - shared -> Aqui estaran los modulos compartidos entre las diferentes piezas de los diferentes modulos
+  - utils -> Como los formularios reactivos reutilizan mucho codigo, asi que solo copiamos y pegamos lo que requieramos
+
+
+
