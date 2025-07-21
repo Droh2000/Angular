@@ -22,11 +22,14 @@
                            placeholder="Nombre del producto"
                            formControlName="name"
                     >
-
-                    <span class="form-text text-danger">
-                        <!-- Debe de ser de 3 letras -->
-                        error message
-                    </span>
+                    <!-- Hacemos que los errores se muestren de forma condicional, esto si no es nulo entra a la condicion
+                    @if ( myForm.controls['name'].errors ) { -->
+                    @if ( isValidField('name') ) {
+                      <span class="form-text text-danger">
+                          <!-- Debe de ser de 3 letras -->
+                          {{ getfieldError('name') }}
+                      </span>
+                    }
                 </div>
             </div>
 
@@ -100,13 +103,14 @@
               como a nivel del input o campos podemos tenerlos (Angular maneja por separado los errores del form y de campos)
                 "myForm.errors" ->  Aplica a los errores completos del formulario (Esto es util cuando creamos errores personalizados)
               Estos son los errores especificos para cada campo, Angular lo que hace es que crea un objeto con los errores que ese campo tiene en ese momento
+              Despues de poner el tipado al "myForn" por FormGroup tenemos que cambiar a una propiedade computada
         -->
         <span>Errores en Name</span>
-        <pre>{{ myForm.controls.name.errors | json }}</pre>
+        <pre>{{ myForm.controls['name'].errors | json }}</pre>
         <span>Errores en Price</span>
-        <pre>{{ myForm.controls.price.errors | json }}</pre>
+        <pre>{{ myForm.controls['price'].errors | json }}</pre>
         <span>Errores en InStorage</span>
-        <pre>{{ myForm.controls.inStorage.errors | json }}</pre>
+        <pre>{{ myForm.controls['inStorage'].errors | json }}</pre>
         <!--
           Si no agregamos esto tendremos el error del "Converting circular strcuture"
           esto es porque tenemos un objeto, el cual cuando lo intentamos serializar como JSON o imprimir
@@ -114,10 +118,10 @@
           Por eso del precio tomamos el Value (Porque el "price" es el control y el "value" es el valor de ese control)
         -->
         <span>Precio</span>
-        <pre>{{ myForm.controls.price.value | json }}</pre>
+        <pre>{{ myForm.controls['price'].value | json }}</pre>
 
         <span>Producto</span>
-        <pre>{{ myForm.controls.name.value | json }}</pre>
+        <pre>{{ myForm.controls['name'].value | json }}</pre>
 
         <!--
           Despues que tocamos el fomulario

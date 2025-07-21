@@ -42,7 +42,7 @@ export class BasicPageComponent {
 
   // Nos creamos el formulario
   // La mayor parte de las veses lo vamos a hacer con grupos, dentro definimos el form como si fuera un objeto litral de JS
-  myForm = this.fb.group({
+  myForm: FormGroup = this.fb.group({
     // El primer valor que vamos a tener en el arreglo debe ser el valor que el campo debe de tener (En este caso un String vacio)
     // El segundo elemento son validaroes Syncronos
     // El Tercero serian validadores Asyncronos (Los dos se colocan dentro de un [])
@@ -55,6 +55,34 @@ export class BasicPageComponent {
     inStorage: [0, [Validators.required, Validators.min(0)]],
   });
 
+  // Nos creamos esta funcion para simplificar el estar mostrando las validaciones en el Template del HTML
+  isValidField( fieldName:string ): boolean | null{
+    // Aqui obtenemos el nombre del campo que tengamos en el formulario
+    // gracias al tipado del "myForm" tenemos el autocompletado
+    return !!this.myForm.controls[fieldName].errors;
+  }
+
+  // Este metodo es para mostrar los mensajes del error que se produsca
+  getfieldError( fieldName:string ): string | null{
+    // Verificamos que exista el campo
+    if( !this.myForm.controls[fieldName] ) return null;
+
+    // Comprobamos el error que si puede ser nulo entonces que nos regres un objeto vacio
+    const errors = this.myForm.controls[fieldName].errors ?? {};
+
+    // Recorremos todas las llaves que tiene este objeto de los errores
+    for( const key of Object.keys(errors) ){
+      switch (key) {
+        case 'required':
+          return 'Este campo es requerido';
+        case 'minLength':
+          return `Minimo de ${ errors['minLength'].requiredLength } caracteres.`;
+        case 'min':
+          return `Valor minimo de ${ errors['min'].min } caracteres.`;
+      }
+    }
+    return null;
+  }
 
 
 }
