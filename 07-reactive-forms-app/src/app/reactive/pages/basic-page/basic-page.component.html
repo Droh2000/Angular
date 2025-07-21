@@ -95,6 +95,18 @@
         <!-- Mostrar el valor que definimos -->
         <span>Value</span>
         <pre>{{ myForm.value| json }}</pre>
+        <!-- Para poder mostrar los errores que tenemos en el formulario
+              Si llamamos a la propiedad por defecto se nos mostrara en Null porque el formulario puede tener los errores a todo el objeto del formulario
+              como a nivel del input o campos podemos tenerlos (Angular maneja por separado los errores del form y de campos)
+                "myForm.errors" ->  Aplica a los errores completos del formulario (Esto es util cuando creamos errores personalizados)
+              Estos son los errores especificos para cada campo, Angular lo que hace es que crea un objeto con los errores que ese campo tiene en ese momento
+        -->
+        <span>Errores en Name</span>
+        <pre>{{ myForm.controls.name.errors | json }}</pre>
+        <span>Errores en Price</span>
+        <pre>{{ myForm.controls.price.errors | json }}</pre>
+        <span>Errores en InStorage</span>
+        <pre>{{ myForm.controls.inStorage.errors | json }}</pre>
         <!--
           Si no agregamos esto tendremos el error del "Converting circular strcuture"
           esto es porque tenemos un objeto, el cual cuando lo intentamos serializar como JSON o imprimir

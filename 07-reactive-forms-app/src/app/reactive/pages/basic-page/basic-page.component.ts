@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-basic-page',
@@ -47,9 +47,12 @@ export class BasicPageComponent {
     // El segundo elemento son validaroes Syncronos
     // El Tercero serian validadores Asyncronos (Los dos se colocan dentro de un [])
     // Entre los validadores tipicos es indicar que el campo debe ser requirido
-    name: [''],
-    price: [0],
-    inStorage: [0],
+    // Con esto al escribir en el HTML veremos que en pantalla cambia el "Valid" en true, esto significa que el 0 es un valor considerado valido
+    // si borramos el 0 se nos cambia a False el Valid
+    // Asi que debemos de agregar mas validaciones que no pueden ser 0 ni negativo los valores
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    price: [0, [Validators.required, Validators.min(10)]],
+    inStorage: [0, [Validators.required, Validators.min(0)]],
   });
 
 
