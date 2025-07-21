@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormUtils } from '../../../utils/form-utils';
 
 @Component({
   selector: 'app-basic-page',
@@ -40,6 +41,9 @@ export class BasicPageComponent {
   // El formbuilder es un servicio que esta proveido en el ReactivFormsModule
   private fb = inject(FormBuilder);
 
+  // Para tener acceso a los metodos del archivo modular
+  formUtils = FormUtils;
+
   // Nos creamos el formulario
   // La mayor parte de las veses lo vamos a hacer con grupos, dentro definimos el form como si fuera un objeto litral de JS
   myForm: FormGroup = this.fb.group({
@@ -54,39 +58,6 @@ export class BasicPageComponent {
     price: [0, [Validators.required, Validators.min(10)]],
     inStorage: [0, [Validators.required, Validators.min(0)]],
   });
-
-  // Nos creamos esta funcion para simplificar el estar mostrando las validaciones en el Template del HTML
-  isValidField( fieldName:string ): boolean | null{
-    // Aqui obtenemos el nombre del campo que tengamos en el formulario
-    // gracias al tipado del "myForm" tenemos el autocompletado
-    // El error del formulario
-    // no debe salir asi nomas, sino hasta que el usuario preciona un cambio y sale de este
-    // Queremos que los errores se muestren en el momento que el usuario toquee el campo
-    // Asi que preguntamos si el formulario tiene el error y haya sido tocado
-    return (this.myForm.controls[fieldName].errors && this.myForm.controls[fieldName].touched );
-  }
-
-  // Este metodo es para mostrar los mensajes del error que se produsca
-  getfieldError( fieldName:string ): string | null{
-    // Verificamos que exista el campo
-    if( !this.myForm.controls[fieldName] ) return null;
-
-    // Comprobamos el error que si puede ser nulo entonces que nos regres un objeto vacio
-    const errors = this.myForm.controls[fieldName].errors ?? {};
-
-    // Recorremos todas las llaves que tiene este objeto de los errores
-    for( const key of Object.keys(errors) ){
-      switch (key) {
-        case 'required':
-          return 'Este campo es requerido';
-        case 'minLength':
-          return `Minimo de ${ errors['minLength'].requiredLength } caracteres.`;
-        case 'min':
-          return `Valor minimo de ${ errors['min'].min } caracteres.`;
-      }
-    }
-    return null;
-  }
 
   // Metodo para que se activen todos los campos para que se activen las validaciones y se muestren si le falto algun campo de llenar al usuario
   onSave() {
