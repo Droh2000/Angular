@@ -59,7 +59,11 @@ export class BasicPageComponent {
   isValidField( fieldName:string ): boolean | null{
     // Aqui obtenemos el nombre del campo que tengamos en el formulario
     // gracias al tipado del "myForm" tenemos el autocompletado
-    return !!this.myForm.controls[fieldName].errors;
+    // El error del formulario
+    // no debe salir asi nomas, sino hasta que el usuario preciona un cambio y sale de este
+    // Queremos que los errores se muestren en el momento que el usuario toquee el campo
+    // Asi que preguntamos si el formulario tiene el error y haya sido tocado
+    return (this.myForm.controls[fieldName].errors && this.myForm.controls[fieldName].touched );
   }
 
   // Este metodo es para mostrar los mensajes del error que se produsca
@@ -82,6 +86,22 @@ export class BasicPageComponent {
       }
     }
     return null;
+  }
+
+  // Metodo para que se activen todos los campos para que se activen las validaciones y se muestren si le falto algun campo de llenar al usuario
+  onSave() {
+    // La condicion es para evitar llamar lo de adentro si el formulario no es valido
+    if( this.myForm.invalid ){
+      this.myForm.markAllAsTouched();
+      return;
+    }
+
+    // Cuando se preciono el boton de guardar, si todo sale ok y se mando la data, ocupamos limpiar los campos
+    // Dentro de aqui podemos establecer valores por defecto
+    this.myForm.reset({
+      price: 0,
+      inStorage: 0,
+    });
   }
 
 

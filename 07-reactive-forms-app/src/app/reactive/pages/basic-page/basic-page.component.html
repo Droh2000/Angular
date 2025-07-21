@@ -9,8 +9,11 @@
           Como son de tipo "FormGroup" buscamos este mismo atributo en el HTML, lo ponemos entre [] para asociarlo al elemento
           a parte de esto tenemos que asociar a cada uno de los campos input con cada uno de los campos del FormGroup
           esto lo asociamos con el "formControlName" indicamos el nombre del formGroup correspondiente
+
+          Para activar el metodo que activa las validaciones lo metemos en el "ngSubmit" que nos previene la propagacion del formulario
+          no ocupamos mandar Data porque todo el formulario, los valores, radican en el objeto "myForm"
       -->
-        <form autocomplete="off" [formGroup]="myForm">
+        <form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSave()">
 
             <!-- Campo de producto -->
             <div class="mb-3 row">
@@ -42,9 +45,12 @@
                            placeholder="Precio del producto"
                            formControlName="price"
                     >
-                    <span class="form-text text-danger">
-                        El precio debe de ser 0 o mayor
-                    </span>
+                    @if ( isValidField('price') ) {
+                      <span class="form-text text-danger">
+                          <!-- El precio debe de ser 0 o mayor -->
+                          {{ getfieldError('price') }}
+                      </span>
+                    }
                 </div>
             </div>
 
@@ -57,10 +63,12 @@
                            placeholder="Existencias del producto"
                            formControlName="inStorage"
                     >
-
-                    <span class="form-text text-danger">
-                         Las existencias deben de ser 0 o mayor
-                    </span>
+                    @if ( isValidField('inStorage') ) {
+                      <span class="form-text text-danger">
+                          <!-- Las existencias deben de ser 0 o mayor -->
+                          {{ getfieldError('inStorage') }}
+                      </span>
+                    }
                 </div>
             </div>
 
