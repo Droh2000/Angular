@@ -4,7 +4,13 @@
 <div class="row">
     <div class="col">
 
-        <form autocomplete="off">
+      <!--
+          Tenemos que conectar este formulario con el elemento Reactivo
+          Como son de tipo "FormGroup" buscamos este mismo atributo en el HTML, lo ponemos entre [] para asociarlo al elemento
+          a parte de esto tenemos que asociar a cada uno de los campos input con cada uno de los campos del FormGroup
+          esto lo asociamos con el "formControlName" indicamos el nombre del formGroup correspondiente
+      -->
+        <form autocomplete="off" [formGroup]="myForm">
 
             <!-- Campo de producto -->
             <div class="mb-3 row">
@@ -13,7 +19,9 @@
 
                     <input type="text"
                            class="form-control"
-                           placeholder="Nombre del producto">
+                           placeholder="Nombre del producto"
+                           formControlName="name"
+                    >
 
                     <span class="form-text text-danger">
                         <!-- Debe de ser de 3 letras -->
@@ -28,7 +36,9 @@
                 <div class="col-sm-9">
                     <input type="number"
                            class="form-control"
-                           placeholder="Precio del producto">
+                           placeholder="Precio del producto"
+                           formControlName="price"
+                    >
                     <span class="form-text text-danger">
                         El precio debe de ser 0 o mayor
                     </span>
@@ -41,7 +51,9 @@
                 <div class="col-sm-9">
                     <input type="number"
                            class="form-control"
-                           placeholder="Existencias del producto">
+                           placeholder="Existencias del producto"
+                           formControlName="inStorage"
+                    >
 
                     <span class="form-text text-danger">
                          Las existencias deben de ser 0 o mayor
@@ -71,23 +83,35 @@
 
 <div class="row">
     <div class="col">
-
+        <!-- Esta parte es para mostrar las validaciones del formulario -->
         <span>Valid</span>
-        <pre>{{ 'objeto' | json }}</pre>
-
+        <pre>{{ myForm.valid| json }}</pre>
+        <!-- Esta parte es por si el formulario se toca desde el momento en el que se mostro al usuario -->
         <span>Pristine</span>
-        <pre>{{ 'objeto' | json }}</pre>
-
+        <pre>{{ myForm.pristine| json }}</pre>
+        <!-- Quiere decir que el formulario a sido o no tocado por el usuario -->
         <span>Touched</span>
-        <pre>{{ 'objeto' | json }}</pre>
-
+        <pre>{{ myForm.touched| json }}</pre>
+        <!-- Mostrar el valor que definimos -->
         <span>Value</span>
-        <pre>{{ 'objeto' | json }}</pre>
-
+        <pre>{{ myForm.value| json }}</pre>
+        <!--
+          Si no agregamos esto tendremos el error del "Converting circular strcuture"
+          esto es porque tenemos un objeto, el cual cuando lo intentamos serializar como JSON o imprimir
+          veremos que el objeto tiene su prototipo y el prototipo tiene otro prototipo por lo que hay algo ciclico por ahi
+          Por eso del precio tomamos el Value (Porque el "price" es el control y el "value" es el valor de ese control)
+        -->
         <span>Precio</span>
-        <pre>{{ 'objeto' | json }}</pre>
+        <pre>{{ myForm.controls.price.value | json }}</pre>
 
         <span>Producto</span>
-        <pre>{{ 'objeto' | json }}</pre>
+        <pre>{{ myForm.controls.name.value | json }}</pre>
+
+        <!--
+          Despues que tocamos el fomulario
+            Si hacemos click en un input y salimos, nos sale que en "Touched -> true"
+            Pristine nos sale False -> si escribimos en el formulario
+
+        -->
     </div>
 </div>
