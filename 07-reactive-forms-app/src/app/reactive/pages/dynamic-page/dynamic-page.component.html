@@ -1,21 +1,27 @@
 <h2>Reactivos: <small> Dinámicos </small></h2>
 <hr>
-
-<form autocomplete="off">
+<!--
+    Le pasamos el formulario que le corresponde y le pasamos la propertie que es para cada campo con "formControlName"
+-->
+<form autocomplete="off" [formGroup]="myForm">
 
     <!-- Nombre -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Nombre</label>
         <div class="col-sm-9">
             <input class="form-control"
-                   placeholder="Nombre de la persona">
+                   placeholder="Nombre de la persona"
+                   formControlName="name"
+            >
             <span class="form-text text-danger">
                    error message
             </span>
         </div>
     </div>
 
-    <!-- Agregar Favorito -->
+    <!-- Agregar Favorito
+          Este no lo vamos a manejar con una referencia local porque queremos aplicar validaciones a un campo que no este asociado a un formulario
+    -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Agregar</label>
         <div class="col-sm-9">
@@ -37,24 +43,36 @@
     <!-- Lista de Juegos Favoritos -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Favoritos</label>
-        <div class="col-sm-9">
+        <!--
+            Tenemos que decirle a angular que este elemento es el que maneja el array
+            para eso nos vamos al elemento HTML que contiene todo el arreglo
+        -->
+        <div class="col-sm-9" formArrayName="favoriteGames">
+            <!--
+                Esto es lo que ocupamos duplicar por la cantidad de elementos que tengamos en "FavoriteGames"
+                para eso nos creamos el "get" en el componente e invocar facilmente esta propertie
+            -->
+            @for (favoriteGame of favoriteGames.controls; track $index; let i = $index) {
+              <div class="mb-1">
+                  <div class="input-group">
+                      <!--
+                          Esto es igual a "i" porque como tenemos un arreglo y la unica manera de identificar las posiciones es por el indice
+                          por eso le pasamos el nombre del indice que tengamos en este momento en el bucle
+                      -->
+                      <input class="form-control"
+                        [formControlName]="i"
+                      />
 
-            <div class="mb-1">
-
-                <div class="input-group">
-                    <input class="form-control">
-
-                    <button class="btn btn-outline-danger"
-                            type="button">
-                      Eliminar
-                  </button>
-                </div>
-                <span class="form-text text-danger">
-                   Este campo es requerido
-                </span>
-
-            </div>
-
+                      <button class="btn btn-outline-danger"
+                              type="button">
+                        Eliminar
+                    </button>
+                  </div>
+                  <span class="form-text text-danger">
+                    Este campo es requerido
+                  </span>
+              </div>
+            }
         </div>
     </div>
 
@@ -77,13 +95,13 @@
 
 
 <span>Valid</span>
-<pre>{{ 'object' | json }}</pre>
+<pre>{{ myForm.valid | json }}</pre>
 <br>
 
 <span>Value</span>
-<pre>{{ 'object' | json }}</pre>
+<pre>{{ myForm.value | json }}</pre>
 <br>
 
 <span>Agregar Juego</span>
-<pre>{{ 'object' | json }}</pre>
-<pre>{{ 'object' | json }}</pre>
+<!--<pre>{{ myForm | json }}</pre>
+<pre>{{ myForm | json }}</pre>-->
