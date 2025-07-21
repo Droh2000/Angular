@@ -1,6 +1,6 @@
 // Para cambiar las cosas lo vamos a hacer con una clase normal, pero igual podriamos hacer con un servicio
 
-import { FormGroup } from "@angular/forms";
+import { FormArray, FormGroup, ValidationErrors } from "@angular/forms";
 
 // No vamos a requerir instancia por eso son metodos estaticos (Si lo usuariamos con instancia, seria bueno usar inyeccion de independencia)
 export class FormUtils {
@@ -26,6 +26,28 @@ export class FormUtils {
     const errors = form.controls[fieldName].errors ?? {};
 
     // Recorremos todas las llaves que tiene este objeto de los errores
+    return FormUtils.getTextErros(errors);
+  }
+
+  // Para agregar las validaciones a los campos dinamicos que estan dentro del FOR
+  // requerimos saber la poscion indice del elemento dentro del arreglo
+  static isValidFieldInArray( formArray: FormArray, index: number ){
+    return (
+      // Si hay errores y a sido tocado el formulario
+      formArray.controls[index].errors && formArray.controls[index].touched
+    );
+  }
+
+  // Para mostrar los errores en los campos dinamicos que estan dentro de un bucle For
+  static getfieldErrorInArray( formArray: FormArray, index:number ): string | null{
+    if( formArray.controls.length === 0 ) return null;
+
+    const errors = formArray.controls[index].errors ?? {};
+
+    return FormUtils.getTextErros(errors);;
+  }
+
+  static getTextErros(errors: ValidationErrors){
     for( const key of Object.keys(errors) ){
       switch (key) {
         case 'required':
@@ -36,6 +58,7 @@ export class FormUtils {
           return `Valor minimo de ${ errors['min'].min } caracteres.`;
       }
     }
+
     return null;
   }
 

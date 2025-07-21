@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormUtils } from '../../../utils/form-utils';
 
 @Component({
   selector: 'app-dynamic-page',
@@ -10,6 +11,7 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 export class DynamicPageComponent {
 
   private fb = inject(FormBuilder);
+  formUtils = FormUtils;
 
   // Creamos el formulario
   myForm: FormGroup = this.fb.group({
@@ -31,5 +33,6 @@ export class DynamicPageComponent {
     // Con la funcion get de myForm podemos buscar y le decimos que sera un array
     return this.myForm.get('favoriteGamse') as FormArray;
   }
+
 
 }
