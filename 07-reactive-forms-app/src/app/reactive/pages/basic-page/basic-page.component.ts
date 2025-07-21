@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-basic-page',
@@ -22,12 +22,36 @@ export class BasicPageComponent {
   // Para los formularios reactivos nos creamos una propiedad que contiene el como luce la apariencia de ese formulario
   // y esto incluye las validaciones
   // Primero lo vamos a hacer de forma tradicional
-  myForm = new FormGroup({
+  /*myForm = new FormGroup({
     // Aqui definimos los campos del formulario y tambien pueden ser formularios anidados donde creariamos otro FormGroup
     // (por eso hay una mejor forma de escribir el codigo), para establecerle el tipo de dato lo inicializamos con algun valor
     name: new FormControl(''), // El FormControl() ya va asociado a lo que es un control de un input, select o demas
-    price: new FormControl(0),
+    price: new FormControl(0, [], []), // Como segundo y tercer argumento se pasan los validadores, Syncronos y Asyncronos
     inStorage: new FormControl(0),
+    // Si tubieramos campos que dependan de varios subcampos tendriamos que hacerlo asi
+    direccion: new FormGroup({
+      calle: new FormControl(),
+      ...
+    })
+    // Por eso ya no vamos a continuar con esta forma de crear formularios reactivos y mejor vamos a usar el FormBuilder
+    // para poder crear mejor este tipo de grupos
+  });*/
+
+  // El formbuilder es un servicio que esta proveido en el ReactivFormsModule
+  private fb = inject(FormBuilder);
+
+  // Nos creamos el formulario
+  // La mayor parte de las veses lo vamos a hacer con grupos, dentro definimos el form como si fuera un objeto litral de JS
+  myForm = this.fb.group({
+    // El primer valor que vamos a tener en el arreglo debe ser el valor que el campo debe de tener (En este caso un String vacio)
+    // El segundo elemento son validaroes Syncronos
+    // El Tercero serian validadores Asyncronos (Los dos se colocan dentro de un [])
+    // Entre los validadores tipicos es indicar que el campo debe ser requirido
+    name: [''],
+    price: [0],
+    inStorage: [0],
   });
+
+
 
 }
