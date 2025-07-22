@@ -7,5 +7,9 @@ Entre las carpetas de la estructura de directorio que tenemos estan:
   - shared -> Aqui estaran los modulos compartidos entre las diferentes piezas de los diferentes modulos
   - utils -> Como los formularios reactivos reutilizan mucho codigo, asi que solo copiamos y pegamos lo que requieramos
 
-
+Problemas que tenemos al inicio
+  - Los dos checkbox se pueden seleccionar y solo se debe de poder seleccionar uno
+  - Recuperar el valor del select si queremos o no recibir notificacion
+  - Que sea obligatorio el check de los terminos y condiciones
+  - Que al precionar el boton de guardar no se active la propagacion del formulario
 
