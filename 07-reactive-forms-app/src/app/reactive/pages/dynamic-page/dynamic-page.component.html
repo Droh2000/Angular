@@ -23,6 +23,8 @@
 
     <!-- Agregar Favorito
           Este no lo vamos a manejar con una referencia local porque queremos aplicar validaciones a un campo que no este asociado a un formulario
+          Al analizar el boton de Agregar a Favoritos veremos que por defecto todo el posteo del formulario, luego nos falto que al hacer click en el boton
+          se envie los datos
     -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Agregar</label>
@@ -35,16 +37,22 @@
 
                     Cuando precionen el Enter vamos a llamar un metodo para agregar el elemento
                     no ocupamos mandarle ningun argumento porque el valor de la caja de texto ya lo tenemos validado en el "newFavorite"
+
+                    Evitar la propagacion por defecto del formulario
+                      para esto nos creamos otro evento pero ahora le pasamos $event
                 -->
                 <input class="form-control"
                        placeholder="Agregar favorito"
                        [formControl]="newFavorite"
                        (keydown.enter)="onAddToFavorites()"
+                       (keydown.enter)="$event.preventDefault()"
                 >
 
 
                 <button class="btn btn-outline-primary"
-                        type="button">
+                        type="button"
+                        (click)="onAddToFavorites()"
+                        >
                     Agregar favorito
                 </button>
             </div>
