@@ -3,7 +3,7 @@
 <!--
     Le pasamos el formulario que le corresponde y le pasamos la propertie que es para cada campo con "formControlName"
 -->
-<form autocomplete="off" [formGroup]="myForm">
+<form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSubmit()">
 
     <!-- Nombre -->
     <div class="mb-3 row">
@@ -29,8 +29,18 @@
         <div class="col-sm-9">
 
             <div class="input-group">
+                <!--
+                    Este input lo tenemos que agregar a una propiedad de la clase de angular y tiene que ser de manera dinamica
+                    lo pasamos entre llaves [] y lo igualamos al nombre del campo
+
+                    Cuando precionen el Enter vamos a llamar un metodo para agregar el elemento
+                    no ocupamos mandarle ningun argumento porque el valor de la caja de texto ya lo tenemos validado en el "newFavorite"
+                -->
                 <input class="form-control"
-                       placeholder="Agregar favorito">
+                       placeholder="Agregar favorito"
+                       [formControl]="newFavorite"
+                       (keydown.enter)="onAddToFavorites()"
+                >
 
 
                 <button class="btn btn-outline-primary"
@@ -65,10 +75,15 @@
                         [formControlName]="i"
                       />
 
+                      <!--
+                        Aqui vamos a hacer que el boton nos borre el elemento del arreglo mandandole la posicion del indice
+                      -->
                       <button class="btn btn-outline-danger"
-                              type="button">
+                              type="button"
+                              (click)="onDeleteFavorite(i)"
+                      >
                         Eliminar
-                    </button>
+                      </button>
                   </div>
                   @if ( formUtils.isValidFieldInArray(favoriteGames, i) ) {
                     <!-- Debemos de mostrar el error en el campo basado en la posicon indice -->
@@ -78,6 +93,14 @@
                   }
               </div>
             }
+            <!--
+                Mostramos el error que le indique al usuario que le faltamos elementos a la lista de agregar
+            -->
+            @if ( formUtils.isValidField(myForm, 'favoriteGames') ) {
+              <span class="form-text text-danger">
+                Debe de tener al menos 2 juegos
+              </span>
+            }
         </div>
     </div>
 
@@ -85,10 +108,11 @@
 
     <div class="row">
         <div class="col-sm-12">
+            <!-- Hacemos que si el formulario no sea valido, el boton de guardad este desactivado -->
             <button type="submit"
                     class="btn btn-primary float-end"
+                    [disabled]="myForm.invalid"
                     >
-                    <!-- [disabled]="myForm.invalid" -->
                 Guardar
             </button>
         </div>
@@ -108,5 +132,5 @@
 <br>
 
 <span>Agregar Juego</span>
-<!--<pre>{{ myForm | json }}</pre>
-<pre>{{ myForm | json }}</pre>-->
+<pre>{{ myForm.controls['favoriteGames'].errors | json }}</pre>
+<pre>{{ myForm.controls['favoriteGames'].value | json }}</pre>
