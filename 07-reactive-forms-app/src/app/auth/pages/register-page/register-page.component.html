@@ -18,7 +18,8 @@
                     <!-- Mostramos los errrores -->
                     @if ( formUtils.isValidField(myForm, 'name') ) {
                       <span class="form-text text-danger">
-                        {{ formUtils.getfieldError( myForm, 'name' ) }}
+                        El campo debe de tener el nombre y apellido<!-- Despues de agregar la Expreccion regular asi mostramos el error al usuario y no depender de agregar el Key al SwitchCase-->
+                       <!-- {{ formUtils.getfieldError( myForm, 'name' ) }} -->
                       </span>
                     }
                     <!--<span class="form-text text-danger">
@@ -37,6 +38,7 @@
                            formControlName="email">
                     @if ( formUtils.isValidField(myForm, 'email') ) {
                       <span class="form-text text-danger">
+                        <!--El valor ingresado no parece un correo electronico-->
                         {{ formUtils.getfieldError( myForm, 'email' ) }}
                       </span>
                     }

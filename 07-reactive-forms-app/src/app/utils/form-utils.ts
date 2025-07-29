@@ -4,6 +4,10 @@ import { FormArray, FormGroup, ValidationErrors } from "@angular/forms";
 
 // No vamos a requerir instancia por eso son metodos estaticos (Si lo usuariamos con instancia, seria bueno usar inyeccion de independencia)
 export class FormUtils {
+  // Expresiones regulares para aplicarlas como validaciones en los formularios
+  static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
+  static emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+  static notOnlySpacesPattern = '^[a-zA-Z0-9]+$';
 
   // Nos creamos esta funcion para simplificar el estar mostrando las validaciones en el Template del HTML
   // Le pasamos para que reciba el formulario, no nos intersa los campos, solo con saber a cual aplicarle
@@ -59,6 +63,14 @@ export class FormUtils {
         // Agregamos la validacion que sea de tipo Email
         case 'email':
           return `El Valor no es un correo electronico.`;
+        // Mostrar el error de la expreccion con el Email
+        case 'pattern':
+          if( errors['pattern'].requiredPattern === FormUtils.emailPattern ){
+            return 'El valor ingresado no luce como un correo electronico';
+          }
+          return 'Error del patron por la expreccion regular';
+        default:
+          return `Error de validacion no implementado ${ key }`;// Si no esta y se comete un error en el formulario no veremos nada pero con esto ya sabemos porque no sale el mensaje
       }
     }
 
