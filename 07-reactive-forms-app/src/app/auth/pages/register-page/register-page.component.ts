@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../utils/form-utils';
 
 @Component({
@@ -17,10 +17,20 @@ export class RegisterPageComponent {
   // Usamos las expresiones regulares para que se aplique en las validaciones y no usar las de angular
   myForm = this.fb.group({
     name: ['', Validators.required, Validators.pattern( FormUtils.namePattern )],
-    email: ['', [Validators.required, Validators.pattern( FormUtils.emailPattern )]],
+    // El tercer argumento es para las validaciones asyncronas
+    // Los errores Sincronos tienen prioridad y no se van a ejecutar los asyncronos hasya que no se resulevan los sincronos
+    email: ['', [Validators.required, Validators.pattern( FormUtils.emailPattern )], FormUtils.checkingServerResponse],
     username: ['', [Validators.required, Validators.minLength(6), Validators.pattern( FormUtils.notOnlySpacesPattern )]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     password2: ['', Validators.required],
+  },
+  // Para agregar la validacion de que las dos contraseñas ingresadas coincidas
+  // lo vamos a hacer a nivel del formulario "this.fb.group" y no una validacion a nivel de campo
+  {
+    // Aqui colocamos las validaciones personalizadas
+    validators: [
+      FormUtils.isFieldOneEqualFieldTwo('password', 'password2')
+    ]
   });
 
   onSubmit(){

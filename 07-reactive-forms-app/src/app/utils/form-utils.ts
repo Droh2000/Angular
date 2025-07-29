@@ -1,6 +1,16 @@
 // Para cambiar las cosas lo vamos a hacer con una clase normal, pero igual podriamos hacer con un servicio
 
-import { FormArray, FormGroup, ValidationErrors } from "@angular/forms";
+import { AbstractControl, FormArray, FormGroup, ValidationErrors } from "@angular/forms";
+
+// Esta funcion nos va a hacer esperarnos 2 segundos y medio para despues seguir la ejecucion
+// que simulara el proceso de llegar al backend y recibir la respuesta
+async function sleep() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 2500);
+  });
+}
 
 // No vamos a requerir instancia por eso son metodos estaticos (Si lo usuariamos con instancia, seria bueno usar inyeccion de independencia)
 export class FormUtils {
@@ -63,6 +73,8 @@ export class FormUtils {
         // Agregamos la validacion que sea de tipo Email
         case 'email':
           return `El Valor no es un correo electronico.`;
+        case 'emailTaken':
+          return `El correo electronico ya esta siendo usado por otro usuario`;
         // Mostrar el error de la expreccion con el Email
         case 'pattern':
           if( errors['pattern'].requiredPattern === FormUtils.emailPattern ){
@@ -75,6 +87,40 @@ export class FormUtils {
     }
 
     return null;
+  }
+
+  // Comparar que el contenido de los campos del password sean iguales
+  static isFieldOneEqualFieldTwo( field1: string, field2: string ){
+    // Tenemos que regresar una funcion que regrese un objeto como se muestran en la pagina: { "Nombre_error": { Descripcion del error } }
+    // Con este argumento obtenemos el formulario
+    return ( formGroup: AbstractControl ) => {
+      // Si no hay ningun error debemos de regresar Null sino el objeto
+      const field1Value = formGroup.get(field1)?.value;
+      const field2Value = formGroup.get(field2)?.value;
+
+      return field1Value === field2Value ? null : { passwordsNotEqual: true };
+    }
+  }
+
+  // Creacion de validacion personalizado con la validacion asyncrona
+  // El tipo de dato del argumento es el que requerimos para crearnos la validacion personalizada
+  static async checkingServerResponse(control: AbstractControl): Promise< ValidationErrors | null >{
+    // Tenemos que regresar null si no hay ningun error o regresar el objeto con el error
+    await sleep();
+
+    // Tomamos el valor del formulario
+    const formValue = control.value;
+
+    // Si el email es ese correo, entonces estara correcto
+    if( formValue === 'hola@mundo.com' ){
+      return {
+        emailTaken: true,
+      };
+    }
+
+    return null;
+    // Lo interesante de las validacion asyncronas es que vamos a tener un estado del formulario que no dira que es valido el formulario
+    // hasta que todas las validaciones se terminen
   }
 
 }
