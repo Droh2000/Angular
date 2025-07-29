@@ -13,3 +13,11 @@ Problemas que tenemos al inicio
   - Que sea obligatorio el check de los terminos y condiciones
   - Que al precionar el boton de guardar no se active la propagacion del formulario
 
+Campos de lista deplegables anidadas
+  Queremos que al elegir una opcion de una lista, esto influya en las demas opciones que mostraran una segunda lista desplegable
+  ademas al seleccionar una opcion de esta segunda lista, afectara a las opciones que muestre una tercera lista desplegable
+
+  Vamos a configurar la aplicacion para hacer peticiones HTTP, traer la data de un Api que consumamos
+  en los endpoints de la API de paises, ya por medio de parametros mandamos en la URL, obtenemos la informacion requerida para mostrar en los selectores
+  y sus datos anidados, ademas de consumir otros endpoints para mostrar la informacion correcta sin abreviaciones
+    - https://restcountries.com/
