@@ -81,6 +81,8 @@ export class FormUtils {
             return 'El valor ingresado no luce como un correo electronico';
           }
           return 'Error del patron por la expreccion regular';
+        case 'noStrider':
+          return `El nombre de usuario Stride no esta permitido`;
         default:
           return `Error de validacion no implementado ${ key }`;// Si no esta y se comete un error en el formulario no veremos nada pero con esto ya sabemos porque no sale el mensaje
       }
@@ -123,4 +125,12 @@ export class FormUtils {
     // hasta que todas las validaciones se terminen
   }
 
+  // Esta validacion sincrona es para verificar que no se pueda poner ciertos nombres de usuario
+  static notStrider(control: AbstractControl): ValidationErrors | null {
+    // Tomamos el valor del formulario
+    const value = control.value;
+
+    // Si el nombre del usuario contiene ese nombre, entonces no se lo permitimos
+    return value === 'strider' ? { noStrider: true } : null;
+  }
 }

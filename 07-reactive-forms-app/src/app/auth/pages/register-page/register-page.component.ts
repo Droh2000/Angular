@@ -20,7 +20,7 @@ export class RegisterPageComponent {
     // El tercer argumento es para las validaciones asyncronas
     // Los errores Sincronos tienen prioridad y no se van a ejecutar los asyncronos hasya que no se resulevan los sincronos
     email: ['', [Validators.required, Validators.pattern( FormUtils.emailPattern )], FormUtils.checkingServerResponse],
-    username: ['', [Validators.required, Validators.minLength(6), Validators.pattern( FormUtils.notOnlySpacesPattern )]],
+    username: ['', [Validators.required, Validators.minLength(6), Validators.pattern( FormUtils.notOnlySpacesPattern ), FormUtils.notStrider]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     password2: ['', Validators.required],
   },
