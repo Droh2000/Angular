@@ -1,8 +1,9 @@
 import { JsonPipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CountryService } from '../../services/country.service';
 import { Country } from '../../interfaces/country.interfaces';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-country-page',
@@ -25,4 +26,57 @@ export class CountryPageComponent {
     country: ['', Validators.required],
     border: ['', Validators.required],
   });
+
+  // Tenemos que estar pendiente de los cambios del selector de la region y cuando eso ocurra
+  // disparar una peticion (Tenemos varias formas de hacer esto)
+  // Aqui le pasamos el campo que nos interesa estar al pendiente y al ser un observable le lanzamos el suscribe
+  /*formRegionChanged = this.myForm.get('region')!.valueChanges.subscribe(value => {
+    // Aqui tenemos el valor de la region
+    console.log({ value });
+  });*/
+  // Uno de los incovenientes de hacerlo de esta forma es que estamos creando una suscrpcion, si bien cuando salgamos de la pantalla se destruye
+  // esta suscrpcion nunca se va a limpiar (Aunque no se vuelva a llamar siempre quedara por ahi)
+  // asi que deberiamos que cuando el componente se desmonta hacer la limpieza de la suscripcion
+
+  // Una mejor forma es trabajarlo con Signals donde gracias al efecto tenemos la funcion para limpiar la suscripcion
+  // recordemos que los efecto se disparan tan pronto el componente es montado
+  onFormChanged = effect( ( onCleanup ) => {
+    const regionSuscription = this.onRegionChanged();
+
+    onCleanup(() => {
+      regionSuscription.unsubscribe();
+    });
+  });
+
+  onRegionChanged() {
+    // Esta suscripcion nos va a permitir limpiar la region
+    return this.myForm.get('region')!.valueChanges
+      // El incoveniente es que tenemos que disparar una peticion HTTP tan pronto cambie la region pero en Rxjs de angular
+      // cuando trabajamos con observables podemos llamar el metodo pipe() para ejecutar codigo cuando se emite un valor
+      .pipe(
+        // Con tap() disparamos efectos secundarios
+        tap( () =>
+          // Si la region cambia, todo el formulario deberia de cambiar
+          // Aqui le pasamos el selector que queremos limpiar
+          this.myForm.get('country')!.setValue('')
+        ),
+        tap( () => this.myForm.get('border')!.setValue('')),
+        // Limpiar el arreglo de los paises (Tambien podemos crear un tap() que haga varias cosas)
+        tap( () => {
+          this.borders.set([]);
+          this.countriesByRegion.set([]);
+        }),
+        // PASO IMPORTANTE
+        // Cuando tengamos el valor de "region" transformar la peticion HTTP y regresar la informacion correspondiente
+        // la peticion es la de "getCountriesByRegion()" para esto tenemos este operador
+        // Con el "switchMap" transformamos un observable y regresar otro diferente, a este le damos acceso a la region del valor
+        // que cambiamos
+        switchMap( region => this.countryService.getCountriesByRegion(region ?? ''))
+      )
+      // Gracias al "switchMap" no vamos a tener la region sino "countries"
+      .subscribe( countries => {
+        // Aqui tenemos el valor de la region pero ademas queremos obtener los paises que coincidan con esa region
+        this.countriesByRegion.set(countries);// Esto es lo que ocupamos colocar en el segundo selector
+      });
+  }
 }
