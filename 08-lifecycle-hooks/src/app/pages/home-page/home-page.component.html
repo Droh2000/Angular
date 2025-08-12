@@ -9,3 +9,10 @@
 -->
 <button (click)="changeTraditional()">Cambiar Tradicional</button>
 <button (click)="changeSignal()">Cambiar Señal</button>
+
+<!--
+  Aqui veremos que si cambiamos la Signal o la Traditional segun la colocada en el titulo, veremos que aqui tambien cambia
+  pero esto es propio del componente, no del OnChanges
+-->
+<br>
+<app-title [title]="traditionalProperty" />

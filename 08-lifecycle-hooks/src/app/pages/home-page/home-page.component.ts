@@ -1,4 +1,5 @@
 import { afterNextRender, afterRender, Component, effect, signal } from '@angular/core';
+import { TitleComponent } from '../../components/title/title.component';
 
 // Esto lo creamos para ver mejor el mensaje de los consoles.log
 const log = ( ...messages: string[] ) => {
@@ -10,7 +11,7 @@ const log = ( ...messages: string[] ) => {
 
 @Component({
   selector: 'app-home-page',
-  imports: [],
+  imports: [TitleComponent],
   templateUrl: './home-page.component.html',
 })
 export class HomePageComponent {
