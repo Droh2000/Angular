@@ -1,0 +1,8 @@
+En esta parte vamos a trabajar con el ciclo de vida de los componentes de Angular, esto incluye otros hooks o funciones que son disparadas ppr Angular en un momento determinado del tiempo.
+  Puntualmente veremos:
+    - Todos los pasos del ciclo de vida tradicional
+    - Nuevos hooks basados en señales
+    - Ciclo de vida cuando cambian inputs (comunicación entre componentes)
+
+Vamos a ver los efectos que se llaman cuando algo pasa en el componente (Se monta o destruye)
+hay varios ciclos de vida que por su funcionalidad pueden ser remplazados por un Rxjs
