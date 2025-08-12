@@ -17,3 +17,18 @@ Ciclo de vida de los componentes
     }
   Esta sintaxis es conveniente cuando queremos forzar la ejecucion del ciclo de vida del componente
   para saber el nombre de esta forma, solo quitamos al inicio del nombre el "ng"
+
+  Zoonless Angular
+    Las propiedades tradicionales de las clases de angular que era la forma de trabajar antes que llegaran las Signals las cuales dependen mucho del ciclo de vida
+    y una libreria en particular llamada ZoneJs para detectar los cambios
+
+    ZoneJs -> Es una libreria que angular incluye en muchas de sus versiones que para futuras versiones se debe de quitar y dejar solo
+    lo de Zoonless para que solamente se usen las signals
+
+    Con Zoonless angular funciona mas rapido, mejor compatibilidad con el async/await entre otras cosas
+
+    No es recomendable trabajar con Propiedades tradicionales y signals al mismo tiempo, lo mejor es usar uno mismo en todo el proyecto
+    si fueran propiedades que no van a cambiar, ahi si no importa si las creamos como propeidades tradicionales, cuando cambie si es mejor usar Signals
+
+
+

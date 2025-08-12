@@ -1,4 +1,4 @@
-import { afterNextRender, afterRender, Component, effect } from '@angular/core';
+import { afterNextRender, afterRender, Component, effect, signal } from '@angular/core';
 
 // Esto lo creamos para ver mejor el mensaje de los consoles.log
 const log = ( ...messages: string[] ) => {
@@ -14,10 +14,29 @@ const log = ( ...messages: string[] ) => {
   templateUrl: './home-page.component.html',
 })
 export class HomePageComponent {
+
+  // Propiedades de la clase
+  traditionalProperty = 'Juan';
+  signalProperty = signal('Juan');
+
   // El Constructor es parte del ciclo de vida de los componentes porque cuando se crea una instancia del componente
   // esto es lo que se va a ejecutar (Cuando navegamos a la ruta, se crea el componente a diferencia de los servicios que se mantienen)
   constructor(){
     log("Constructor Llamado");
+
+    // Con Zoonles podemos ejecutar los cambios directos en signals sin problemas porque angular sabe en donde ocurrio el cambio
+    setTimeout(() => {
+      this.signalProperty.set('Juan Carlos');
+    }, 2000);
+  }
+
+  // Metodos para los botones para que ocurra el cambio entre las propiedades
+  changeTraditional(){
+    this.traditionalProperty = 'Juan Ortiz';
+  }
+
+  changeSignal(){
+    this.signalProperty.set('Juan Ortiz');
   }
 
   // Estas son mas etapas del ciclo de vida (Estos son los efectos)
