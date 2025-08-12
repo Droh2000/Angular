@@ -3,7 +3,7 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CountryService } from '../../services/country.service';
 import { Country } from '../../interfaces/country.interfaces';
-import { switchMap, tap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-country-page',
@@ -42,9 +42,11 @@ export class CountryPageComponent {
   // recordemos que los efecto se disparan tan pronto el componente es montado
   onFormChanged = effect( ( onCleanup ) => {
     const regionSuscription = this.onRegionChanged();
+    const countrySubscription = this.onCountryChanged();
 
     onCleanup(() => {
       regionSuscription.unsubscribe();
+      countrySubscription.unsubscribe();// Borramos las suscripciones cuando ya no se ocupen
     });
   });
 
@@ -78,5 +80,28 @@ export class CountryPageComponent {
         // Aqui tenemos el valor de la region pero ademas queremos obtener los paises que coincidan con esa region
         this.countriesByRegion.set(countries);// Esto es lo que ocupamos colocar en el segundo selector
       });
+  }
+
+  // Para cuando el selector 2 que es el del pais principal cambie
+  onCountryChanged() {
+    // Obtenemos los valores del campo "country" y estaremos al pendiente cuando cambie de valor
+    return this.myForm.get('country')!.valueChanges
+    // Juntamos operadores RXjs porque tenemos que lanzar otra peticion HTTP cuando se lanze este suscription
+    .pipe(
+      // Para limpiar los datos del tercer selector en caso que se cambie los valores de otros selectores
+      tap( () => this.myForm.get('border')!.setValue('') ),
+      // Con este nos protegimos que si hay un valor vacio que no continue
+      filter((value) => value!.length > 0),
+      // Nos traemos la informacion del pais pasandole el codigo del pais que nos regresa la API
+      switchMap( alphaCode => this.countryService.getCountryByAlphaCode(alphaCode ?? '') ),
+      // Gracias a la implementacion de arriba aqui tenemos el el pais, asi que llamamos el servicio para
+      // convertir al nombre del pais
+      switchMap( country => this.countryService.getCountryNamesByCodeArray( country.borders ) )
+    )
+    // Aqui por las implementaciones de arriba tenemos el arreglo de los paises que viene de la respuesta
+    .subscribe( ( borders ) => {
+      // Este es el momento en cual sabemos cuando mostrar los valores en el selector tres
+      this.borders.set(borders);
+    });
   }
 }

@@ -8,11 +8,12 @@
       <label class="form-label">Continente:</label>
       <select formControlName="region" class="form-control">
         <option value="">-- Seleccione Continente --</option>
-
-        <!-- <option [value]="region">
-          {{ region }}
-        </option> -->
-
+        <!-- Mostramos los valores del primer selector -->
+          @for (region of regions(); track region) {
+            <option [value]="region">
+              {{ region }}
+            </option>
+          }
       </select>
     </div>
   </div>
@@ -24,13 +25,12 @@
       <label class="form-label">País:</label>
       <select formControlName="country" class="form-control">
         <option value="">-- Seleccione País --</option>
-        <!-- Mostramos los valores del primer selector -->
-        @for (region of regions(); track region) {
-          <option [value]="region">
-            {{ region }}
+        <!-- Le pasamos los valores al selector de paises -->
+         @for (country of countriesByRegion(); track country.cca3) {
+          <option [value]="country.cca3">
+            {{ country.name.common }}
           </option>
-        }
-
+         }
       </select>
     </div>
   </div>
@@ -43,9 +43,8 @@
       <label class="form-label">Fronteras:</label>
       <select formControlName="border" class="form-control">
         <option value="">-- Seleccione la frontera --</option>
-
-        <!-- Le pasamos los valores al selector de paises -->
-         @for (country of countriesByRegion(); track country.cca3) {
+        <!-- Le pasamos los valores al selector de los paises que hacen frontera con el pais seleccionado -->
+         @for (country of borders(); track country.cca3) {
           <option [value]="country.cca3">
             {{ country.name.common }}
           </option>

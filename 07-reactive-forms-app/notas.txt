@@ -21,3 +21,7 @@ Campos de lista deplegables anidadas
   en los endpoints de la API de paises, ya por medio de parametros mandamos en la URL, obtenemos la informacion requerida para mostrar en los selectores
   y sus datos anidados, ademas de consumir otros endpoints para mostrar la informacion correcta sin abreviaciones
     - https://restcountries.com/
+
+  Ahora en este punto vamos a hacer que el tercer selector muestre los resultados segun la opcion elegida en el segundo selector, en el caso del tercer selector
+  se mostraria los paises con los que comparte frontera el pais elegido en el selector dos, pero tenemos el problema que la API nos esta regresando el codigo de cada pais
+  y es mejor mostrar al usuario el nombre del pais por lo que tenemos que camiar eso
