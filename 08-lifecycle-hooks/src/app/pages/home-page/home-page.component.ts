@@ -1,8 +1,78 @@
 import { Component } from '@angular/core';
 
+// Esto lo creamos para ver mejor el mensaje de los consoles.log
+const log = ( ...messages: string[] ) => {
+  console.log(
+    `${ messages[0] } %c${ messages.slice(1).join(', ') }`,
+    'color: #bada55',
+  );
+}
+
 @Component({
   selector: 'app-home-page',
   imports: [],
   templateUrl: './home-page.component.html',
 })
-export class HomePageComponent { }
+export class HomePageComponent {
+  // El Constructor es parte del ciclo de vida de los componentes porque cuando se crea una instancia del componente
+  // esto es lo que se va a ejecutar (Cuando navegamos a la ruta, se crea el componente a diferencia de los servicios que se mantienen)
+  constructor(){
+    log("Constructor Llamado");
+  }
+
+  // Nos creamos metodos para cada uno de los componentes del ciclo de vida del componente
+  // Con que pongamos su respectivo nombre va a llamar el ciclo de vida, no hace alta usar un immplements en la clase
+  // Aqui el orden en el que veamos los Console.logs es como se llama el ciclo de vida en el momento que el componente es construido
+  ngOnInit(){
+    // Este es usado cuando queremos hacer peticiones HTTP porque el componente ya esta listo para ser usado
+    log(
+      'ngOnInit',
+      'Runs once after Angular has initialized all the components inputs.'
+    );
+  }
+
+  ngOnChanges(){
+    // Este se dispara cuando cambia una Signal de entrada
+    log(
+      'ngOnChanges',
+      'Runs every time the components inputs have changed.'
+    );
+  }
+
+  ngDoCheck(){
+    // Este se ejecuta cada vez que algo cambio en el componente, como una propiedad (Esto funciona tanto Zoonless como el Angular tradicional)
+    log(
+      'ngDoCheck',
+      'Runs every time this component is checked for changes.'
+    );
+  }
+
+  ngAfterContentInit(){
+    // Este se ejecuta despues que el componente es inicializado
+    log(
+      'ngAfterContentInit',
+      'Runs once after the components content has been initialized.'
+    );
+  }
+
+  ngAfterContentChecked(){
+    log(
+      'ngAfterContentChecked',
+      'Runs every time this component content has been checked for changes.'
+    );
+  }
+
+  ngAfterViewInit(){
+    log(
+      'ngAfterViewInit',
+      'Runs once after the components view has been initialized.'
+    );
+  }
+
+  ngAfterViewChecked(){
+    log(
+      'ngAfterViewChecked',
+      'Runs every time the components view has been checked for changes.'
+    );
+  }
+}

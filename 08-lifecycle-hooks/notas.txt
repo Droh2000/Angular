@@ -6,3 +6,7 @@ En esta parte vamos a trabajar con el ciclo de vida de los componentes de Angula
 
 Vamos a ver los efectos que se llaman cuando algo pasa en el componente (Se monta o destruye)
 hay varios ciclos de vida que por su funcionalidad pueden ser remplazados por un Rxjs
+
+Ciclo de vida de los componentes
+  Estos son metodos que se llaman en un punto determinado en el tiempo, lo importante es saber cuando llamarlos y que es lo que haca cada uno que existe
+  Ademas debido a que hora tenemos los Resources y el RxJs, estos componentes se usan menos
