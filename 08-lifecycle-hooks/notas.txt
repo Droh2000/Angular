@@ -10,3 +10,10 @@ hay varios ciclos de vida que por su funcionalidad pueden ser remplazados por un
 Ciclo de vida de los componentes
   Estos son metodos que se llaman en un punto determinado en el tiempo, lo importante es saber cuando llamarlos y que es lo que haca cada uno que existe
   Ademas debido a que hora tenemos los Resources y el RxJs, estos componentes se usan menos
+
+  En alguna definicion de los componentes vamos a verlos usados en la clase como:
+    export class HomePageComponent immplements OnInit {
+
+    }
+  Esta sintaxis es conveniente cuando queremos forzar la ejecucion del ciclo de vida del componente
+  para saber el nombre de esta forma, solo quitamos al inicio del nombre el "ng"

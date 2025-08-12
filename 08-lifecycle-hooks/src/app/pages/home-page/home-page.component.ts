@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { afterNextRender, afterRender, Component, effect } from '@angular/core';
 
 // Esto lo creamos para ver mejor el mensaje de los consoles.log
 const log = ( ...messages: string[] ) => {
@@ -19,6 +19,24 @@ export class HomePageComponent {
   constructor(){
     log("Constructor Llamado");
   }
+
+  // Estas son mas etapas del ciclo de vida (Estos son los efectos)
+  // Tambien dentro del effect tendremos la funcion "onCleanUp" que funciona como el onDestroy
+  basicEffect = effect( ( onCleanup ) => {
+    // Este efecto basico se va a disparar tan pronto el componente es inicializado
+    // No se aconseja disparar peticiones HTTP en efectos porque es muy volatil (Para esto es mejor usar el Resources o RxResources)
+    log(
+      'effect',
+      'Disparar efectos secundarios'
+    );
+
+    onCleanup(() => {
+      log(
+        'onCleanup',
+        'Se ejecuta cuando el efecto se va a destruir'
+      );
+    });
+  });
 
   // Nos creamos metodos para cada uno de los componentes del ciclo de vida del componente
   // Con que pongamos su respectivo nombre va a llamar el ciclo de vida, no hace alta usar un immplements en la clase
@@ -75,4 +93,35 @@ export class HomePageComponent {
       'Runs every time the components view has been checked for changes.'
     );
   }
+
+  // Este era muy usado antes (Se llama cada vez que el componente es destruido)
+  ngOnDestroy(){
+    // Aqui era donde se hace limpieza de timers, intervalos de tiempo, cancelar suscripciones
+    log(
+      'ngOnDestroy',
+      'Runs once before the component is destroyed',
+    );
+  }
+
+  // Estos que no empiezan con "ng" siginifica que son funciones
+  afterNextRenderEffect = afterNextRender(() => {
+    // Este se ejecuta despues que todos los componentes de ciclo de vida se ejecutan
+    log(
+      'afterNextRender',
+      'Runs once the next time that all components have been rendered to the DOM.'
+    );
+  });
+
+  afterRenderEffect = afterRender(() => {
+    // Esto sucede despues que todo se renderizo
+    log(
+      'afterRender',
+      'Runs every time all components have been rendered to the DOM.'
+    );
+  });
+
+  // Es importante saber que parte del ciclo de vida de los componentes se va a volver a llamar
+  // cuando hacemos click en la misma opcion del menu volvemos a llamar el componte y ejecutar los componentes de ciclo de vida
+  // a pesar de que no hay ningun cambio (Es importante saber cuales se mandan a llamar asi, porque si creamos suscripciones en alguno
+  // entonces vamos a estar acumulando suscripciones)
 }
